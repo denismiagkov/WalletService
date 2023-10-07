@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.domain;
+package com.denismiagkov.walletservice.domain.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
