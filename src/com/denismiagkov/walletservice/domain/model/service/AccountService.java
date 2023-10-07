@@ -11,5 +11,5 @@ public interface AccountService {
 
     public void createAccount(Player player);
     public BigDecimal getCurrentBalance(Player player);
-    public List<Transaction> showTransactionsHistory(String accountNumber);
+    public List<Transaction> showTransactionsHistory(Player player);
 }

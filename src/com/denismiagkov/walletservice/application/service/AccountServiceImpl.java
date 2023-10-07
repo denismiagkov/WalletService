@@ -41,8 +41,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Transaction> showTransactionsHistory(String accountNumber) {
-        return null;
+    public List<Transaction> showTransactionsHistory(Player player) {
+        return player.getAccount().getTransactionInventory();
     }
 
 
