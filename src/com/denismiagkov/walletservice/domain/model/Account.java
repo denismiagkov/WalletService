@@ -6,15 +6,12 @@ import java.util.Objects;
 public class Account {
     String number;
     BigDecimal balance;
-    Player player;
 
     public Account() {
     }
 
-    public Account(String number, BigDecimal balance, Player player) {
+    public Account(String number) {
         this.number = number;
-        this.balance = balance;
-        this.player = player;
     }
 
     public String getNumber() {
@@ -33,20 +30,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     @Override
     public String toString() {
         return "Account{" +
                 "number=" + number +
                 ", balance=" + balance +
-                ", player=" + player +
                 '}';
     }
 
