@@ -3,10 +3,11 @@ package com.denismiagkov.walletservice.domain.model;
 import java.util.Objects;
 
 public class Player {
-    //private int id;
     private String firstName;
     private String lastName;
     private String email;
+
+    private Account account;
 
     public Player() {
     }
@@ -40,6 +41,14 @@ public class Player {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
