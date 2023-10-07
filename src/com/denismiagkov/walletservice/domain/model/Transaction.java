@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Transaction {
     String id;
-    Account account;
+    String accountNumber;
     Timestamp time;
     TransactionType type;
     BigDecimal amount;
@@ -17,7 +17,7 @@ public class Transaction {
     public Transaction(String id, Account account, Timestamp time, TransactionType type,
                        BigDecimal amount) {
         this.id = id;
-        this.account = account;
+        this.accountNumber = account.getNumber();
         this.time = time;
         this.type = type;
         this.amount = amount;
@@ -31,12 +31,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public Account getAccount() {
-        return account;
+    public String getAccount() {
+        return accountNumber;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccount(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public Timestamp getTime() {
@@ -67,7 +67,7 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "id='" + id + '\'' +
-                ", account=" + account +
+                ", accountNumber=" + accountNumber +
                 ", time=" + time +
                 ", type=" + type +
                 ", amount=" + amount +
