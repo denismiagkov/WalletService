@@ -1,5 +1,7 @@
 package com.denismiagkov.walletservice.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Player {
@@ -8,6 +10,7 @@ public class Player {
     private String email;
 
     private Account account;
+    private List<Operation> operations;
 
     public Player() {
     }
@@ -16,6 +19,7 @@ public class Player {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.operations = new ArrayList<>();
     }
 
 
