@@ -15,16 +15,25 @@ public class Controller {
     }
 
     public void registerPlayer(String firstName, String lastName, String email, String login, String password) {
-        service.registerPlayer(firstName, lastName, email, login, password);
+        try {
+            service.registerPlayer(firstName, lastName, email, login, password);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public boolean authorizePlayer(String login, String password) {
-        Player player = service.authorizePlayer(login, password);
-        if(player!=null){
-            return true;
-        } else{
-            return false;
+        try {
+            Player player = service.authorizePlayer(login, password);
+            if (player != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
         }
+        return false;
     }
 
     public BigDecimal getCurrentBalance(String login, String password) {
@@ -35,12 +44,24 @@ public class Controller {
         return service.getTransactionsHistory(login, password).toString();
     }
 
-    public void topUpAccount(String login, String password, String uniqueId, BigDecimal amount) {
-        service.topUpAccount(login, password, uniqueId, amount);
+    public boolean topUpAccount(String login, String password, String uniqueId, BigDecimal amount) {
+        try {
+            service.topUpAccount(login, password, uniqueId, amount);
+            return true;
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
-    public void writeOffFunds(String login, String password, String uniqueId, BigDecimal amount) {
-        service.writeOffFunds(login, password, uniqueId, amount);
+    public boolean writeOffFunds(String login, String password, String uniqueId, BigDecimal amount) {
+        try {
+            service.writeOffFunds(login, password, uniqueId, amount);
+            return true;
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }
 

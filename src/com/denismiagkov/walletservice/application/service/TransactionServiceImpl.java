@@ -26,7 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void topUpAccount(String uniqueId, Account account, BigDecimal amount) {
+    public void topUpAccount(String uniqueId, Account account, BigDecimal amount) throws RuntimeException {
         if (this.transactionIdList.contains(uniqueId)) {
             throw new NotUniqueTransactionIdException(uniqueId);
         } else {
@@ -39,7 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public void writeOffFunds(String uniqueId, Account account, BigDecimal amount) {
+    public void writeOffFunds(String uniqueId, Account account, BigDecimal amount) throws RuntimeException {
         if (transactionIdList.contains(uniqueId)) {
             throw new NotUniqueTransactionIdException(uniqueId);
         } else if (account.getBalance().compareTo(amount) < 0) {

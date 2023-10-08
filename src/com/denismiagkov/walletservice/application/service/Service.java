@@ -18,12 +18,13 @@ public class Service {
         this.tsi = new TransactionServiceImpl();
     }
 
-    public void registerPlayer(String firstName, String lastName, String email, String login, String password) {
+    public void registerPlayer(String firstName, String lastName, String email, String login, String password)
+            throws RuntimeException{
         Player player = psi.registerPlayer(firstName, lastName, email, login, password);
         asi.createAccount(player);
     }
 
-    public Player authorizePlayer(String login, String password) {
+    public Player authorizePlayer(String login, String password) throws RuntimeException{
         return psi.authorizePlayer(login, password);
     }
 
@@ -37,12 +38,14 @@ public class Service {
         return asi.showTransactionsHistory(player);
     }
 
-    public void topUpAccount(String login, String password, String uniqueId, BigDecimal amount) {
+    public void topUpAccount(String login, String password, String uniqueId, BigDecimal amount)
+            throws RuntimeException{
         Player player = authorizePlayer(login, password);
         tsi.topUpAccount(uniqueId, player.getAccount(), amount);
     }
 
-    public void writeOffFunds(String login, String password, String uniqueId, BigDecimal amount) {
+    public void writeOffFunds(String login, String password, String uniqueId, BigDecimal amount)
+            throws RuntimeException{
         Player player = authorizePlayer(login, password);
         tsi.writeOffFunds(uniqueId, player.getAccount(), amount);
     }

@@ -33,6 +33,7 @@ public class Console implements View {
     @Override
     public void start() {
         while (work) {
+            System.out.println("Выберите действие: ");
             System.out.println(mainMenu.print());
             String choice = scanner.nextLine();
             if (check(choice, mainMenu.getSize())) {
@@ -46,6 +47,7 @@ public class Console implements View {
     @Override
     public void startProfile(String login, String password) {
         while (work) {
+            System.out.println("Выберите действие: ");
             System.out.println(profileMenu.print());
             String choice = scanner.nextLine();
             if (check(choice, profileMenu.getSize())) {
@@ -94,7 +96,7 @@ public class Console implements View {
         if (controller.authorizePlayer(login, password)) {
             startProfile(login, password);
         } else {
-            System.out.println("Неверно введены данные пользователя!");
+            System.out.println("Неверно введены данные пользователя!\n");
         }
     }
 
@@ -108,8 +110,10 @@ public class Console implements View {
         String uniqueId = scanner.nextLine();
         System.out.println("Введите сумму пополнения: ");
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(scanner.nextLine()));
-        controller.topUpAccount(login, password, uniqueId, amount);
-        System.out.println("Ваш счет пополнен на сумму: " + amount + " денежных единиц");
+        boolean success = controller.topUpAccount(login, password, uniqueId, amount);
+        if (success) {
+            System.out.println("Ваш счет пополнен на сумму: " + amount + " денежных единиц\n");
+        }
     }
 
     public void callWriteOffFunds(String login, String password) {
@@ -117,8 +121,10 @@ public class Console implements View {
         String uniqueId = scanner.nextLine();
         System.out.println("Введите сумму списания: ");
         BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(scanner.nextLine()));
-        controller.writeOffFunds(login, password, uniqueId, amount);
-        System.out.println("С вашего счета списано: " + amount + " денежных единиц");
+        boolean success = controller.writeOffFunds(login, password, uniqueId, amount);
+        if (success) {
+            System.out.println("С вашего счета списано: " + amount + " денежных единиц\n");
+        }
     }
 
     public void showTransactionHistory(String login, String password) {

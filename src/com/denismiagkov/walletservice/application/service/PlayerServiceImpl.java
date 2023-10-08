@@ -57,7 +57,8 @@ public class PlayerServiceImpl implements PlayerService {
         return new Player(firstName, lastName, email);
     }
 
-    public Player registerPlayer(String firstName, String lastName, String email, String login, String password) {
+    public Player registerPlayer(String firstName, String lastName, String email, String login, String password)
+            throws RuntimeException {
         if (allPlayers.contains(new Player(firstName, lastName, email))) {
             throw new PlayerAlreadyExistsException(firstName, lastName, email);
         } else if (allEntries.containsKey(login)) {
@@ -72,7 +73,7 @@ public class PlayerServiceImpl implements PlayerService {
         }
     }
 
-    public Player authorizePlayer(String login, String password) {
+    public Player authorizePlayer(String login, String password) throws RuntimeException {
         if (!allEntries.containsKey(login)) {
             throw new IncorrectLoginException(login);
         } else if (allEntries.get(login).equals(password)) {
@@ -81,7 +82,6 @@ public class PlayerServiceImpl implements PlayerService {
         } else {
             throw new IncorrectPasswordException();
         }
+
     }
-
-
 }
