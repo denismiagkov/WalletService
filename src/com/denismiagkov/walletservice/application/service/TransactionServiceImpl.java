@@ -32,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             Transaction transaction = new Transaction(uniqueId, account,
                     new Timestamp(System.currentTimeMillis()), CREDIT, amount);
+            account.setBalance(account.getBalance().add(amount));
             account.getTransactionInventory().add(transaction);
             this.transactionIdList.add(uniqueId);
         }
@@ -46,6 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
         } else {
             Transaction transaction = new Transaction(uniqueId, account,
                     new Timestamp(System.currentTimeMillis()), CREDIT, amount);
+            account.setBalance(account.getBalance().subtract(amount));
             account.getTransactionInventory().add(transaction);
             this.transactionIdList.add(uniqueId);
         }

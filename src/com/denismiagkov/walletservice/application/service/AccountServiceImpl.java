@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService {
         player.setAccount(account);
         accountsInventory.add(account.getNumber());
     }
-
+    @Override
     public BigDecimal getCurrentBalance(Player player) {
         return player.getAccount().getBalance();
     }

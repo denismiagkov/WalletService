@@ -16,6 +16,7 @@ public class Account {
 
     public Account(String number) {
         this.number = number;
+        this.balance = new BigDecimal(0);
         this.transactionInventory = new ArrayList<>();
     }
 

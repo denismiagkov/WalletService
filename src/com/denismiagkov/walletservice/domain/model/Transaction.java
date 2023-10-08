@@ -10,6 +10,7 @@ public class Transaction {
     Timestamp time;
     TransactionType type;
     BigDecimal amount;
+    BigDecimal accountState;
 
     public Transaction() {
     }
@@ -21,6 +22,7 @@ public class Transaction {
         this.time = time;
         this.type = type;
         this.amount = amount;
+        //this.accountState = account.balance;
     }
 
     public String getId() {
@@ -66,10 +68,10 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "id='" + id + '\'' +
-                ", accountNumber=" + accountNumber +
-                ", time=" + time +
-                ", type=" + type +
+                "id='" + id + '\'' + "\n" +
+                ", accountNumber=" + accountNumber + "\n" +
+                ", time=" + time + "\n" +
+                ", type=" + type + "\n" +
                 ", amount=" + amount +
                 '}';
     }
