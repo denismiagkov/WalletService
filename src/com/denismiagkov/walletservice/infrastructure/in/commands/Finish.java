@@ -16,12 +16,11 @@ public class Finish extends Command {
 
     @Override
     public void execute() {
-        getConsole().finish();
     }
 
     @Override
     public void execute(String login, String password) {
-
+        getConsole().finish(login, password);
     }
 
 }

@@ -2,7 +2,7 @@ package com.denismiagkov.walletservice.application.service.exception;
 
 public class PlayerAlreadyExistsException extends RuntimeException{
     public PlayerAlreadyExistsException(String firstname, String lastName, String email) {
-        System.out.println("The player " + firstname + " " + lastName + " (email: " + email + ") " +
-                "has been registered! Duplication of players is not permitted.");
+        System.out.println("Игрок " + firstname + " " + lastName + " (email: " + email + ") " +
+                "уже зарегистрирован! Дублирование игроков не допускается!\n");
     }
 }

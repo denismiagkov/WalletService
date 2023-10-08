@@ -56,7 +56,7 @@ public class Operation {
         return "Operation{" +
                 "type='" + type + '\'' +
                 ", time=" + time +
-                ", player='" + player.getFirstName() + " " + player.getLastName() + '\'' +
+                ", player='" + player + " " + //player.getLastName() + '\'' +
                 ", status=" + status +
                 '}' + "\n";
     }

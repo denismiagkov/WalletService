@@ -1,8 +1,10 @@
 package com.denismiagkov.walletservice.application.service;
 
 import com.denismiagkov.walletservice.domain.model.Account;
+import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
+import com.denismiagkov.walletservice.domain.model.service.OperationService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,23 +19,14 @@ public class Controller {
     public void registerPlayer(String firstName, String lastName, String email, String login, String password) {
         try {
             service.registerPlayer(firstName, lastName, email, login, password);
+
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public boolean authorizePlayer(String login, String password) {
-        try {
-            Player player = service.authorizePlayer(login, password);
-            if (player != null) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
+        return service.authorizePlayer(login, password);
     }
 
     public BigDecimal getCurrentBalance(String login, String password) {
@@ -63,5 +56,10 @@ public class Controller {
             return false;
         }
     }
+
+    public void logExit(String login, String password){
+        service.logExit(login, password);
+    }
+
 }
 

@@ -66,8 +66,9 @@ public class Console implements View {
         System.out.println("Ошибка ввода!");
     }
 
-    public void finish() {
+    public void finish(String login, String password) {
         System.out.println("Работа программы завершена.");
+        controller.logExit(login, password);
         work = false;
         scanner.close();
     }
@@ -95,8 +96,6 @@ public class Console implements View {
         String password = scanner.nextLine();
         if (controller.authorizePlayer(login, password)) {
             startProfile(login, password);
-        } else {
-            System.out.println("Неверно введены данные пользователя!\n");
         }
     }
 

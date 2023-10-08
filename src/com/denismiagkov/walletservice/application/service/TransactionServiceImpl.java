@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.application.service.exception.NotEnoughFun
 import com.denismiagkov.walletservice.application.service.exception.NotUniqueTransactionIdException;
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Transaction;
+import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.domain.model.service.TransactionService;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new NotUniqueTransactionIdException(uniqueId);
         } else {
             Transaction transaction = new Transaction(uniqueId, account,
-                    new Timestamp(System.currentTimeMillis()), CREDIT, amount);
+                    new Timestamp(System.currentTimeMillis()), TransactionType.CREDIT, amount);
             account.setBalance(account.getBalance().add(amount));
             account.getTransactionInventory().add(transaction);
             this.transactionIdList.add(uniqueId);
@@ -46,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new NotEnoughFundsOnAccountException();
         } else {
             Transaction transaction = new Transaction(uniqueId, account,
-                    new Timestamp(System.currentTimeMillis()), CREDIT, amount);
+                    new Timestamp(System.currentTimeMillis()), TransactionType.DEBIT, amount);
             account.setBalance(account.getBalance().subtract(amount));
             account.getTransactionInventory().add(transaction);
             this.transactionIdList.add(uniqueId);
