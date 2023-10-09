@@ -23,6 +23,14 @@ public class Player {
         return firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public Account getAccount() {
         return account;
     }

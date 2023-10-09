@@ -13,6 +13,11 @@ class PlayerTest {
         Player player = new Player("Ivan", "Petrov", "123@mail.ru");
         assertEquals("Ivan", player.getFirstName());
     }
+    @Test
+    void testGetLastName() {
+        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
+        assertEquals("Petrov", player.getLastName());
+    }
 
     @Test
     void testGetAccount() {

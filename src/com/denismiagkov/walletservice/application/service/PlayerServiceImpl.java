@@ -28,28 +28,12 @@ public class PlayerServiceImpl implements PlayerService {
         return allPlayers;
     }
 
-    public void setAllPlayers(Set<Player> allPlayers) {
-        this.allPlayers = allPlayers;
-    }
-
     public Map<String, String> getAllEntries() {
         return allEntries;
     }
 
-    public void setAllEntries(Map<String, String> allEntries) {
-        this.allEntries = allEntries;
-    }
-
-    public Map<String, Player> getAllPlayersLogins() {
+    public Map<String, Player> getLoginsPerPlayers() {
         return loginsPerPlayers;
-    }
-
-    public void setAllPlayersLogins(Map<String, Player> allPlayersLogins) {
-        this.loginsPerPlayers = allPlayersLogins;
-    }
-
-    public PlayerServiceImpl(Set<Player> allPlayers) {
-        this.allPlayers = allPlayers;
     }
 
     @Override
