@@ -1,15 +1,12 @@
 package com.denismiagkov.walletservice.application.service;
 
 import com.denismiagkov.walletservice.domain.model.*;
-import com.denismiagkov.walletservice.domain.model.service.OperationService;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Service {
-    private static final Logger logger = Logger.getLogger(Service.class.getName());
     private PlayerServiceImpl psi;
     private AccountServiceImpl asi = new AccountServiceImpl();
     private TransactionServiceImpl tsi;
@@ -22,6 +19,18 @@ public class Service {
         this.osi = new OperationServiceImpl();
     }
 
+    public PlayerServiceImpl getPsi() {
+        return psi;
+    }
+
+    public AccountServiceImpl getAsi() {
+        return asi;
+    }
+
+    public TransactionServiceImpl getTsi() {
+        return tsi;
+    }
+
     public OperationServiceImpl getOsi() {
         return osi;
     }
@@ -32,10 +41,6 @@ public class Service {
         asi.createAccount(player);
         osi.putOnLog(player, OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
-    }
-
-    public Player getPlayer(String login, String password) throws RuntimeException {
-        return psi.authorizePlayer(login, password);
     }
 
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
@@ -55,6 +60,10 @@ public class Service {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public Player getPlayer(String login, String password) throws RuntimeException {
+        return psi.authorizePlayer(login, password);
     }
 
     public BigDecimal getCurrentBalance(String login, String password) {

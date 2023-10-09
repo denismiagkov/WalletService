@@ -15,14 +15,10 @@ public class Operation {
         this.player = player;
         this.status = status;
     }
-//
-//    public Player getPlayer() {
-//        return player;
-//    }
-//
-//    public void setPlayer(Player player) {
-//        this.player = player;
-//    }
+
+    public OperationType getType() {
+        return type;
+    }
 
     @Override
     public String toString() {

@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class PlayerServiceImpl implements PlayerService {
 
-    private Set<Player> allPlayers;
+    public Set<Player> allPlayers;
     private Map<String, String> allEntries;
     private Map<String, Player> loginsPerPlayers;
 

@@ -1,13 +1,6 @@
 package com.denismiagkov.walletservice.application.service;
 
-import com.denismiagkov.walletservice.domain.model.Account;
-import com.denismiagkov.walletservice.domain.model.Operation;
-import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.domain.model.service.OperationService;
-
 import java.math.BigDecimal;
-import java.util.List;
 
 public class Controller {
     private Service service;
