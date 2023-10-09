@@ -8,9 +8,7 @@ public class Player {
     private String firstName;
     private String lastName;
     private String email;
-
     private Account account;
-    private List<Operation> operations;
 
     public Player() {
     }
@@ -19,32 +17,10 @@ public class Player {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.operations = new ArrayList<>();
     }
-
 
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Account getAccount() {

@@ -10,10 +10,6 @@ public class Account {
     BigDecimal balance;
     List<Transaction> transactionInventory;
 
-
-    public Account() {
-    }
-
     public Account(String number) {
         this.number = number;
         this.balance = new BigDecimal(0);
@@ -22,10 +18,6 @@ public class Account {
 
     public String getNumber() {
         return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public BigDecimal getBalance() {
@@ -38,10 +30,6 @@ public class Account {
 
     public List<Transaction> getTransactionInventory() {
         return transactionInventory;
-    }
-
-    public void setTransactionInventory(List<Transaction> transactionInventory) {
-        this.transactionInventory = transactionInventory;
     }
 
     @Override
