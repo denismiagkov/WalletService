@@ -10,10 +10,6 @@ public class Transaction {
     Timestamp time;
     TransactionType type;
     BigDecimal amount;
-    BigDecimal accountState;
-
-    public Transaction() {
-    }
 
     public Transaction(String id, Account account, Timestamp time, TransactionType type,
                        BigDecimal amount) {
@@ -22,15 +18,6 @@ public class Transaction {
         this.time = time;
         this.type = type;
         this.amount = amount;
-        //this.accountState = account.balance;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getAccount() {
@@ -39,30 +26,6 @@ public class Transaction {
 
     public void setAccount(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-
-    public Timestamp getTime() {
-        return time;
-    }
-
-    public void setTime(Timestamp time) {
-        this.time = time;
-    }
-
-    public TransactionType getType() {
-        return type;
-    }
-
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
     }
 
     @Override

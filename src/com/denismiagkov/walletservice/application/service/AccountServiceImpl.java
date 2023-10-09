@@ -15,10 +15,6 @@ public class AccountServiceImpl implements AccountService {
         this.accountsInventory = new HashSet<>();
     }
 
-    public AccountServiceImpl(HashSet<String> accountsInventory) {
-        this.accountsInventory = accountsInventory;
-    }
-
     public String getAccountNumber() {
         while (true) {
             Random n = new Random();

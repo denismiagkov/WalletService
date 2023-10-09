@@ -54,11 +54,16 @@ class PlayerServiceImplTest {
 
     @Test
     void testCreatePlayer() {
-        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
+        Player player = getPlayer();
         assertTrue(player != null);
         assertEquals(player.getFirstName(), "Ivan");
         assertEquals(player.getLastName(), "Petrov");
         assertEquals(player.getEmail(), "123@mail.ru");
+    }
+
+    private static Player getPlayer() {
+        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
+        return player;
     }
 
     @Test

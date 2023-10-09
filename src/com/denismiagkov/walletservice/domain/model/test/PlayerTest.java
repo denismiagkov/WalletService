@@ -2,34 +2,40 @@ package com.denismiagkov.walletservice.domain.model.test;
 
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
+    Player player;
+
+    @BeforeEach
+    void setUp(){
+        player = new Player("Ivan", "Petrov", "123@mail.ru");
+    }
+
+
     @Test
     void testGetFirstName() {
-        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
         assertEquals("Ivan", player.getFirstName());
     }
+
     @Test
     void testGetLastName() {
-        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
         assertEquals("Petrov", player.getLastName());
     }
 
     @Test
     void testGetAccount() {
         Account account = new Account("12345");
-        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
         player.setAccount(account);
         assertEquals(account, player.getAccount());
     }
 
     @Test
     void setAccount() {
-        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
         Account account = new Account("1234523");
         player.setAccount(account);
         Account account2 = new Account("0987654");
@@ -39,8 +45,7 @@ class PlayerTest {
 
     @Test
     void testToString() {
-        Player player = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        assertEquals("Player{firstName='Sidor', lastName='Ivanov', email='2341@mail.ru'}",
+        assertEquals("Player{firstName='Ivan', lastName='Petrov', email='123@mail.ru'}",
                 player.toString());
     }
 

@@ -10,9 +10,6 @@ public class Player {
     private String email;
     private Account account;
 
-    public Player() {
-    }
-
     public Player(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
