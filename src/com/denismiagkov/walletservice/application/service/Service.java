@@ -1,10 +1,19 @@
 package com.denismiagkov.walletservice.application.service;
 
+import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.domain.model.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+
+/**
+ * Класс представляет основную бизнес-логику. Координирует и использует нижележащие сервисы
+ * для предоставления конечных данных пользовательскому интерфейсу
+ * */
 
 public class Service {
     private PlayerServiceImpl psi;

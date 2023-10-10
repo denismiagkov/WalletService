@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.in;
 
-import com.denismiagkov.walletservice.application.service.Controller;
-import com.denismiagkov.walletservice.domain.model.Player;
+import com.denismiagkov.walletservice.application.Controller;
 import com.denismiagkov.walletservice.infrastructure.in.menu.MainMenu;
 import com.denismiagkov.walletservice.infrastructure.in.menu.ProfileMenu;
 

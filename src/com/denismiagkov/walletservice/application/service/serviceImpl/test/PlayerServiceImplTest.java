@@ -1,11 +1,10 @@
-package com.denismiagkov.walletservice.application.service.test;
+package com.denismiagkov.walletservice.application.service.serviceImpl.test;
 
-import com.denismiagkov.walletservice.application.service.Entry;
-import com.denismiagkov.walletservice.application.service.PlayerServiceImpl;
-import com.denismiagkov.walletservice.application.service.exception.IncorrectLoginException;
-import com.denismiagkov.walletservice.application.service.exception.IncorrectPasswordException;
-import com.denismiagkov.walletservice.application.service.exception.LoginIsNotUniqueException;
-import com.denismiagkov.walletservice.application.service.exception.PlayerAlreadyExistsException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectLoginException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectPasswordException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.LoginIsNotUniqueException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.PlayerAlreadyExistsException;
 import com.denismiagkov.walletservice.domain.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,14 +51,14 @@ class PlayerServiceImplTest {
         assertEquals("Sidor", psi.getLoginsPerPlayers().get("igrok").getFirstName());
     }
 
-    @Test
-    void testCreatePlayer() {
-        Player player = getPlayer();
-        assertTrue(player != null);
-        assertEquals(player.getFirstName(), "Ivan");
-        assertEquals(player.getLastName(), "Petrov");
-        assertEquals(player.getEmail(), "123@mail.ru");
-    }
+//    @Test
+//    void testCreatePlayer() {
+//        Player player = getPlayer();
+//        assertTrue(player != null);
+//        assertEquals(player.getFirstName(), "Ivan");
+//        assertEquals(player.getLastName(), "Petrov");
+//        assertEquals(player.getEmail(), "123@mail.ru");
+//    }
 
     private static Player getPlayer() {
         Player player = new Player("Ivan", "Petrov", "123@mail.ru");

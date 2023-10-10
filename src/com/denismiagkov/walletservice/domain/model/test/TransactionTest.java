@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.domain.model.test;
 
-import com.denismiagkov.walletservice.application.service.AccountServiceImpl;
-import com.denismiagkov.walletservice.domain.model.Account;
+import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;

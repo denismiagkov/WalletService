@@ -1,8 +1,12 @@
 package com.denismiagkov.walletservice.application.service.test;
 
 import com.denismiagkov.walletservice.application.service.*;
-import com.denismiagkov.walletservice.application.service.exception.NotEnoughFundsOnAccountException;
-import com.denismiagkov.walletservice.application.service.exception.NotUniqueTransactionIdException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotEnoughFundsOnAccountException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotUniqueTransactionIdException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.domain.model.Player;
 import org.junit.jupiter.api.BeforeEach;

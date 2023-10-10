@@ -1,6 +1,6 @@
-package com.denismiagkov.walletservice.application.service.test;
+package com.denismiagkov.walletservice.application.service.serviceImpl.test;
 
-import com.denismiagkov.walletservice.application.service.OperationServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
 import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

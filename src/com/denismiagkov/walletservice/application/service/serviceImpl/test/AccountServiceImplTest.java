@@ -1,19 +1,14 @@
-package com.denismiagkov.walletservice.application.service.test;
+package com.denismiagkov.walletservice.application.service.serviceImpl.test;
 
-import com.denismiagkov.walletservice.application.service.AccountServiceImpl;
-import com.denismiagkov.walletservice.application.service.PlayerServiceImpl;
-import com.denismiagkov.walletservice.application.service.TransactionServiceImpl;
-import com.denismiagkov.walletservice.domain.model.Account;
+import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 

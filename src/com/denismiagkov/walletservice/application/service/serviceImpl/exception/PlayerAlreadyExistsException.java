@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.application.service.exception;
+package com.denismiagkov.walletservice.application.service.serviceImpl.exception;
 
 public class PlayerAlreadyExistsException extends RuntimeException{
     public PlayerAlreadyExistsException(String firstname, String lastName, String email) {

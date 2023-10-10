@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.application.service.exception;
+package com.denismiagkov.walletservice.application.service.serviceImpl.exception;
 
 public class IncorrectPasswordException extends RuntimeException{
     public IncorrectPasswordException() {

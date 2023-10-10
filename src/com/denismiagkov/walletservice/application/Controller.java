@@ -1,4 +1,6 @@
-package com.denismiagkov.walletservice.application.service;
+package com.denismiagkov.walletservice.application;
+
+import com.denismiagkov.walletservice.application.service.Service;
 
 import java.math.BigDecimal;
 

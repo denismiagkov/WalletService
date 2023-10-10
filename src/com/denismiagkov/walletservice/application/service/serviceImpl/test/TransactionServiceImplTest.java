@@ -1,19 +1,14 @@
-package com.denismiagkov.walletservice.application.service.test;
+package com.denismiagkov.walletservice.application.service.serviceImpl.test;
 
-import com.denismiagkov.walletservice.application.service.AccountServiceImpl;
-import com.denismiagkov.walletservice.application.service.TransactionServiceImpl;
-import com.denismiagkov.walletservice.application.service.exception.NotEnoughFundsOnAccountException;
-import com.denismiagkov.walletservice.application.service.exception.NotUniqueTransactionIdException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotEnoughFundsOnAccountException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotUniqueTransactionIdException;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.domain.model.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
