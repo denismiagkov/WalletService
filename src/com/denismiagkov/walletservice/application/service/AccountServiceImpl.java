@@ -3,7 +3,7 @@ package com.denismiagkov.walletservice.application.service;
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.domain.model.service.AccountService;
+import com.denismiagkov.walletservice.domain.service.AccountService;
 
 import java.math.BigDecimal;
 import java.util.*;

@@ -5,7 +5,7 @@ import com.denismiagkov.walletservice.application.service.exception.IncorrectPas
 import com.denismiagkov.walletservice.application.service.exception.LoginIsNotUniqueException;
 import com.denismiagkov.walletservice.application.service.exception.PlayerAlreadyExistsException;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.domain.model.service.PlayerService;
+import com.denismiagkov.walletservice.domain.service.PlayerService;
 
 import java.util.HashMap;
 import java.util.HashSet;

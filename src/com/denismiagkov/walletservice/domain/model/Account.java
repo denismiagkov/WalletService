@@ -5,9 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс описывает денежный счет игрока
+ * */
 public class Account {
+    /**
+     * Номер счета
+     * */
     String number;
+    /**
+     * Баланс счета
+     * */
     BigDecimal balance;
+
+    /**
+     * Список совершенных транзакций по счету игрока
+     * */
     List<Transaction> transactionInventory;
 
     public Account(String number) {

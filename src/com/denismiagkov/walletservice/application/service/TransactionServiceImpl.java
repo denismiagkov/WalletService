@@ -5,14 +5,12 @@ import com.denismiagkov.walletservice.application.service.exception.NotUniqueTra
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
-import com.denismiagkov.walletservice.domain.model.service.TransactionService;
+import com.denismiagkov.walletservice.domain.service.TransactionService;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-
-import static com.denismiagkov.walletservice.domain.model.TransactionType.CREDIT;
 
 public class TransactionServiceImpl implements TransactionService {
 

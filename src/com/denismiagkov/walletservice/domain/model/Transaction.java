@@ -4,11 +4,31 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * Класс описывает транзакцию - кредитную (добавление денежных средств)
+ * или дебетовую (списание денежных средств) операцию по счету игрока
+ * */
 public class Transaction {
+    /**
+     * Уникальный идентификатор транзакции
+     * */
     String id;
+    /**
+     * Номер счета, на котором выполняется транзакция
+     * */
     String accountNumber;
+    /**
+     * Дата и время выполнения транзакции
+     * */
     Timestamp time;
+    /**
+     * Тип транзакции - дебетовая или кредитная
+     * @see TransactionType
+     * */
     TransactionType type;
+    /**
+     * Сумма транзакции
+     * */
     BigDecimal amount;
 
     public Transaction(String id, Account account, Timestamp time, TransactionType type,

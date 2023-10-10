@@ -4,7 +4,7 @@ import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.domain.model.service.OperationService;
+import com.denismiagkov.walletservice.domain.service.OperationService;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ public class OperationServiceImpl implements OperationService {
         log.add(operation);
     }
 
+    @Override
     public List<Operation> viewLog() {
         return getLog();
     }

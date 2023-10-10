@@ -1,13 +1,18 @@
 package com.denismiagkov.walletservice.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+
+/**
+ * Класс описывает игрока
+ * */
 
 public class Player {
     private String firstName;
     private String lastName;
     private String email;
+    /**
+     * Денежный счет
+     * */
     private Account account;
 
     public Player(String firstName, String lastName, String email) {

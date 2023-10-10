@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.domain.model.service;
+package com.denismiagkov.walletservice.domain.service;
 
 import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
