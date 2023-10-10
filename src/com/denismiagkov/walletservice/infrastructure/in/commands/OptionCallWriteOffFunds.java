@@ -3,12 +3,12 @@ package com.denismiagkov.walletservice.infrastructure.in.commands;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
 
 /**
- * Класс описывает команду (действие) меню показать текущий баланс счета игрока.
+ * Класс описывает команду (действие) меню списать со счета игрока денежные средства.
  * Является наследником класса {@link Command}.
  */
-public class OptionShowCurrentBalance extends Command {
+public class OptionCallWriteOffFunds extends Command {
 
-    public OptionShowCurrentBalance(Console console) {
+    public OptionCallWriteOffFunds(Console console) {
         super(console);
     }
 
@@ -19,19 +19,20 @@ public class OptionShowCurrentBalance extends Command {
      */
     @Override
     public String getDescription() {
-        return "Показать текущий баланс";
+        return "Снять денежные средства";
     }
 
+
     /**
-     * Метод вызывает метод {@link Console#showCurrentBalance(String, String)} (String, String)}
-     * показать текущий баланс счета игрока.
+     * Метод вызывает метод {@link Console#callWriteOffFunds(String, String)} (String, String)}
+     * для списания средств со счета.
      *
      * @param login    логин игрока
      * @param password пароль игрока
      */
     @Override
     public void execute(String login, String password) {
-        getConsole().showCurrentBalance(login, password);
+        getConsole().callWriteOffFunds(login, password);
     }
 
     /**

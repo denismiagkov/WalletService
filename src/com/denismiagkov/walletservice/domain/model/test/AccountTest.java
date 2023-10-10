@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.domain.model.test;
 
 import com.denismiagkov.walletservice.domain.model.Account;
-import com.denismiagkov.walletservice.domain.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
