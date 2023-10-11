@@ -8,6 +8,9 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class OptionRegisterPlayer extends Command {
 
+    /**
+     * Конструтор класса
+     * */
     public OptionRegisterPlayer(Console console) {
         super(console);
     }

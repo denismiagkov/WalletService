@@ -8,6 +8,9 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class OptionCallWriteOffFunds extends Command {
 
+    /**
+     * Конструтор класса
+     * */
     public OptionCallWriteOffFunds(Console console) {
         super(console);
     }

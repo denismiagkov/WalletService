@@ -23,10 +23,16 @@ public class OperationServiceImpl implements OperationService {
      */
     private List<Operation> log;
 
+    /**
+     * Конструктор класса
+     * */
     public OperationServiceImpl() {
         this.log = new ArrayList<>();
     }
 
+    /**
+     * Метод возвращает историю действий игрока
+     * */
     public List<Operation> getLog() {
         return log;
     }

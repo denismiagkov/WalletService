@@ -16,30 +16,59 @@ import java.util.List;
  */
 
 public class Service {
+    /**
+     * Низкоуровневый сервис игрока
+     * */
     private PlayerServiceImpl psi;
+
+    /**
+     * Низкоуровневый сервис счета игрока
+     * */
     private AccountServiceImpl asi = new AccountServiceImpl();
+
+    /**
+     * Низкоуровневый сервис транзакции
+     * */
     private TransactionServiceImpl tsi;
+
+    /**
+     * Низкоуровневый сервис действия игрока
+     * */
     private OperationServiceImpl osi;
 
+    /**
+     * Конструктор класса
+     * */
     public Service() {
         this.psi = new PlayerServiceImpl();
         this.asi = new AccountServiceImpl();
         this.tsi = new TransactionServiceImpl();
         this.osi = new OperationServiceImpl();
     }
-
+/**
+ * Метод возвращает Низкоуровневый сервис игрока
+ * */
     public PlayerServiceImpl getPsi() {
         return psi;
     }
 
+    /**
+     * Метод возвращает Низкоуровневый сервис счета игрока
+     * */
     public AccountServiceImpl getAsi() {
         return asi;
     }
 
+    /**
+     * Метод возвращает Низкоуровневый сервис транзакции
+     * */
     public TransactionServiceImpl getTsi() {
         return tsi;
     }
 
+    /**
+     * Метод возвращает Низкоуровневый сервис действия игрока
+     * */
     public OperationServiceImpl getOsi() {
         return osi;
     }

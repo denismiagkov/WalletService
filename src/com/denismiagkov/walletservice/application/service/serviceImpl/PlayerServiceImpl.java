@@ -33,20 +33,33 @@ public class PlayerServiceImpl implements PlayerService {
      */
     private Map<String, Player> loginsPerPlayers;
 
+
+    /**
+     * Конструктор класса
+     * */
     public PlayerServiceImpl() {
         this.allPlayers = new HashSet<>();
         this.allEntries = new HashMap<>();
         this.loginsPerPlayers = new HashMap<>();
     }
 
+    /**
+     * Возвращает список игроков
+     * */
     public Set<Player> getAllPlayers() {
         return allPlayers;
     }
 
+    /**
+     * Возвращает список комбинаций логин-пароль
+     * */
     public Map<String, String> getAllEntries() {
         return allEntries;
     }
 
+    /**
+     * Возвращает список соответствия логинов инрокам
+     * */
     public Map<String, Player> getLoginsPerPlayers() {
         return loginsPerPlayers;
     }

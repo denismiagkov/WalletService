@@ -8,6 +8,9 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class OptionCallTopUpAccount extends Command {
 
+    /**
+     * Конструтор класса
+     * */
     public OptionCallTopUpAccount(Console console) {
         super(console);
     }

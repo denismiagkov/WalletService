@@ -8,6 +8,9 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class Finish extends Command {
 
+    /**
+     * Конструктор класса
+     * */
     public Finish(Console console) {
         super(console);
     }

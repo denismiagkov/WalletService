@@ -19,6 +19,9 @@ public class Menu {
      */
     protected List<Option> list;
 
+    /**
+     * Конструктор класса
+     * */
     public Menu(Console console) {
         this.list = new ArrayList<>();
     }

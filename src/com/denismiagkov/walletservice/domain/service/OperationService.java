@@ -20,6 +20,10 @@ public interface OperationService {
      * @param status  статус действия
      * */
     void putOnLog(Player player, OperationType type, Timestamp time, OperationStatus status);
+
+    /**
+     * Метод должен реализоватб просмотр журнала действий
+     * */
     List<Operation> viewLog();
 
 }

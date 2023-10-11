@@ -8,6 +8,9 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class OptionShowCurrentBalance extends Command {
 
+    /**
+     * Конструтор класса
+     * */
     public OptionShowCurrentBalance(Console console) {
         super(console);
     }

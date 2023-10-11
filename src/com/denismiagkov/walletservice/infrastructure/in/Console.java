@@ -15,13 +15,36 @@ import java.math.BigDecimal;
  * выполнения его запросов.
  * */
 public class Console implements View {
+
+    /**
+     * Котроллер
+     * */
     private Controller controller;
+
+    /***
+     * BufferedReader считывает входящий поток данных
+     * */
     private BufferedReader reader;
+
+    /**
+     * Статус рабочего состояния приложения
+     * */
     private boolean work;
+
+    /**
+     * Стартовое меню
+     * */
     private MainMenu mainMenu;
+
+    /**
+     * Меню приложения после авторизации игрока
+     * */
     private ProfileMenu profileMenu;
 
 
+    /**
+     * Конструктор класса
+     * */
     public Console(Controller controller) {
         this.controller = controller;
         this.reader = new BufferedReader(new InputStreamReader(System.in));
@@ -64,6 +87,10 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Метод выводит в терминал меню возможных действий игрока после его авторизации, принимает и обрабатывает
+     * введенные пользователем данные
+     * */
     @Override
     public void startProfile(String login, String password) {
         while (work) {
@@ -83,14 +110,23 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Метод проверяет корректность введенных пользователем символов выбора команды в меню
+     * */
     private boolean check(String text, int n) {
         return text.matches("[0-9]+") && Integer.parseInt(text) <= n && Integer.parseInt(text) > 0;
     }
 
+    /**
+     * Метод сообщает пользователю об ошибке ври вводе данных в терминал
+     * */
     public void fail() {
         System.out.println("Ошибка ввода!");
     }
 
+    /**
+     * Метод завершает работу приложения
+     * */
     public void finish(String login, String password) {
         System.out.println("Работа программы завершена.");
         controller.logExit(login, password);
@@ -102,6 +138,9 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Метод принимает введенные пользователем данные при регистрации нового игрока и передает их в контроллер
+     * */
     public void getDataToRegisterPlayer() {
         try {
             String[] input = new String[5];
@@ -122,6 +161,9 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Метод принимает введенные пользователем данные при аторизации игрока и передает их в контроллер
+     * */
     public void getDataToAuthorizePlayer() {
         try {
             System.out.println("Введите логин: ");
@@ -136,11 +178,17 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Метод запрашивает в контроллере баланс счета игрока и выводит результат запроса в терминал
+     * */
     public void showCurrentBalance(String login, String password) {
         BigDecimal balance = controller.getCurrentBalance(login, password);
         System.out.println("Ваш текущий баланс составляет: " + balance + " денежных единиц");
     }
 
+    /**
+     * Метод передает в контроллер запрос на пополнение счета игрока и выводит полученный результат в терминал
+     * */
     public void callTopUpAccount(String login, String password) {
         try {
             System.out.println("Введите уникальный идентификатор длиной до 6 символов");
@@ -156,6 +204,11 @@ public class Console implements View {
         }
     }
 
+
+    /**
+     * Метод передает в контроллер запрос на списание средств со счета игрока
+     * и выводит полученный результат в терминал
+     * */
     public void callWriteOffFunds(String login, String password) {
         try {
             System.out.println("Введите уникальный идентификатор длиной до 6 символов");
@@ -171,6 +224,9 @@ public class Console implements View {
         }
     }
 
+    /**
+     * Метод запрашивает в контроллере историю транзакций и выводит полученный результат в терминал
+     * */
     public void showTransactionHistory(String login, String password) {
         String transactionHistory = controller.getTransactionsHistory(login, password);
         System.out.println("История транзакций по Вашему счету: " + transactionHistory);

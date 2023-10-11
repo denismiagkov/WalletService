@@ -29,22 +29,38 @@ public class Account {
         this.transactionInventory = new ArrayList<>();
     }
 
+    /**
+     * Метод возвращает номер счета
+     * */
     public String getNumber() {
         return number;
     }
 
+
+    /**
+     * Метод возвращает баланс счета
+     * */
     public BigDecimal getBalance() {
         return balance;
     }
 
+    /**
+     * Метод устанавливает баланс счета
+     * */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
+    /**
+     * Метод возвращает список транзакций по счету
+     * */
     public List<Transaction> getTransactionInventory() {
         return transactionInventory;
     }
 
+    /**
+     * Метод toString()
+     * */
     @Override
     public String toString() {
         return "Account{" +
@@ -53,6 +69,9 @@ public class Account {
                 '}';
     }
 
+    /**
+     * Метод equals()
+     * */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,6 +80,9 @@ public class Account {
         return number == account.number;
     }
 
+    /**
+     * Метод hashcode()
+     * */
     @Override
     public int hashCode() {
         return Objects.hash(number);

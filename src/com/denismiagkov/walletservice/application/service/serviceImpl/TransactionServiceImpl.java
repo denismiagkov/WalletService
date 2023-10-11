@@ -24,6 +24,10 @@ public class TransactionServiceImpl implements TransactionService {
      */
     Set<String> transactionIdList;
 
+
+    /**
+     * Констркутор класса
+     * */
     public TransactionServiceImpl() {
         this.transactionIdList = new HashSet<>();
     }

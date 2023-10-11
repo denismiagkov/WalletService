@@ -8,10 +8,18 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class OptionAuthorizePlayer extends Command {
 
+    /**
+     * Конструтор класса
+     * */
     public OptionAuthorizePlayer(Console console) {
         super(console);
     }
 
+    /**
+     * Метод определяет название команды (действия)
+     *
+     * @return название команды (действия)
+     */
     @Override
     public String getDescription() {
         return "Войти в систему";

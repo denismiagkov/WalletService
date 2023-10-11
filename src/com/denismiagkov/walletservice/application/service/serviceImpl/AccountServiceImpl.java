@@ -22,6 +22,9 @@ public class AccountServiceImpl implements AccountService {
      */
     Set<String> accountsInventory;
 
+    /**
+     * Конструктор класса
+     * */
     public AccountServiceImpl() {
         this.accountsInventory = new HashSet<>();
     }

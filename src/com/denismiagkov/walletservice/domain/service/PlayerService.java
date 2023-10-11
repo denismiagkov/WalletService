@@ -16,7 +16,6 @@ public interface PlayerService {
      * @param password  идентифицирующий признак игрока (пароль)
      * @return новый игрок
      */
-
     Player registerPlayer(String firstName, String lastName, String email, String login, String password);
 
     /**

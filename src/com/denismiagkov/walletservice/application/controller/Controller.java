@@ -16,8 +16,14 @@ import java.sql.Timestamp;
  * и внутренними слоями приложения
  */
 public class Controller {
+    /**
+     * Cервис приложения
+     * */
     private Service service;
 
+    /**
+     * Конструктор класса
+     * */
     public Controller(Service service) {
         this.service = service;
     }

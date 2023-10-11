@@ -8,6 +8,9 @@ import com.denismiagkov.walletservice.infrastructure.in.Console;
  */
 public class OptionShowTransactionHistory extends Command {
 
+    /**
+     * Конструтор класса
+     * */
     public OptionShowTransactionHistory(Console console) {
         super(console);
     }

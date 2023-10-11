@@ -25,6 +25,9 @@ public class Operation {
      * */
     private OperationStatus status;
 
+    /**
+     * Конструктор класса
+     * */
     public Operation(OperationType type, Timestamp time, Player player, OperationStatus status) {
         this.type = type;
         this.time = time;
@@ -32,10 +35,16 @@ public class Operation {
         this.status = status;
     }
 
+    /**
+     * Метод возвращает тип совершенного действия
+     * */
     public OperationType getType() {
         return type;
     }
 
+    /**
+     * Метод toString()
+     * */
     @Override
     public String toString() {
         return "Operation{" +
@@ -46,6 +55,9 @@ public class Operation {
                 '}' + "\n";
     }
 
+    /**
+     * Метод equals()
+     * */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,6 +66,9 @@ public class Operation {
         return type == operation.type && Objects.equals(time, operation.time) && Objects.equals(player, operation.player) && status == operation.status;
     }
 
+    /**
+     * Метод hashcode()
+     * */
     @Override
     public int hashCode() {
         return Objects.hash(type, time, player, status);
