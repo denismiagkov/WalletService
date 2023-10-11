@@ -78,9 +78,21 @@ class ServiceTest {
     @Test
     void testAuthorizePlayer_correctWork() {
         service.registerPlayer("Petr", "Ivanov", "petr@mail.ru", "user1", "123");
+        /**
+         * множество учетных записей содержит логин "user1"
+         * */
         assertTrue(service.getPsi().getAllEntries().containsKey("user1")); //множество учетных записей содержит логин "user1"
+        /**
+         * журнал аудита содержит одну запись о регистрации
+         * */
         assertEquals(1, service.getOsi().getLog().size()); // журнал аудита содержит одну запись о регистрации
+        /**
+         * авторизация по логину "user1" успешна
+         * */
         assertTrue(service.authorizePlayer("user1", "123"));  //авторизация по логину "user1" успешна
+        /**
+         * в журнал аудита добавлена запись об авторизации
+         * */
         assertEquals(2, service.getOsi().getLog().size()); // в журнал аудита добавлена запись об авторизации
 
     }
