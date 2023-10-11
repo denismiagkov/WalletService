@@ -13,5 +13,4 @@
 5. Откройте терминал из папки test.
 6. Введите в терминал команду: sudo docker build -t my-wallet-service .
 7. Введите в терминал команду: sudo docker run -it --rm my-wallet-service
-8. Введите в терминал команду: sudo docker run -it --rm my-wallet-service
 Приложение должно быть запущено.
