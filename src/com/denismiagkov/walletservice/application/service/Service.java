@@ -247,7 +247,7 @@ public class Service {
         Player player = getPlayer(login, password);
         osi.putOnLog(player, OperationType.EXIT, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
-        System.out.println(osi.getLog());
+        //System.out.println(osi.getLog());
     }
 }
 

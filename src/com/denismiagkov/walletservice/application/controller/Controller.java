@@ -18,33 +18,35 @@ import java.sql.Timestamp;
 public class Controller {
     /**
      * Cервис приложения
-     * */
+     */
     private Service service;
 
     /**
      * Конструктор класса
-     * */
+     */
     public Controller(Service service) {
         this.service = service;
     }
 
     /**
-     * Метод вызывает в сервисе метод регистрации нового игрока и в случае возникновения ошибки
-     * сообщает об этом пользователю путем обработки исключения.
+     * Метод вызывает в сервисе метод регистрации нового игрока. В зависимости от полученного результата
+     * возвращает в консоль булевое значение.
      *
      * @param firstName имя игрока
      * @param lastName  фамилия игрока
      * @param email     электронная почта игрока
      * @param login     уникальный идентификатор игрока (логин)
      * @param password  идентифицирующий признак игрока (пароль)
+     * @return статус успеха регистрации
      */
-    public void registerPlayer(String firstName, String lastName, String email, String login, String password) {
+    public boolean registerPlayer(String firstName, String lastName, String email, String login, String password) {
+        boolean isSuccessful = false;
         try {
             service.registerPlayer(firstName, lastName, email, login, password);
-
+            isSuccessful = true;
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
         }
+        return isSuccessful;
     }
 
     /**
@@ -90,7 +92,6 @@ public class Controller {
             service.topUpAccount(login, password, uniqueId, amount);
             return true;
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -108,7 +109,6 @@ public class Controller {
             service.writeOffFunds(login, password, uniqueId, amount);
             return true;
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }

@@ -10,7 +10,7 @@ public class Finish extends Command {
 
     /**
      * Конструктор класса
-     * */
+     */
     public Finish(Console console) {
         super(console);
     }
@@ -26,14 +26,16 @@ public class Finish extends Command {
     }
 
     /**
-     * Метод не используется
-     * */
+     * Метод вызывает метод {@link Console#finish()} для завершения работы приложения из стартового меню
+     */
     @Override
     public void execute() {
+        getConsole().finish();
     }
 
     /**
-     * Метод вызывает метод {@link Console#finish(String, String)} для завершения работы приложения.
+     * Метод вызывает метод {@link Console#finish(String, String)} для завершения работы приложения
+     * из меню профиля.
      *
      * @param login    логин игрока
      * @param password пароль игрока
