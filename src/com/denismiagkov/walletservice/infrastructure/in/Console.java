@@ -13,12 +13,12 @@ import java.math.BigDecimal;
  * Класс реализует непосредственное взаимодействие приложения с пользователем через терминал,
  * принимая и обрабатывая введенные пользователем данные, возвращая пользователю информацию о результатах
  * выполнения его запросов.
- * */
+ */
 public class Console implements View {
 
     /**
      * Котроллер
-     * */
+     */
     private Controller controller;
 
     /***
@@ -28,23 +28,23 @@ public class Console implements View {
 
     /**
      * Статус рабочего состояния приложения
-     * */
+     */
     private boolean work;
 
     /**
      * Стартовое меню
-     * */
+     */
     private MainMenu mainMenu;
 
     /**
      * Меню приложения после авторизации игрока
-     * */
+     */
     private ProfileMenu profileMenu;
 
 
     /**
      * Конструктор класса
-     * */
+     */
     public Console(Controller controller) {
         this.controller = controller;
         this.reader = new BufferedReader(new InputStreamReader(System.in));
@@ -57,7 +57,7 @@ public class Console implements View {
      * Метод выводит в терминал принимаемый в качестве параметра текст.
      *
      * @param text информация, предназначенная для вывода в терминале
-     * */
+     */
     @Override
     public void print(String text) {
         System.out.println(text);
@@ -67,7 +67,7 @@ public class Console implements View {
     /**
      * Метод выводит в терминал стартовое меню при запуске приложения, принимает и обрабатывает
      * введенные пользователем символы
-     * */
+     */
     @Override
     public void start() {
         while (work) {
@@ -77,7 +77,7 @@ public class Console implements View {
             try {
                 choice = reader.readLine();
             } catch (IOException e) {
-                System.out.println(e.getMessage());;
+                System.out.println(e.getMessage());
             }
             if (check(choice, mainMenu.getSize())) {
                 mainMenu.execute(Integer.parseInt(choice));
@@ -90,7 +90,7 @@ public class Console implements View {
     /**
      * Метод выводит в терминал меню возможных действий игрока после его авторизации, принимает и обрабатывает
      * введенные пользователем данные
-     * */
+     */
     @Override
     public void startProfile(String login, String password) {
         while (work) {
@@ -112,21 +112,35 @@ public class Console implements View {
 
     /**
      * Метод проверяет корректность введенных пользователем символов выбора команды в меню
-     * */
-    private boolean check(String text, int n) {
+     */
+    public boolean check(String text, int n) {
         return text.matches("[0-9]+") && Integer.parseInt(text) <= n && Integer.parseInt(text) > 0;
     }
 
     /**
      * Метод сообщает пользователю об ошибке ври вводе данных в терминал
-     * */
+     */
     public void fail() {
         System.out.println("Ошибка ввода!");
     }
 
+
     /**
-     * Метод завершает работу приложения
-     * */
+     * Метод завершает работу приложения из стартового меню
+     */
+    public void finish() {
+        System.out.println("Работа программы завершена.");
+        work = false;
+        try {
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Метод завершает работу приложения из меню профиля
+     */
     public void finish(String login, String password) {
         System.out.println("Работа программы завершена.");
         controller.logExit(login, password);
@@ -139,8 +153,9 @@ public class Console implements View {
     }
 
     /**
-     * Метод принимает введенные пользователем данные при регистрации нового игрока и передает их в контроллер
-     * */
+     * Метод принимает введенные пользователем данные при регистрации нового игрока и передает их в контроллер.
+     * По результатам обработки обращения выводит сообщение об успехе или неудаче.
+     */
     public void getDataToRegisterPlayer() {
         try {
             String[] input = new String[5];
@@ -154,8 +169,10 @@ public class Console implements View {
             String login = reader.readLine();
             System.out.println("Введите пароль: ");
             String password = reader.readLine();
-            controller.registerPlayer(firstName, lastName, email, login, password);
-            System.out.println("Поздравляю! Вы успешно зарегистрированы!");
+            boolean isSuccessful = controller.registerPlayer(firstName, lastName, email, login, password);
+            if (isSuccessful) {
+                System.out.println("Поздравляю! Вы успешно зарегистрированы!");
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -163,7 +180,7 @@ public class Console implements View {
 
     /**
      * Метод принимает введенные пользователем данные при аторизации игрока и передает их в контроллер
-     * */
+     */
     public void getDataToAuthorizePlayer() {
         try {
             System.out.println("Введите логин: ");
@@ -180,7 +197,7 @@ public class Console implements View {
 
     /**
      * Метод запрашивает в контроллере баланс счета игрока и выводит результат запроса в терминал
-     * */
+     */
     public void showCurrentBalance(String login, String password) {
         BigDecimal balance = controller.getCurrentBalance(login, password);
         System.out.println("Ваш текущий баланс составляет: " + balance + " денежных единиц");
@@ -188,16 +205,21 @@ public class Console implements View {
 
     /**
      * Метод передает в контроллер запрос на пополнение счета игрока и выводит полученный результат в терминал
-     * */
+     */
     public void callTopUpAccount(String login, String password) {
         try {
             System.out.println("Введите уникальный идентификатор длиной до 6 символов");
             String uniqueId = reader.readLine();
             System.out.println("Введите сумму пополнения: ");
-            BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(reader.readLine()));
-            boolean success = controller.topUpAccount(login, password, uniqueId, amount);
-            if (success) {
-                System.out.println("Ваш счет пополнен на сумму: " + amount + " денежных единиц\n");
+            String input = reader.readLine();
+            if (check(input, Integer.MAX_VALUE)) {
+                BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
+                boolean success = controller.topUpAccount(login, password, uniqueId, amount);
+                if (success) {
+                    System.out.println("Ваш счет пополнен на сумму: " + amount + " денежных единиц\n");
+                }
+            } else {
+                System.out.println("Введено некорректное число!\n");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -208,16 +230,21 @@ public class Console implements View {
     /**
      * Метод передает в контроллер запрос на списание средств со счета игрока
      * и выводит полученный результат в терминал
-     * */
+     */
     public void callWriteOffFunds(String login, String password) {
         try {
             System.out.println("Введите уникальный идентификатор длиной до 6 символов");
             String uniqueId = reader.readLine();
             System.out.println("Введите сумму списания: ");
-            BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(reader.readLine()));
-            boolean success = controller.writeOffFunds(login, password, uniqueId, amount);
-            if (success) {
-                System.out.println("С вашего счета списано: " + amount + " денежных единиц\n");
+            String input = reader.readLine();
+            if (check(input, Integer.MAX_VALUE)) {
+                BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
+                boolean success = controller.writeOffFunds(login, password, uniqueId, amount);
+                if (success) {
+                    System.out.println("С вашего счета списано: " + amount + " денежных единиц\n");
+                }
+            } else {
+                System.out.println("Введено некорректное число!\n");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -226,9 +253,9 @@ public class Console implements View {
 
     /**
      * Метод запрашивает в контроллере историю транзакций и выводит полученный результат в терминал
-     * */
+     */
     public void showTransactionHistory(String login, String password) {
         String transactionHistory = controller.getTransactionsHistory(login, password);
-        System.out.println("История транзакций по Вашему счету: " + transactionHistory);
+        System.out.println("История транзакций по Вашему счету: " + transactionHistory + "\n");
     }
 }
