@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.application.service.serviceImpl.test;
+package com.denismiagkov.walletservice.application.service.serviciImpl.test;
 
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;

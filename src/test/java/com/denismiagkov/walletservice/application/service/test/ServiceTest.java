@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceTest {
 
-    Service service;
+    com.denismiagkov.walletservice.application.service.Service service;
     PlayerServiceImpl psi;
     AccountServiceImpl asi;
     TransactionServiceImpl tsi;
