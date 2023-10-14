@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.application.service.serviceImpl.OperationS
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.domain.model.*;
+import com.denismiagkov.walletservice.repository.DAO;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -36,6 +37,8 @@ public class Service {
      * */
     private OperationServiceImpl osi;
 
+    DAO dao;
+
     /**
      * Конструктор класса
      * */
@@ -44,6 +47,7 @@ public class Service {
         this.asi = new AccountServiceImpl();
         this.tsi = new TransactionServiceImpl();
         this.osi = new OperationServiceImpl();
+        this.dao = new DAO();
     }
 /**
  * Метод возвращает Низкоуровневый сервис игрока
@@ -93,6 +97,7 @@ public class Service {
         asi.createAccount(player);
         osi.putOnLog(player, OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
+        dao.saveData(firstName, lastName, email);
     }
 
     /**
