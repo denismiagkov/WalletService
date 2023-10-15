@@ -26,6 +26,26 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="004-create-sequence" author="denismiagkov">
+        <createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="005-create-table" author="denismiagkov">
+        <createTable schemaName="wallet" tableName="accounts">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="accounts_id_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="number" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="NUMERIC">
+                <constraints nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_accounts_player_id"
+                referencedColumnNames="id" referencedTableName="players" referencedTableSchemaName="wallet"/>
+            </column>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>
 

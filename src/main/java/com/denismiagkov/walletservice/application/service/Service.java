@@ -19,29 +19,29 @@ import java.util.List;
 public class Service {
     /**
      * Низкоуровневый сервис игрока
-     * */
+     */
     private PlayerServiceImpl psi;
 
     /**
      * Низкоуровневый сервис счета игрока
-     * */
+     */
     private AccountServiceImpl asi = new AccountServiceImpl();
 
     /**
      * Низкоуровневый сервис транзакции
-     * */
+     */
     private TransactionServiceImpl tsi;
 
     /**
      * Низкоуровневый сервис действия игрока
-     * */
+     */
     private OperationServiceImpl osi;
 
     DAO dao;
 
     /**
      * Конструктор класса
-     * */
+     */
     public Service() {
         this.psi = new PlayerServiceImpl();
         this.asi = new AccountServiceImpl();
@@ -49,30 +49,31 @@ public class Service {
         this.osi = new OperationServiceImpl();
         this.dao = new DAO();
     }
-/**
- * Метод возвращает Низкоуровневый сервис игрока
- * */
+
+    /**
+     * Метод возвращает Низкоуровневый сервис игрока
+     */
     public PlayerServiceImpl getPsi() {
         return psi;
     }
 
     /**
      * Метод возвращает Низкоуровневый сервис счета игрока
-     * */
+     */
     public AccountServiceImpl getAsi() {
         return asi;
     }
 
     /**
      * Метод возвращает Низкоуровневый сервис транзакции
-     * */
+     */
     public TransactionServiceImpl getTsi() {
         return tsi;
     }
 
     /**
      * Метод возвращает Низкоуровневый сервис действия игрока
-     * */
+     */
     public OperationServiceImpl getOsi() {
         return osi;
     }
@@ -97,7 +98,8 @@ public class Service {
         asi.createAccount(player);
         osi.putOnLog(player, OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
-        dao.saveData(firstName, lastName, email);
+        dao.savePlayer(player);
+        dao.saveAccount(player);
     }
 
     /**

@@ -1,5 +1,6 @@
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
+import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
 import liquibase.Liquibase;
 import liquibase.database.Database;
@@ -41,6 +42,51 @@ public class Main {
         Controller controller = new Controller(service);
         Console console = new Console(controller);
         console.start();
+
+//        String URL = "jdbc:postgresql://localhost:5432/wallet_service";
+//        String USER_NAME = "wallet_service";
+//        String USER_PASSWORD = "123";
+//        Connection connection = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+//
+//        PreparedStatement prst = connection.prepareStatement("SELECT surname FROM wallet.players WHERE name = ?");
+//        prst.setString(1, "Sveta");
+//        ResultSet rs = prst.executeQuery();
+//        while(rs.next()){
+//            String n = rs.getString("surname");
+//            System.out.println(n);
+//        }
+
+
+
+//        Statement st = connection.createStatement();
+//        ResultSet s = st.executeQuery("SELECT surname FROM wallet.players WHERE name = 'Sveta'");
+//        String s1 = s.getString(1);
+//        System.out.println(s1);
+
+
+      /*  Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT id, name FROM wallet.players WHERE surname = 'K'");
+        while (resultSet.next()){
+           // int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            System.out.println("row = " +   " " + name);
+        }
+//        String name = resultSet.getString("");
+//        System.out.println("name = " + name);
+        statement.close();*/
+//        Player player = new Player("Sveta", "S", "omsk");
+//        String getPlayerId = "SELECT id FROM wallet.players WHERE name = ?";
+//        try (PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
+//            prStatement.setString(1, player.getFirstName());
+//            //prStatement.setString(2, player.getLastName());
+//            //prStatement.setString(3, player.getEmail());
+//            ResultSet rs = prStatement.executeQuery();
+//            int playerId = prStatement.executeQuery().getInt("id");
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+
+
 
 /*
 

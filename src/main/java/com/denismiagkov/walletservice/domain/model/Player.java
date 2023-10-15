@@ -4,31 +4,35 @@ import java.util.Objects;
 
 /**
  * Класс описывает игрока
- * */
+ */
 
 public class Player {
     /**
+     * Уникальный идентификатор игрока
+     */
+    int id;
+    /**
      * Имя игрока
-     * */
+     */
     private String firstName;
 
     /**
      * Фамилия игрока
-     * */
+     */
     private String lastName;
 
     /**
      * Электронная почта игрока
-     * */
+     */
     private String email;
     /**
      * Денежный счет
-     * */
+     */
     private Account account;
 
     /**
      * Конструктор класса
-     * */
+     */
     public Player(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,43 +40,57 @@ public class Player {
     }
 
     /**
-     * Метод возвращает имя игрока
+     * Метод устанвливает id игрока
      * */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Метод возвращает уникальный идентификатор игрока
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Метод возвращает имя игрока
+     */
     public String getFirstName() {
         return firstName;
     }
 
     /**
      * Метод возвращает фамилию игрока
-     * */
+     */
     public String getLastName() {
         return lastName;
     }
 
     /**
      * Метод возвращает электроную почту игрока
-     * */
+     */
     public String getEmail() {
         return email;
     }
 
     /**
      * Метод возвращает счет игрока
-     * */
+     */
     public Account getAccount() {
         return account;
     }
 
     /**
      * Метод устанвливает счет игрока
-     * */
+     */
     public void setAccount(Account account) {
         this.account = account;
     }
 
     /**
      * Метод toString()
-     * */
+     */
     @Override
     public String toString() {
         return "Player{" +
@@ -84,7 +102,7 @@ public class Player {
 
     /**
      * Метод equals()
-     * */
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,7 +113,7 @@ public class Player {
 
     /**
      * Метод hashcode()
-     * */
+     */
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, email);
