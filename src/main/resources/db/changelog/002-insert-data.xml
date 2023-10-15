@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-insert-data" author="denismiagkov">
+        <insert schemaName="wallet" tableName="players">
+            <column name="name" value="Denis"/>
+            <column name="surname" value="Miagkov"/>
+            <column name="email" value="tomich-84@mail.ru"/>
+        </insert>
+    </changeSet>
+    <changeSet id="002-insert-data" author="denismiagkov">
+        <insert schemaName="wallet" tableName="players">
+            <column name="name" value="Matt"/>
+            <column name="surname" value="Miagkov"/>
+            <column name="email" value="kid@kidmail.ru"/>
+        </insert>
+    </changeSet>
+    <!--    <changeSet id="testChangeSet" author="test">-->
+    <!--        <sql>SELECT '${testParam}'</sql>-->
+    <!--    </changeSet>-->
+</databaseChangeLog>

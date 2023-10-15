@@ -2,7 +2,6 @@ package com.denismiagkov.walletservice.domain.model;
 
 import java.sql.Timestamp;
 import java.util.Objects;
-import com.denismiagkov.walletservice.domain.model.OperationType;
 
 /**
  * Класс описывает действие игрока в системе. Служит для целей аудита
@@ -20,11 +19,11 @@ public class Operation {
     /**
      * Игрок, выполнивший действие
      * */
-    private com.denismiagkov.walletservice.domain.model.Player player;
+    private Player player;
     /***
      * Статус успеха действия {@link OperationStatus}
      * */
-    private com.denismiagkov.walletservice.domain.model.OperationStatus status;
+    private OperationStatus status;
 
     /**
      * Конструктор класса

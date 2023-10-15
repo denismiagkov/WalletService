@@ -1,17 +1,39 @@
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
+import liquibase.Liquibase;
+import liquibase.database.Database;
+import liquibase.database.DatabaseFactory;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 import java.sql.*;
 
 /**
  * Это точка входа в программу
- * */
+ */
 public class Main {
     /**
      * Это класс  main()
-     * */
+     */
     public static void main(String[] args) throws SQLException {
+
+        try {
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/wallet_service",
+                    "wallet_service",
+                    "123"
+            );
+            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
+                    new JdbcConnection(connection));
+            Liquibase liquibase = new Liquibase("db/changelog/changelog.xml",
+                    new ClassLoaderResourceAccessor(), database);
+            liquibase.update();
+            System.out.println("Миграции успешно выполнены!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         /**
          * Инициализируем необходимые службы и запускаем приложение
          * */
@@ -68,7 +90,7 @@ public class Main {
     }
 
     //STATEMENT
-    public static void createTable(Connection connection) throws SQLException{
+    public static void createTable(Connection connection) throws SQLException {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS players (\n" +
                 "\tid int PRIMARY KEY ,\n" +
                 "\tname varchar(25) NOT NULL,\n" +
@@ -78,7 +100,6 @@ public class Main {
         statement.executeUpdate(createTableSQL);
         statement.close();
     }
-
 
 
 }

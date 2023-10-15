@@ -12,7 +12,7 @@ public class PlayerDAOImpl implements PlayerDAO {
 
     @Override
     public void savePlayer(Connection connection, String firstName, String lastName, String email) {
-        String insertPlayer = "INSERT INTO players (name, surname, email) VALUES (?, ?, ?)";
+        String insertPlayer = "INSERT INTO wallet.players (name, surname, email) VALUES (?, ?, ?)";
         try (PreparedStatement prStatement = connection.prepareStatement(insertPlayer)) {
             prStatement.setString(1, firstName);
             prStatement.setString(2, lastName);
