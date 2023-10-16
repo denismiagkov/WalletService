@@ -8,9 +8,9 @@ import java.util.Objects;
  * */
 public class Entry {
     /**
-     * Игрок
+     * Уникальный идентификатор игрока
      * */
-    Player player;
+    int playerId;
 
     /**
      * Логин игрока
@@ -25,9 +25,33 @@ public class Entry {
     /**
      * Конструктор класса
      * */
-    public Entry(Player player, String login, String password) {
-        this.player = player;
+    public Entry(int playerId, String login, String password) {
+        this.playerId = playerId;
         this.login = login;
+        this.password = password;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -37,7 +61,7 @@ public class Entry {
     @Override
     public String toString() {
         return "Entry{" +
-                "player=" + player +
+                "player=" + playerId +
                 ", login='" + login + '\'' +
                 '}';
     }

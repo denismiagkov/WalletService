@@ -1,19 +1,31 @@
 package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Player;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
-import java.math.BigDecimal;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.List;
+
 
 public class AccountDAOImpl implements AccountDAO {
 
+    DatabaseConnection dbConnection;
+
+    public AccountDAOImpl() {
+        try {
+            this.dbConnection = new DatabaseConnection();
+        } catch (ConfigurationException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Override
-    public void saveAccount(Connection connection, Player player ){
-        String insertPlayer = "INSERT INTO wallet.accounts (number, balance, player_id) VALUES (?, ?, ?)";
-        try (PreparedStatement prStatement = connection.prepareStatement(insertPlayer)) {
+    public void saveAccount(Player player) {
+        String insertAccount = "INSERT INTO wallet.accounts (number, balance, player_id) VALUES (?, ?, ?)";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(insertAccount)) {
             prStatement.setString(1, player.getAccount().getNumber());
             prStatement.setBigDecimal(2, player.getAccount().getBalance());
             prStatement.setInt(3, player.getId());

@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.service.AccountService;
+import com.denismiagkov.walletservice.repository.AccountDAOImpl;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -22,10 +23,13 @@ public class AccountServiceImpl implements AccountService {
      */
     Set<String> accountsInventory;
 
+    AccountDAOImpl adi;
+
     /**
      * Конструктор класса
      * */
     public AccountServiceImpl() {
+        this.adi = new AccountDAOImpl();
         this.accountsInventory = new HashSet<>();
     }
 
@@ -56,7 +60,8 @@ public class AccountServiceImpl implements AccountService {
     public void createAccount(Player player) {
         Account account = new Account(getAccountNumber());
         player.setAccount(account);
-        accountsInventory.add(account.getNumber());
+        adi.saveAccount(player);
+        //accountsInventory.add(account.getNumber());
     }
 
     /**

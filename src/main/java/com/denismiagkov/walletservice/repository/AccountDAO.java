@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface AccountDAO {
-    void saveAccount(Connection connection, Player player);
+    void saveAccount(Player player);
 
 //    List<Player> getAllPlayers();
 //    Player getPlayer();

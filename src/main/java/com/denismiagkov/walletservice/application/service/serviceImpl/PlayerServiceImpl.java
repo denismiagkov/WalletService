@@ -7,6 +7,8 @@ import com.denismiagkov.walletservice.application.service.serviceImpl.exception.
 import com.denismiagkov.walletservice.application.service.serviceImpl.exception.PlayerAlreadyExistsException;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.PlayerService;
+import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,33 +35,36 @@ public class PlayerServiceImpl implements PlayerService {
      */
     private Map<String, Player> loginsPerPlayers;
 
+    PlayerDAOImpl pdi;
+
 
     /**
      * Конструктор класса
-     * */
+     */
     public PlayerServiceImpl() {
         this.allPlayers = new HashSet<>();
         this.allEntries = new HashMap<>();
         this.loginsPerPlayers = new HashMap<>();
+        this.pdi = new PlayerDAOImpl();
     }
 
     /**
      * Возвращает список игроков
-     * */
+     */
     public Set<Player> getAllPlayers() {
         return allPlayers;
     }
 
     /**
      * Возвращает список комбинаций логин-пароль
-     * */
+     */
     public Map<String, String> getAllEntries() {
         return allEntries;
     }
 
     /**
      * Возвращает список соответствия логинов инрокам
-     * */
+     */
     public Map<String, Player> getLoginsPerPlayers() {
         return loginsPerPlayers;
     }
@@ -83,16 +88,20 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player registerPlayer(String firstName, String lastName, String email, String login, String password)
             throws RuntimeException {
-        if (allPlayers.contains(new Player(firstName, lastName, email))) {
+        if (isPlayerExist(new Player(firstName, lastName, email))) {
             throw new PlayerAlreadyExistsException(firstName, lastName, email);
-        } else if (allEntries.containsKey(login)) {
+        } else if (isLoginExist(login)) {
             throw new LoginIsNotUniqueException(login);
         } else {
             Player player = new Player(firstName, lastName, email);
-            Entry entry = new Entry(player, login, email);
-            allPlayers.add(player);
-            allEntries.put(login, password);
-            loginsPerPlayers.put(login, player);
+            player = pdi.savePlayer(player);
+            Entry entry = new Entry(player.getId(), login, password);
+            pdi.saveEntry(entry);
+//
+//
+//            allPlayers.add(player);
+//            allEntries.put(login, password);
+//            loginsPerPlayers.put(login, player);
             return player;
         }
     }
@@ -118,6 +127,22 @@ public class PlayerServiceImpl implements PlayerService {
             return player;
         } else {
             throw new IncorrectPasswordException();
+        }
+    }
+
+    public boolean isPlayerExist(Player player) {
+        if (pdi.getAllPlayers().contains(player)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isLoginExist(String login) {
+        if (pdi.getAllEntries().containsKey(login)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

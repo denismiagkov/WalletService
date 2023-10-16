@@ -2,13 +2,19 @@ import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
+import com.denismiagkov.walletservice.repository.DatabaseConnection;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Это точка входа в программу
@@ -17,14 +23,11 @@ public class Main {
     /**
      * Это класс  main()
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ConfigurationException {
 
+        DatabaseConnection dbConnection = new DatabaseConnection();
         try {
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/wallet_service",
-                    "wallet_service",
-                    "123"
-            );
+            Connection connection = dbConnection.getConnection();
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
                     new JdbcConnection(connection));
             Liquibase liquibase = new Liquibase("db/changelog/changelog.xml",
@@ -48,14 +51,16 @@ public class Main {
 //        String USER_PASSWORD = "123";
 //        Connection connection = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
 //
-//        PreparedStatement prst = connection.prepareStatement("SELECT surname FROM wallet.players WHERE name = ?");
-//        prst.setString(1, "Sveta");
-//        ResultSet rs = prst.executeQuery();
+//        Statement st = connection.createStatement();
+//        ResultSet rs = st.executeQuery("SELECT * FROM wallet.players");
+//        Set<Player> allPlayers = new HashSet<>();
 //        while(rs.next()){
-//            String n = rs.getString("surname");
-//            System.out.println(n);
+//            String name = rs.getString("name");
+//            String surname = rs.getString("surname");
+//            String email = rs.getString("email");
+//            allPlayers.add(new Player(name, surname, email));
 //        }
-
+//        System.out.println(allPlayers);
 
 
 //        Statement st = connection.createStatement();
