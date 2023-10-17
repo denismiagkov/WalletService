@@ -42,6 +42,35 @@ public class Operation {
         return type;
     }
 
+
+    public void setType(OperationType type) {
+        this.type = type;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public OperationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OperationStatus status) {
+        this.status = status;
+    }
+
     /**
      * Метод toString()
      * */
@@ -72,5 +101,8 @@ public class Operation {
     @Override
     public int hashCode() {
         return Objects.hash(type, time, playerId, status);
+    }
+
+    public void setId(int playerId) {
     }
 }

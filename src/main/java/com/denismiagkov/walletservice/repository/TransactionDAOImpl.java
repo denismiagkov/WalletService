@@ -14,11 +14,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     DatabaseConnection dbConnection;
 
     public TransactionDAOImpl() {
-        try {
-            this.dbConnection = new DatabaseConnection();
-        } catch (ConfigurationException e) {
-            System.out.println(e.getMessage());
-        }
+        this.dbConnection = new DatabaseConnection();
     }
 
 

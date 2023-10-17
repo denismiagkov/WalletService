@@ -14,11 +14,7 @@ public class PlayerDAOImpl implements PlayerDAO {
     DatabaseConnection dbConnection;
 
     public PlayerDAOImpl() {
-        try {
-            this.dbConnection = new DatabaseConnection();
-        } catch (ConfigurationException e) {
-            System.out.println(e.getMessage());
-        }
+        this.dbConnection = new DatabaseConnection();
     }
 
     @Override

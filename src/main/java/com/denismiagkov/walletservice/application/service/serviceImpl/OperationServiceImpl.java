@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.OperationService;
+import com.denismiagkov.walletservice.repository.OperationDAOImpl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,6 +19,10 @@ import java.util.List;
  */
 public class OperationServiceImpl implements OperationService {
 
+    OperationDAOImpl odi;
+
+
+
     /**
      * Перечень всех отслеживаемых действий, совершенных игроками
      */
@@ -27,7 +32,7 @@ public class OperationServiceImpl implements OperationService {
      * Конструктор класса
      * */
     public OperationServiceImpl() {
-        this.log = new ArrayList<>();
+        this.odi = new OperationDAOImpl();
     }
 
     /**
@@ -48,7 +53,8 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void putOnLog(int playerId, OperationType type, Timestamp time, OperationStatus status) {
         Operation operation = new Operation(type, time, playerId, status);
-        log.add(operation);
+
+        odi.saveOperation(operation);
     }
 
     /**
@@ -57,7 +63,8 @@ public class OperationServiceImpl implements OperationService {
      * @return журнал действий игроков в системе
      */
     @Override
-    public List<Operation> viewLog() {
-        return getLog();
+    public List<String> viewLog() {
+
+        return odi.getLog();
     }
 }

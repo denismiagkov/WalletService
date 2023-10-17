@@ -3,15 +3,14 @@ package com.denismiagkov.walletservice;
 import java.io.*;
 import java.util.Properties;
 
-public class WalletProperties {
-
+public class PropertyFile {
     File file;
 
-    public WalletProperties() {
+    public PropertyFile() {
         this.file = new File("src/main/resources/config.properties");
     }
 
-    public String getPropertyFromFile(String parameter) {
+    public String getProperties(String parameter) {
         Properties property = new Properties();
         try (FileInputStream fis = new FileInputStream(file)) {
             property.load(fis);
@@ -23,10 +22,5 @@ public class WalletProperties {
             throw new RuntimeException(e);
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        WalletProperties properties = new WalletProperties();
-        System.out.println(properties.getPropertyFromFile("URL"));
     }
 }

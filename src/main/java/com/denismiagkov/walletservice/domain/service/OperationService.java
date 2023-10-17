@@ -24,6 +24,6 @@ public interface OperationService {
     /**
      * Метод должен реализоватб просмотр журнала действий
      * */
-    List<Operation> viewLog();
+    List<String> viewLog();
 
 }

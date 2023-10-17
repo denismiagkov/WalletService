@@ -71,10 +71,7 @@
     <changeSet id="008-create-sequence" author="denismiagkov">
         <createSequence sequenceName="transactions_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="009-create-sequence" author="denismiagkov">
-        <sql>CREATE TYPE transaction_type AS ENUM ('DEBIT', 'CREDIT')</sql>
-    </changeSet>
-    <changeSet id="010-create-table" author="denismiagkov">
+    <changeSet id="009-create-table" author="denismiagkov">
         <createTable schemaName="wallet" tableName="transactions">
             <column name="id" type="BIGINT" defaultValueSequenceNext="transactions_id_seq">
                 <constraints primaryKey="true"/>
@@ -86,10 +83,35 @@
                 <constraints nullable="false"/>
             </column>
             <column name="amount" type="NUMERIC">
+                <constraints nullable="false"/>
             </column>
             <column name="account" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="FK_transactions_account"
                              referencedColumnNames="id" referencedTableName="accounts"
+                             referencedTableSchemaName="wallet"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="010-create-sequence" author="denismiagkov">
+        <createSequence sequenceName="operations_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="011-create-table" author="denismiagkov">
+        <createTable schemaName="wallet" tableName="operations">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="operations_id_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="operation_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="perform_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operation_status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_operations_player_id"
+                             referencedColumnNames="id" referencedTableName="players"
                              referencedTableSchemaName="wallet"/>
             </column>
         </createTable>

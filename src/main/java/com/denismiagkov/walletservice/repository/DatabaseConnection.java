@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.repository;
 
-import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
+import com.denismiagkov.walletservice.PropertyFile;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.sql.Connection;
@@ -9,21 +8,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    String URL = "jdbc:postgresql://localhost:5431/wallet_service";
-    String USER_NAME = "wallet_service";
-    String USER_PASSWORD = "123";
+    PropertyFile propertyFile;
 
-//    Configurations configs = new Configurations();
-//    Configuration config = configs.properties("config.properties");
-//
-//    String URL = config.getString("URL");
-//    String USER_NAME = config.getString("USER_NAME");
-//    String USER_PASSWORD = config.getString("USER_PASSWORD");
-
-    public DatabaseConnection() throws ConfigurationException {
+    public DatabaseConnection()  {
+        this.propertyFile = new PropertyFile();
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+        String url = propertyFile.getProperties("URL");
+        String user_name = propertyFile.getProperties("USER_NAME");
+        String user_password = propertyFile.getProperties("USER_PASSWORD");
+        return DriverManager.getConnection(url, user_name, user_password);
     }
 }

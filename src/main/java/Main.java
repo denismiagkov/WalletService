@@ -2,11 +2,13 @@ import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
+import com.denismiagkov.walletservice.liquibase.LiquibaseApp;
 import com.denismiagkov.walletservice.repository.DatabaseConnection;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
@@ -21,9 +23,7 @@ public class Main {
      * Это класс  main()
      */
     public static void main(String[] args) throws SQLException, ConfigurationException {
-
-        Properties properties = new Properties();
-
+//
         DatabaseConnection dbConnection = new DatabaseConnection();
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration;";
 
@@ -42,6 +42,11 @@ public class Main {
             e.printStackTrace();
         }
 
+        Service service = new Service();
+        Controller controller = new Controller(service);
+        Console console = new Console(controller);
+        console.start();
+
 
 //        DatabaseConnection dbConnection = new DatabaseConnection();
 //        try {
@@ -56,13 +61,18 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-        /**
-         * Инициализируем необходимые службы и запускаем приложение
-         * */
-        Service service = new Service();
-        Controller controller = new Controller(service);
-        Console console = new Console(controller);
-        console.start();
+//        /**
+//         * Инициализируем необходимые службы и запускаем приложение
+//         * */
+//        LiquibaseApp liquibaseApp = new LiquibaseApp();
+//        try (Liquibase liquibase = liquibaseApp.initLiquibase()) {
+//            liquibase.update();
+//
+//
+//        } catch (LiquibaseException e) {
+//            throw new RuntimeException(e);
+//        }
+
 
 //        String URL = "jdbc:postgresql://localhost:5432/wallet_service";
 //        String USER_NAME = "wallet_service";
