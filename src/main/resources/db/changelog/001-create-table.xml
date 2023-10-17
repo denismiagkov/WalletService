@@ -5,15 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
 
     <changeSet id="001-create-schema" author="denismiagkov">
-        <sql>CREATE SCHEMA migration</sql>
-    </changeSet>
-    <changeSet id="002-create-schema" author="denismiagkov">
         <sql>CREATE SCHEMA wallet</sql>
     </changeSet>
-    <changeSet id="003-create-sequence" author="denismiagkov">
+    <changeSet id="002-create-sequence" author="denismiagkov">
         <createSequence sequenceName="players_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="004-create-table" author="denismiagkov">
+    <changeSet id="003-create-table" author="denismiagkov">
         <createTable schemaName="wallet" tableName="players">
             <column name="id" type="BIGINT" defaultValueSequenceNext="players_id_seq">
                 <constraints primaryKey="true"/>
@@ -29,10 +26,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="005-create-sequence" author="denismiagkov">
+    <changeSet id="004-create-sequence" author="denismiagkov">
         <createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="006-create-table" author="denismiagkov">
+    <changeSet id="005-create-table" author="denismiagkov">
         <createTable schemaName="wallet" tableName="accounts">
             <column name="id" type="BIGINT" defaultValueSequenceNext="accounts_id_seq">
                 <constraints primaryKey="true"/>
@@ -50,10 +47,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="007-create-sequence" author="denismiagkov">
+    <changeSet id="006-create-sequence" author="denismiagkov">
         <createSequence sequenceName="entries_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="008-create-table" author="denismiagkov">
+    <changeSet id="007-create-table" author="denismiagkov">
         <createTable schemaName="wallet" tableName="entries">
             <column name="id" type="BIGINT" defaultValueSequenceNext="entries_id_seq">
                 <constraints primaryKey="true"/>
@@ -71,13 +68,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="009-create-sequence" author="denismiagkov">
+    <changeSet id="008-create-sequence" author="denismiagkov">
         <createSequence sequenceName="transactions_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="010-create-sequence" author="denismiagkov">
+    <changeSet id="009-create-sequence" author="denismiagkov">
         <sql>CREATE TYPE transaction_type AS ENUM ('DEBIT', 'CREDIT')</sql>
     </changeSet>
-    <changeSet id="011-create-table" author="denismiagkov">
+    <changeSet id="010-create-table" author="denismiagkov">
         <createTable schemaName="wallet" tableName="transactions">
             <column name="id" type="BIGINT" defaultValueSequenceNext="transactions_id_seq">
                 <constraints primaryKey="true"/>

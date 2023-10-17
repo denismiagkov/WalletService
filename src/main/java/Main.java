@@ -26,17 +26,36 @@ public class Main {
     public static void main(String[] args) throws SQLException, ConfigurationException {
 
         DatabaseConnection dbConnection = new DatabaseConnection();
-        try {
-            Connection connection = dbConnection.getConnection();
+        String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration;";
+
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(queryCreateMigrationSchema)) {
+            statement.executeUpdate();
+
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
                     new JdbcConnection(connection));
+            database.setLiquibaseSchemaName("migration");
             Liquibase liquibase = new Liquibase("db/changelog/changelog.xml",
                     new ClassLoaderResourceAccessor(), database);
-            liquibase.update();
+              liquibase.update();
             System.out.println("Миграции успешно выполнены!");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+//        DatabaseConnection dbConnection = new DatabaseConnection();
+//        try {
+//            Connection connection = dbConnection.getConnection();
+//            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
+//                    new JdbcConnection(connection));
+//            Liquibase liquibase = new Liquibase("db/changelog/changelog.xml",
+//                    new ClassLoaderResourceAccessor(), database);
+//         //   liquibase.update();
+//            System.out.println("Миграции успешно выполнены!");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         /**
          * Инициализируем необходимые службы и запускаем приложение
