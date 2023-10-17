@@ -40,14 +40,14 @@ public class OperationServiceImpl implements OperationService {
     /**
      * Метод записывает в журнал атрибуты действия, совершенного игроком.
      *
-     * @param player игрок, совершивший действие
+     * @param playerId идентификатор игрока, совершившего действие
      * @param type   вид совершенного действия (из перечня {@link OperationType}
      * @param time   время совершения действия
      * @param status успех/неуспех совершенного действия
      */
     @Override
-    public void putOnLog(Player player, OperationType type, Timestamp time, OperationStatus status) {
-        Operation operation = new Operation(type, time, player, status);
+    public void putOnLog(int playerId, OperationType type, Timestamp time, OperationStatus status) {
+        Operation operation = new Operation(type, time, playerId, status);
         log.add(operation);
     }
 

@@ -25,5 +25,5 @@ public interface PlayerService {
      * @param password идентифицирующий признак игрока (пароль)
      * @return игрок, пытающийся войти в систему или совершить в ней определенное действие
      */
-    Player authorizePlayer(String login, String password);
+    int authorizePlayer(String login, String password);
 }

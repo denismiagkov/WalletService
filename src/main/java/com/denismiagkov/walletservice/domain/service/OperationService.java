@@ -14,12 +14,12 @@ public interface OperationService {
     /**
      * Метод должен реализовывать занесение записи о действиях игрока в журнал аудита
      *
-     * @param player игрок, совершивший действие
+     * @param playerId идентификатор игрока, совершившего действие
      * @param type тип действия
      * @param time время совершаения действия
      * @param status  статус действия
      * */
-    void putOnLog(Player player, OperationType type, Timestamp time, OperationStatus status);
+    void putOnLog(int playerId, OperationType type, Timestamp time, OperationStatus status);
 
     /**
      * Метод должен реализоватб просмотр журнала действий

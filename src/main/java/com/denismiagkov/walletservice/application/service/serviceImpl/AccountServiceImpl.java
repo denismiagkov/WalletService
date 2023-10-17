@@ -1,6 +1,7 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
 import com.denismiagkov.walletservice.application.service.Service;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
@@ -61,30 +62,40 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account(getAccountNumber());
         player.setAccount(account);
         adi.saveAccount(player);
-        //accountsInventory.add(account.getNumber());
     }
 
     /**
      * Метод возвращает текущий баланс денежного счета игрока
      *
-     * @param player игрок, о состоянии баланса счета которого запрашивается информация
+     * @param playerId идентификатор игрока, о состоянии баланса счета которого запрашивается информация
      * @return текущий баланс денежного счета игрока
      */
     @Override
-    public BigDecimal getCurrentBalance(Player player) {
-        return player.getAccount().getBalance();
+    public BigDecimal getCurrentBalance(int playerId) {
+        return adi.getCurrentBalance(playerId);
     }
 
     /**
      * Метод сообщает историю дебетовых и кредитных операций по денежному счету игрока
      *
-     * @param player игрок, об истории транзакций которого запрашивается информация
+     * @param playerId идентификатор игрока, об истории транзакций которого запрашивается информация
      * @return список дебетовых и кредитных операций по счету игрока
      */
     @Override
-    public List<Transaction> showTransactionsHistory(Player player) {
-        return player.getAccount().getTransactionInventory();
+    public List<String> getTransactionHistory(int playerId) {
+        return adi.getTransactionHistory(playerId);
     }
 
+    public void increaseBalance(int playerId, BigDecimal amount){
+        adi.increaseBalance(playerId, amount);
+    }
+
+    public void decreaseBalance(int playerId, BigDecimal amount){
+        adi.decreaseBalance(playerId, amount);
+    }
+
+    public boolean areFundsEnough(int playerId, BigDecimal amount) throws NotEnoughFundsOnAccountException{
+        return adi.areFundsEnough(playerId, amount);
+    }
 
 }

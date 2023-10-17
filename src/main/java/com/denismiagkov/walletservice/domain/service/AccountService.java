@@ -19,10 +19,10 @@ public interface AccountService {
     /**
      * * Метод должен реализовывать просмотр текущего баланса
      */
-    BigDecimal getCurrentBalance(Player player);
+    BigDecimal getCurrentBalance(int playerId);
 
     /**
      * Метод должен реализовывать просмотр истории транзакций
      */
-    List<Transaction> showTransactionsHistory(Player player);
+    List<String> getTransactionHistory(int playerId);
 }

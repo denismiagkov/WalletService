@@ -208,13 +208,11 @@ public class Console implements View {
      */
     public void callTopUpAccount(String login, String password) {
         try {
-            System.out.println("Введите уникальный идентификатор длиной до 6 символов");
-            String uniqueId = reader.readLine();
             System.out.println("Введите сумму пополнения: ");
             String input = reader.readLine();
             if (check(input, Integer.MAX_VALUE)) {
                 BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
-                boolean success = controller.topUpAccount(login, password, uniqueId, amount);
+                boolean success = controller.topUpAccount(login, password, amount);
                 if (success) {
                     System.out.println("Ваш счет пополнен на сумму: " + amount + " денежных единиц\n");
                 }
@@ -233,13 +231,12 @@ public class Console implements View {
      */
     public void callWriteOffFunds(String login, String password) {
         try {
-            System.out.println("Введите уникальный идентификатор длиной до 6 символов");
-            String uniqueId = reader.readLine();
+
             System.out.println("Введите сумму списания: ");
             String input = reader.readLine();
             if (check(input, Integer.MAX_VALUE)) {
                 BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
-                boolean success = controller.writeOffFunds(login, password, uniqueId, amount);
+                boolean success = controller.writeOffFunds(login, password, amount);
                 if (success) {
                     System.out.println("С вашего счета списано: " + amount + " денежных единиц\n");
                 }

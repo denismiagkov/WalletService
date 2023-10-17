@@ -76,7 +76,7 @@ public class Controller {
      * @param password идентифицирующий признак игрока (пароль)
      */
     public String getTransactionsHistory(String login, String password) {
-        return service.getTransactionsHistory(login, password).toString();
+        return service.getTransactionHistory(login, password).toString();
     }
 
     /**
@@ -84,12 +84,11 @@ public class Controller {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @param uniqueId идентификатор транзакции, предоставляемый пользователем
      * @param amount   сумма выполняемой операции
      */
-    public boolean topUpAccount(String login, String password, String uniqueId, BigDecimal amount) {
+    public boolean topUpAccount(String login, String password, BigDecimal amount) {
         try {
-            service.topUpAccount(login, password, uniqueId, amount);
+            service.topUpAccount(login, password, amount);
             return true;
         } catch (RuntimeException e) {
             return false;
@@ -101,12 +100,11 @@ public class Controller {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @param uniqueId идентификатор транзакции, предоставляемый пользователем
      * @param amount   сумма выполняемой операции
      */
-    public boolean writeOffFunds(String login, String password, String uniqueId, BigDecimal amount) {
+    public boolean writeOffFunds(String login, String password, BigDecimal amount) {
         try {
-            service.writeOffFunds(login, password, uniqueId, amount);
+            service.writeOffFunds(login, password, amount);
             return true;
         } catch (RuntimeException e) {
             return false;

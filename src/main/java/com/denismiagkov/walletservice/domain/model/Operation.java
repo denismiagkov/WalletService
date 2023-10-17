@@ -19,7 +19,7 @@ public class Operation {
     /**
      * Игрок, выполнивший действие
      * */
-    private Player player;
+    private int playerId;
     /***
      * Статус успеха действия {@link OperationStatus}
      * */
@@ -28,10 +28,10 @@ public class Operation {
     /**
      * Конструктор класса
      * */
-    public Operation(OperationType type, Timestamp time, Player player, OperationStatus status) {
+    public Operation(OperationType type, Timestamp time, int playerId, OperationStatus status) {
         this.type = type;
         this.time = time;
-        this.player = player;
+        this.playerId = playerId;
         this.status = status;
     }
 
@@ -50,7 +50,7 @@ public class Operation {
         return "Operation{" +
                 "type='" + type + '\'' +
                 ", time=" + time +
-                ", player='" + player + " " + //player.getLastName() + '\'' +
+                ", player='" + playerId + " " + //player.getLastName() + '\'' +
                 ", status=" + status +
                 '}' + "\n";
     }
@@ -63,7 +63,7 @@ public class Operation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Operation operation = (Operation) o;
-        return type == operation.type && Objects.equals(time, operation.time) && Objects.equals(player, operation.player) && status == operation.status;
+        return type == operation.type && Objects.equals(time, operation.time) && Objects.equals(playerId, operation.playerId) && status == operation.status;
     }
 
     /**
@@ -71,6 +71,6 @@ public class Operation {
      * */
     @Override
     public int hashCode() {
-        return Objects.hash(type, time, player, status);
+        return Objects.hash(type, time, playerId, status);
     }
 }

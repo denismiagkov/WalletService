@@ -10,6 +10,7 @@ import com.denismiagkov.walletservice.domain.service.PlayerService;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,19 +23,6 @@ import java.util.Set;
  */
 public class PlayerServiceImpl implements PlayerService {
 
-    /**
-     * Перечень всех игроков
-     */
-    public Set<Player> allPlayers;
-    /**
-     * Перечень всех комбинаций логин-пароль, необходимых для аутентификации игроков {@link Entry}
-     */
-    private Map<String, String> allEntries;
-    /**
-     * Перечень, устанавливающий соответствие уникальных идентификаторов (логинов) игрокам.
-     */
-    private Map<String, Player> loginsPerPlayers;
-
     PlayerDAOImpl pdi;
 
 
@@ -42,33 +30,8 @@ public class PlayerServiceImpl implements PlayerService {
      * Конструктор класса
      */
     public PlayerServiceImpl() {
-        this.allPlayers = new HashSet<>();
-        this.allEntries = new HashMap<>();
-        this.loginsPerPlayers = new HashMap<>();
         this.pdi = new PlayerDAOImpl();
     }
-
-    /**
-     * Возвращает список игроков
-     */
-    public Set<Player> getAllPlayers() {
-        return allPlayers;
-    }
-
-    /**
-     * Возвращает список комбинаций логин-пароль
-     */
-    public Map<String, String> getAllEntries() {
-        return allEntries;
-    }
-
-    /**
-     * Возвращает список соответствия логинов инрокам
-     */
-    public Map<String, Player> getLoginsPerPlayers() {
-        return loginsPerPlayers;
-    }
-
 
     /**
      * Метод создает игрока, уникальную комбинацию идентификатора (логина) и пароля, необходимую для проведения
@@ -110,8 +73,7 @@ public class PlayerServiceImpl implements PlayerService {
      * Метод выполняет аутентификацию игрока путем сопоставления идентификатора (логина)
      * и идентифицирующего признака (пароля) для решения вопроса о доступе пользователя в систему
      * {@link Service#authorizePlayer(String, String)}.
-     * Также применяется высокоуровневым сервисом для установления личности игрока при совершении им
-     * определенных действий в системе {@link Service#getPlayer(String, String)}.
+     * *
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
@@ -119,18 +81,23 @@ public class PlayerServiceImpl implements PlayerService {
      * @throws IncorrectLoginException    в случае, если пользователем введен логин, не зарегистрированный в системе
      * @throws IncorrectPasswordException в случае, если пользователем введен неверный пароль
      */
-    public Player authorizePlayer(String login, String password) throws RuntimeException {
-        if (!allEntries.containsKey(login)) {
+    public int authorizePlayer(String login, String password) throws RuntimeException {
+        if (!isLoginExist(login)) {
             throw new IncorrectLoginException(login);
-        } else if (allEntries.get(login).equals(password)) {
-            Player player = loginsPerPlayers.get(login);
-            return player;
+        } else if (isPasswordCorrect(login, password)) {
+            int playerId = pdi.getPlayerId(login, password);
+            return playerId;
         } else {
             throw new IncorrectPasswordException();
         }
     }
 
-    public boolean isPlayerExist(Player player) {
+
+    public int getPlayerId(String login, String password) {
+        return pdi.getPlayerId(login, password);
+    }
+
+    private boolean isPlayerExist(Player player) {
         if (pdi.getAllPlayers().contains(player)) {
             return true;
         } else {
@@ -138,8 +105,16 @@ public class PlayerServiceImpl implements PlayerService {
         }
     }
 
-    public boolean isLoginExist(String login) {
+    private boolean isLoginExist(String login) {
         if (pdi.getAllEntries().containsKey(login)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isPasswordCorrect(String login, String password) {
+        if (pdi.getAllEntries().get(login).equals(password)) {
             return true;
         } else {
             return false;

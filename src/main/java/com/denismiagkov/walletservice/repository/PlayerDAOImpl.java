@@ -1,6 +1,8 @@
 package com.denismiagkov.walletservice.repository;
 
+import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
 import com.denismiagkov.walletservice.domain.model.Player;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
@@ -28,7 +30,7 @@ public class PlayerDAOImpl implements PlayerDAO {
             prStatement.setString(2, player.getLastName());
             prStatement.setString(3, player.getEmail());
             prStatement.executeUpdate();
-            player.setId(setPlayerId(player));
+            player.setId(getPlayerId(player));
             System.out.println(player.getId());
             return player;
         } catch (SQLException e) {
@@ -71,7 +73,8 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
     }
 
-    @Override
+
+        @Override
     public Map<String, String> getAllEntries() {
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -88,7 +91,7 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
     }
 
-    public int setPlayerId(Player player) {
+    public int getPlayerId(Player player) {
         String getPlayerId = "SELECT id FROM wallet.players WHERE name = ? AND surname = ? and email = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
@@ -98,6 +101,24 @@ public class PlayerDAOImpl implements PlayerDAO {
             ResultSet rs = prStatement.executeQuery();
             while (rs.next()) {
                 int playerId = rs.getInt("id");
+                return playerId;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage() + e.getLocalizedMessage());
+            System.out.println(3);
+        }
+        return -1;
+    }
+
+    public int getPlayerId(String login, String password) {
+        String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ? AND password = ?";
+        try (Connection connection = dbConnection.getConnection()) {
+            PreparedStatement prStatement = connection.prepareStatement(queryPlayerId);
+            prStatement.setString(1, login);
+            prStatement.setString(2, password);
+            ResultSet rs = prStatement.executeQuery();
+            while (rs.next()) {
+                int playerId = rs.getInt("player_id");
                 return playerId;
             }
         } catch (SQLException e) {

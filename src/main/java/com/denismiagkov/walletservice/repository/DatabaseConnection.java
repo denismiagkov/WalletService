@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    String URL = "jdbc:postgresql://localhost:5432/wallet_service";
+    String URL = "jdbc:postgresql://localhost:5431/wallet_service";
     String USER_NAME = "wallet_service";
     String USER_PASSWORD = "123";
 

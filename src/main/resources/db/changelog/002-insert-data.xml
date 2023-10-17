@@ -45,7 +45,39 @@
             <column name="player_id" value="2"/>
         </insert>
     </changeSet>
-    <!--    <changeSet id="testChangeSet" author="test">-->
-    <!--        <sql>SELECT '${testParam}'</sql>-->
-    <!--    </changeSet>-->
+    <changeSet id="007-insert-data" author="denismiagkov">
+        <insert schemaName="wallet" tableName="transactions">
+            <column name="commit_time" value="'2023-10-16 12:17:42'"/>
+            <column name="item_type" value="CREDIT"/>
+            <column name="amount" value="750"/>
+            <column name="account" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="008-insert-data" author="denismiagkov">
+        <insert schemaName="wallet" tableName="transactions">
+            <column name="commit_time" value="'2023-10-16 12:19:22'"/>
+            <column name="item_type" value="DEBIT"/>
+            <column name="amount" value="500"/>
+            <column name="account" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="009-insert-data" author="denismiagkov">
+        <insert schemaName="wallet" tableName="transactions">
+            <column name="commit_time" value="'2023-10-16 12:24:12'"/>
+            <column name="item_type" value="CREDIT"/>
+            <column name="amount" value="250"/>
+            <column name="account" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="010-insert-data" author="denismiagkov">
+        <insert schemaName="wallet" tableName="transactions">
+            <column name="commit_time" value="'2023-10-16 12:25:12'"/>
+            <column name="item_type" value="CREDIT"/>
+            <column name="amount" value="370"/>
+            <column name="account" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet id="testChangeSet" author="test">
+        <sql>SELECT '${testParam}'</sql>
+    </changeSet>
 </databaseChangeLog>

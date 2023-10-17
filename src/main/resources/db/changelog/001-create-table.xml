@@ -45,7 +45,8 @@
             </column>
             <column name="player_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="FK_accounts_player_id"
-                referencedColumnNames="id" referencedTableName="players" referencedTableSchemaName="wallet"/>
+                             referencedColumnNames="id" referencedTableName="players"
+                             referencedTableSchemaName="wallet"/>
             </column>
         </createTable>
     </changeSet>
@@ -65,7 +66,34 @@
             </column>
             <column name="player_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="FK_entries_player_id"
-                             referencedColumnNames="id" referencedTableName="players" referencedTableSchemaName="wallet"/>
+                             referencedColumnNames="id" referencedTableName="players"
+                             referencedTableSchemaName="wallet"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="009-create-sequence" author="denismiagkov">
+        <createSequence sequenceName="transactions_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="010-create-sequence" author="denismiagkov">
+        <sql>CREATE TYPE transaction_type AS ENUM ('DEBIT', 'CREDIT')</sql>
+    </changeSet>
+    <changeSet id="011-create-table" author="denismiagkov">
+        <createTable schemaName="wallet" tableName="transactions">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="transactions_id_seq">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="commit_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_type" type="transaction_type">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="NUMERIC">
+            </column>
+            <column name="account" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_transactions_account"
+                             referencedColumnNames="id" referencedTableName="accounts"
+                             referencedTableSchemaName="wallet"/>
             </column>
         </createTable>
     </changeSet>

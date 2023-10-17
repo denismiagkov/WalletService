@@ -10,6 +10,10 @@ import java.util.Objects;
  * */
 public class Account {
     /**
+     * Уникальный идентификатор счета
+     * */
+    int id;
+    /**
      * Номер счета
      * */
     String number;
@@ -19,14 +23,21 @@ public class Account {
     BigDecimal balance;
 
     /**
-     * Список совершенных транзакций по счету игрока
+     * Идентификатор игрока - владельца счета
      * */
-    List<Transaction> transactionInventory;
+    int playerId;
 
     public Account(String number) {
         this.number = number;
         this.balance = new BigDecimal(0);
-        this.transactionInventory = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -49,13 +60,6 @@ public class Account {
      * */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
-    }
-
-    /**
-     * Метод возвращает список транзакций по счету
-     * */
-    public List<Transaction> getTransactionInventory() {
-        return transactionInventory;
     }
 
     /**

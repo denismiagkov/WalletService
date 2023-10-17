@@ -12,11 +12,11 @@ public class Transaction {
     /**
      * Уникальный идентификатор транзакции
      */
-    String id;
+    int id;
     /**
      * Номер счета, на котором выполняется транзакция
      */
-    String accountNumber;
+    int accountId;
     /**
      * Дата и время выполнения транзакции
      */
@@ -36,29 +36,53 @@ public class Transaction {
     /**
      * Конструктор класса
      */
-    public Transaction(String id, Account account, Timestamp time, TransactionType type,
+    public Transaction(int accountId, Timestamp time, TransactionType type,
                        BigDecimal amount) {
-        this.id = id;
-        this.accountNumber = account.getNumber();
+        this.accountId = accountId;
         this.time = time;
         this.type = type;
         this.amount = amount;
     }
 
-    /**
-     * Мнтод возвращает номер счета
-     */
-    public String getAccount() {
-        return accountNumber;
+    public int getId() {
+        return id;
     }
 
-    /**
-     * Метод устанавливает номер счета
-     */
-    public void setAccount(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
     /**
      * Метод toString()
      */
@@ -66,7 +90,7 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "id='" + id + '\'' + "\n" +
-                ", accountNumber=" + accountNumber + "\n" +
+                ", accountNumber=" + accountId + "\n" +
                 ", time=" + time + "\n" +
                 ", type=" + type + "\n" +
                 ", amount=" + amount +

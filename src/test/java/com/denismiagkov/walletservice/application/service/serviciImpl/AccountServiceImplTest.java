@@ -37,7 +37,7 @@ class AccountServiceImplTest {
     void getCurrentBalance() {
         Player player = new Player("Ivan", "Petrov", "123@mail.ru");
         asi.createAccount(player);
-        assertEquals("0", String.valueOf(asi.getCurrentBalance(player)));
+        assertEquals("0", String.valueOf(asi.getCurrentBalance(player.getId())));
     }
 
     @Test

@@ -11,10 +11,10 @@ public interface TransactionService {
     /**
      * Метод должен реализовывать пополнеие счета
      */
-    void topUpAccount(String uniqueId, Account account, BigDecimal amount);
+    void topUpAccount(int playerId, BigDecimal amount);
 
     /**
      * Метод должен реализовывать списание денежных средств
      */
-    void writeOffFunds(String uniqueId, Account account, BigDecimal amount);
+    void writeOffFunds(int playerId, BigDecimal amount);
 }

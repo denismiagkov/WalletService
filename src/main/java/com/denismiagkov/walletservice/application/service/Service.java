@@ -5,8 +5,11 @@ import com.denismiagkov.walletservice.application.service.serviceImpl.OperationS
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.domain.model.*;
+import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -86,13 +89,13 @@ public class Service {
      * @param password  идентифицирующий признак игрока (пароль)
      * @see PlayerServiceImpl#registerPlayer(String, String, String, String, String)
      * @see AccountServiceImpl#createAccount(Player)
-     * @see OperationServiceImpl#putOnLog(Player, OperationType, Timestamp, OperationStatus)
+     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
     public void registerPlayer(String firstName, String lastName, String email, String login, String password)
             throws RuntimeException {
         Player player = psi.registerPlayer(firstName, lastName, email, login, password);
         asi.createAccount(player);
-        osi.putOnLog(player, OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
+        osi.putOnLog(player.getId(), OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
     }
 
@@ -104,36 +107,27 @@ public class Service {
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
      * @see PlayerServiceImpl#authorizePlayer(String, String)
-     * @see OperationServiceImpl#putOnLog(Player, OperationType, Timestamp, OperationStatus)
+     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
+
+
+
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
-        Player player = null;
+        int playerId = -1;
         try {
-            player = psi.authorizePlayer(login, password);
-            if (player != null) {
-                osi.putOnLog(player, OperationType.AUTHORIZATION, new Timestamp(System.currentTimeMillis()),
-                        OperationStatus.SUCCESS);
+            playerId = psi.authorizePlayer(login, password);
+            if (playerId > 0) {
+                osi.putOnLog(psi.getPlayerId(login, password), OperationType.AUTHORIZATION,
+                        new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
                 return true;
             } else {
                 return false;
             }
         } catch (RuntimeException e) {
-            osi.putOnLog(player, OperationType.AUTHORIZATION, new Timestamp(System.currentTimeMillis()),
-                    OperationStatus.FAIL);
+            osi.putOnLog(psi.getPlayerId(login, password), OperationType.AUTHORIZATION,
+                    new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
         }
         return false;
-    }
-
-    /**
-     * Посредством вызова метода нижнеуровневого сервиса Метод возвращает игрока по введенным логину и паролю.
-     * Результат метода используется при вызове других методов сервиса для установления личности игрока.
-     *
-     * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
-     * @see PlayerServiceImpl#authorizePlayer(String, String)
-     */
-    public Player getPlayer(String login, String password) throws RuntimeException {
-        return psi.authorizePlayer(login, password);
     }
 
     /**
@@ -142,19 +136,19 @@ public class Service {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @see Service#getPlayer(String, String)
-     * @see AccountServiceImpl#getCurrentBalance(Player)
-     * @see OperationServiceImpl#putOnLog(Player, OperationType, Timestamp, OperationStatus)
+     * @see PlayerServiceImpl#getPlayerId(String, String)
+     * @see AccountServiceImpl#getCurrentBalance(int)
+     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
     public BigDecimal getCurrentBalance(String login, String password) {
-        Player player = getPlayer(login, password);
+        int playerId = psi.getPlayerId(login, password);
         try {
-            BigDecimal balance = asi.getCurrentBalance(player);
-            osi.putOnLog(player, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
+            BigDecimal balance = asi.getCurrentBalance(playerId);
+            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
                     OperationStatus.SUCCESS);
             return balance;
         } catch (Exception e) {
-            osi.putOnLog(player, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
+            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
                     OperationStatus.FAIL);
             return null;
         }
@@ -166,19 +160,19 @@ public class Service {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @see Service#getPlayer(String, String)
-     * @see AccountServiceImpl#showTransactionsHistory(Player)
-     * @see OperationServiceImpl#putOnLog(Player, OperationType, Timestamp, OperationStatus)
+     * @see PlayerServiceImpl#getPlayerId(String, String)
+     * @see AccountServiceImpl#getTransactionHistory(int)
+     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public List<Transaction> getTransactionsHistory(String login, String password) {
-        Player player = getPlayer(login, password);
+    public List<String> getTransactionHistory(String login, String password) {
+        int playerId = psi.getPlayerId(login, password);
         try {
-            List<Transaction> transactionsHistory = asi.showTransactionsHistory(player);
-            osi.putOnLog(player, OperationType.TRANSACTION_HISTORY_LOOKUP,
+            List<String> transactionsHistory = asi.getTransactionHistory(playerId);
+            osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
             return transactionsHistory;
         } catch (Exception e) {
-            osi.putOnLog(player, OperationType.TRANSACTION_HISTORY_LOOKUP,
+            osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
             return null;
         }
@@ -191,18 +185,18 @@ public class Service {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @param uniqueId идентификатор транзакции, предоставляемый пользователем
      * @param amount   сумма выполняемой операции
      */
-    public void topUpAccount(String login, String password, String uniqueId, BigDecimal amount)
+    public void topUpAccount(String login, String password, BigDecimal amount)
             throws RuntimeException {
-        Player player = getPlayer(login, password);
+        int playerId = psi.getPlayerId(login, password);
         try {
-            tsi.topUpAccount(uniqueId, player.getAccount(), amount);
-            osi.putOnLog(player, OperationType.CREDITING,
+            tsi.topUpAccount(playerId, amount);
+            asi.increaseBalance(playerId, amount);
+            osi.putOnLog(playerId, OperationType.CREDITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
         } catch (Exception e) {
-            osi.putOnLog(player, OperationType.CREDITING,
+            osi.putOnLog(playerId, OperationType.CREDITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
             throw e;
         }
@@ -216,21 +210,23 @@ public class Service {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @param uniqueId идентификатор транзакции, предоставляемый пользователем
      * @param amount   сумма выполняемой операции
-     * @see Service#getPlayer(String, String)
-     * @see TransactionServiceImpl#writeOffFunds(String, Account, BigDecimal)
-     * @see OperationServiceImpl#putOnLog(Player, OperationType, Timestamp, OperationStatus)
+     * @see PlayerServiceImpl#getPlayerId(String, String)
+     * @see TransactionServiceImpl#writeOffFunds(int, BigDecimal)
+     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public void writeOffFunds(String login, String password, String uniqueId, BigDecimal amount)
+    public void writeOffFunds(String login, String password, BigDecimal amount)
             throws RuntimeException {
-        Player player = getPlayer(login, password);
+        int playerId = psi.getPlayerId(login, password);
         try {
-            tsi.writeOffFunds(uniqueId, player.getAccount(), amount);
-            osi.putOnLog(player, OperationType.DEBITING,
-                    new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
+            if (asi.areFundsEnough(playerId, amount)) {
+                tsi.writeOffFunds(playerId, amount);
+                asi.decreaseBalance(playerId, amount);
+                osi.putOnLog(playerId, OperationType.DEBITING,
+                        new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
+            }
         } catch (Exception e) {
-            osi.putOnLog(player, OperationType.DEBITING,
+            osi.putOnLog(playerId, OperationType.DEBITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
             throw e;
         }
@@ -242,11 +238,11 @@ public class Service {
      *
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
-     * @see OperationServiceImpl#putOnLog(Player, OperationType, Timestamp, OperationStatus)
+     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
     public void logExit(String login, String password) {
-        Player player = getPlayer(login, password);
-        osi.putOnLog(player, OperationType.EXIT, new Timestamp(System.currentTimeMillis()),
+        int playerId = psi.getPlayerId(login, password);
+        osi.putOnLog(playerId, OperationType.EXIT, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
         //System.out.println(osi.getLog());
     }
