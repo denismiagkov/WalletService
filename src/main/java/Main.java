@@ -11,10 +11,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Это точка входа в программу
@@ -24,6 +21,8 @@ public class Main {
      * Это класс  main()
      */
     public static void main(String[] args) throws SQLException, ConfigurationException {
+
+        Properties properties = new Properties();
 
         DatabaseConnection dbConnection = new DatabaseConnection();
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration;";
