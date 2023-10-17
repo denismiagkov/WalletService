@@ -29,7 +29,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(insertTransaction)) {
             prStatement.setTimestamp(1, transaction.getTime());
-            prStatement.setObject(2, transaction.getType(), Types.OTHER);
+            prStatement.setString(2, transaction.getType().toString());
             prStatement.setBigDecimal(3, transaction.getAmount());
             prStatement.setInt(4, transaction.getAccountId());
             prStatement.executeUpdate();
@@ -41,19 +41,13 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
-    public static void main(String[] args) throws SQLException, ConfigurationException {
-        TransactionDAO tdi = new TransactionDAOImpl();
-        tdi.saveTransaction(new Transaction(6, new Timestamp(System.currentTimeMillis()), TransactionType.CREDIT, new BigDecimal(430)));
-        //System.out.println(adi.getCurrentBalance(6));
-    }
-
     public int getTransactionId(Transaction transaction) {
         String queryTransactionId = "SELECT id FROM wallet.transactions WHERE commit_time = ? AND item_type = ? " +
                 "AND amount = ? AND account = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(queryTransactionId)) {
             prStatement.setTimestamp(1, transaction.getTime());
-            prStatement.setObject(2, transaction.getType());
+            prStatement.setString(2, transaction.getType().toString());
             prStatement.setBigDecimal(3, transaction.getAmount());
             prStatement.setInt(4, transaction.getAccountId());
             ResultSet rs = prStatement.executeQuery();
@@ -62,23 +56,7 @@ public class TransactionDAOImpl implements TransactionDAO {
                 return transactionId;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage());
-        }
-        return -1;
-    }
-
-    public int getAccountId(int playerId){
-        String queryGetAccountId = "SELECT id FROM wallet.accounts WHERE playerId = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement prStatement = connection.prepareStatement(queryGetAccountId)) {
-            prStatement.setInt(1, playerId);
-            ResultSet rs = prStatement.executeQuery();
-            while (rs.next()) {
-                int accountId = rs.getInt("id");
-                return accountId;
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage());
+            System.out.println(e.getMessage());
         }
         return -1;
     }

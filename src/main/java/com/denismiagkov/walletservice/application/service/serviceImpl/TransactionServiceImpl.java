@@ -35,14 +35,13 @@ public class TransactionServiceImpl implements TransactionService {
      * что вызывающей стороной предоставлен уникальный идентификатор транзакции. В случае успешной операции метод
      * вносит ее идентификатор в перечень уникальных идентификаторов транзакций.
      *
-     * @param playerId идентификатор игрока, на денежном счете которрго выполняется транзакция
+     * @param accountId  идентификатор  счета, на котором выполняется транзакция
      * @param amount   сумма выполняемой операции
      * @throws NotUniqueTransactionIdException в случае, если предоставленный идентификатор транзакции не является
      *                                         уникальным
      */
     @Override
-    public void topUpAccount(int playerId, BigDecimal amount) throws RuntimeException {
-        int accountId = tdi.getAccountId(playerId);
+    public void topUpAccount(int accountId, BigDecimal amount) throws RuntimeException {
         Transaction transaction = new Transaction(accountId, new Timestamp(System.currentTimeMillis()),
                 TransactionType.CREDIT, amount);
         tdi.saveTransaction(transaction);
@@ -53,12 +52,11 @@ public class TransactionServiceImpl implements TransactionService {
      * что на счете достаточно денежных средств и вызывающей стороной предоставлен уникальный идентификатор транзакции.
      * В случае успешной операции метод вносит ее идентификатор в перечень уникальных идентификаторов транзакций.
      *
-     * @param playerId идентификатор игрока, на денежном счете которрго выполняется транзакция
+     * @param accountId  идентификатор счета игрока, на котором выполняется транзакция
      * @param amount   сумма выполняемой операции
      */
     @Override
-    public void writeOffFunds(int playerId, BigDecimal amount) throws RuntimeException {
-        int accountId = tdi.getAccountId(playerId);
+    public void writeOffFunds(int accountId, BigDecimal amount) throws RuntimeException {
         Transaction transaction = new Transaction(accountId,
                 new Timestamp(System.currentTimeMillis()), TransactionType.DEBIT, amount);
         tdi.saveTransaction(transaction);

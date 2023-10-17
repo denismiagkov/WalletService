@@ -85,7 +85,7 @@
             <column name="commit_time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="item_type" type="transaction_type">
+            <column name="item_type" type="VARCHAR(25)">
                 <constraints nullable="false"/>
             </column>
             <column name="amount" type="NUMERIC">

@@ -63,16 +63,16 @@ public class AccountDAOImpl implements AccountDAO {
 
     public List<String> getTransactionHistory(int playerId) {
         String queryTransactionHistory = "SELECT commit_time, item_type, amount FROM wallet.transactions " +
-                "WHERE player_id = ?";
+                "WHERE account = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(queryTransactionHistory)) {
             prStatement.setInt(1, playerId);
             List<String> transactionHistory = new ArrayList<>();
             ResultSet rs = prStatement.executeQuery();
             while (rs.next()) {
-                String transaction = rs.getTimestamp("commit_time") +
-                        ": " + rs.getString("item_type") +
-                        ": " + rs.getFloat("amount");
+                String transaction = "{" + rs.getTimestamp("commit_time") +
+                        " - " + rs.getString("item_type") +
+                        " - " + rs.getFloat("amount") + "}";
                 transactionHistory.add(transaction);
             }
             return transactionHistory;
@@ -112,6 +112,22 @@ public class AccountDAOImpl implements AccountDAO {
         } else {
             return true;
         }
+    }
+
+    public int getAccountId(int playerId){
+        String queryGetAccountId = "SELECT id FROM wallet.accounts WHERE player_id = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(queryGetAccountId)) {
+            prStatement.setInt(1, playerId);
+            ResultSet rs = prStatement.executeQuery();
+            while (rs.next()) {
+                int accountId = rs.getInt("id");
+                return accountId;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
     }
 
 

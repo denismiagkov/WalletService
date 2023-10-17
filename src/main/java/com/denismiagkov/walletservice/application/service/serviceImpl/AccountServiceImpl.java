@@ -98,4 +98,8 @@ public class AccountServiceImpl implements AccountService {
         return adi.areFundsEnough(playerId, amount);
     }
 
+    public int getAccountId(int playerId){
+       return adi.getAccountId(playerId);
+    }
+
 }

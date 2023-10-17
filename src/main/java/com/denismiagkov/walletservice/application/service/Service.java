@@ -191,7 +191,8 @@ public class Service {
             throws RuntimeException {
         int playerId = psi.getPlayerId(login, password);
         try {
-            tsi.topUpAccount(playerId, amount);
+            int accountId = asi.getAccountId(playerId);
+            tsi.topUpAccount(accountId, amount);
             asi.increaseBalance(playerId, amount);
             osi.putOnLog(playerId, OperationType.CREDITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
@@ -220,7 +221,8 @@ public class Service {
         int playerId = psi.getPlayerId(login, password);
         try {
             if (asi.areFundsEnough(playerId, amount)) {
-                tsi.writeOffFunds(playerId, amount);
+                int accountId = asi.getAccountId(playerId);
+                tsi.writeOffFunds(accountId, amount);
                 asi.decreaseBalance(playerId, amount);
                 osi.putOnLog(playerId, OperationType.DEBITING,
                         new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
