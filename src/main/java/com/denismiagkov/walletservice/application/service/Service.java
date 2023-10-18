@@ -5,11 +5,10 @@ import com.denismiagkov.walletservice.application.service.serviceImpl.OperationS
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.domain.model.*;
-import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
-import org.apache.commons.configuration2.ex.ConfigurationException;
+
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -109,9 +108,6 @@ public class Service {
      * @see PlayerServiceImpl#authorizePlayer(String, String)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-
-
-
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
         int playerId = -1;
         try {
@@ -246,7 +242,6 @@ public class Service {
         int playerId = psi.getPlayerId(login, password);
         osi.putOnLog(playerId, OperationType.EXIT, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
-        //System.out.println(osi.getLog());
     }
 }
 

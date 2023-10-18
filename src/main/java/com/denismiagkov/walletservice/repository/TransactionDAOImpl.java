@@ -1,23 +1,34 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.domain.model.Account;
-import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.domain.model.TransactionType;
-import org.apache.commons.configuration2.ex.ConfigurationException;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.repository.interfaces.TransactionDAO;
 
-import java.math.BigDecimal;
 import java.sql.*;
 
+/**
+ * Класс отвечает за доступ к данным о транзакциях, хранящимся в базе данных. Предоставляет методы для создания,
+ * чтения, обновления и удаления данных.
+ */
 public class TransactionDAOImpl implements TransactionDAO {
 
+    /**
+     * Соединение с базой данных
+     */
     DatabaseConnection dbConnection;
 
+    /**
+     * Конструктор класса
+     */
     public TransactionDAOImpl() {
         this.dbConnection = new DatabaseConnection();
     }
 
-
+    /**
+     * Метод сохраняет в базе данных сведения о совершенной игроком транзакции
+     *
+     * @param transaction транзакция, совершенная игроком (пополнение/списание средств со счета)
+     */
     @Override
     public void saveTransaction(Transaction transaction) {
         String insertTransaction = "INSERT INTO wallet.transactions (commit_time, item_type, amount, account) " +
@@ -33,10 +44,14 @@ public class TransactionDAOImpl implements TransactionDAO {
             System.out.println(transaction.getId());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println(1);
         }
     }
 
+    /**
+     * Метод возвращает id опредленной транзакции
+     *
+     * @return int id транзакции
+     */
     public int getTransactionId(Transaction transaction) {
         String queryTransactionId = "SELECT id FROM wallet.transactions WHERE commit_time = ? AND item_type = ? " +
                 "AND amount = ? AND account = ?";
@@ -56,6 +71,5 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
         return -1;
     }
-
 }
 

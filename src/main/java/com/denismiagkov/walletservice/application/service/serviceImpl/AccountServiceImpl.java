@@ -94,8 +94,21 @@ public class AccountServiceImpl implements AccountService {
         adi.decreaseBalance(playerId, amount);
     }
 
-    public boolean areFundsEnough(int playerId, BigDecimal amount) throws NotEnoughFundsOnAccountException{
-        return adi.areFundsEnough(playerId, amount);
+    /**
+     * Метод рассчитывает, достаточно ли денежных средств на счете игрока для их списания.
+     *
+     * @param playerId id игрока
+     * @param amount сумма списания
+     * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
+     * совершения транзакции
+     * @return boolean
+     * */
+    public boolean areFundsEnough(int playerId, BigDecimal amount) {
+        if (getCurrentBalance(playerId).compareTo(amount) < 0) {
+            throw new NotEnoughFundsOnAccountException();
+        } else {
+            return true;
+        }
     }
 
     public int getAccountId(int playerId){

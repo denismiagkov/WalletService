@@ -1,21 +1,36 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import com.denismiagkov.walletservice.domain.model.Operation;
-import com.denismiagkov.walletservice.domain.model.Player;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.repository.interfaces.OperationDAO;
 
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Класс отвечает за доступ к данным о действиях игроков в приложении, хранящимся в базе данных. Предоставляет методы
+ * для создания, чтения, обновления и удаления данных.
+ */
 public class OperationDAOImpl implements OperationDAO {
 
+    /**
+     * Соединение с базой данных
+     */
     DatabaseConnection dbConnection;
 
+    /**
+     * Конструктор класса
+     */
     public OperationDAOImpl() {
         this.dbConnection = new DatabaseConnection();
     }
 
 
+    /**
+     * Метод сохраняет данные о совершенном дейстии игрока в базе данных
+     *
+     * @param operation действие игрока в приложении
+     */
     @Override
     public void saveOperation(Operation operation) {
         String insertOperation = "INSERT INTO wallet.operations (operation_type, perform_time, operation_status," +
@@ -30,10 +45,14 @@ public class OperationDAOImpl implements OperationDAO {
             operation.setId(getOperationId(operation));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println(1);
         }
     }
 
+    /**
+     * Метод вохвращает сведения о действиях, совершенных всеми игроками в приложении
+     *
+     * @return List<String>
+     * */
     @Override
     public List<String> getLog() {
         try (Connection connection = dbConnection.getConnection();
@@ -50,10 +69,17 @@ public class OperationDAOImpl implements OperationDAO {
             }
             return log;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
+    /**
+     * Метод возвращает id определенного действия, совершенного игроком
+     *
+     * @param operation действие, совершенное игроком
+     * @return int id действия
+     * */
     public int getOperationId(Operation operation) {
         String getOperationId = "SELECT id FROM wallet.operations WHERE operation_type = ? AND perform_time = ? " +
                 "AND operation_status = ? AND player_id = ?";
@@ -70,9 +96,7 @@ public class OperationDAOImpl implements OperationDAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println(3);
         }
         return -1;
     }
-
 }

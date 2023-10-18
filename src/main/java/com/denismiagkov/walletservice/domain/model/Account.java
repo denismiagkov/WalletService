@@ -7,42 +7,51 @@ import java.util.Objects;
 
 /**
  * Класс описывает денежный счет игрока
- * */
+ */
 public class Account {
     /**
      * Уникальный идентификатор счета
-     * */
+     */
     int id;
     /**
      * Номер счета
-     * */
+     */
     String number;
     /**
      * Баланс счета
-     * */
+     */
     BigDecimal balance;
 
     /**
      * Идентификатор игрока - владельца счета
-     * */
+     */
     int playerId;
 
+    /**
+     * Конструктор класса
+     * */
     public Account(String number) {
         this.number = number;
         this.balance = new BigDecimal(0);
     }
 
+    /**
+     * Возвращает id счета
+     * */
     public int getId() {
         return id;
     }
 
+    /**
+     * Устанавливает id счета
+     * */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
      * Метод возвращает номер счета
-     * */
+     */
     public String getNumber() {
         return number;
     }
@@ -50,21 +59,21 @@ public class Account {
 
     /**
      * Метод возвращает баланс счета
-     * */
+     */
     public BigDecimal getBalance() {
         return balance;
     }
 
     /**
      * Метод устанавливает баланс счета
-     * */
+     */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
     /**
      * Метод toString()
-     * */
+     */
     @Override
     public String toString() {
         return "Account{" +
@@ -75,7 +84,7 @@ public class Account {
 
     /**
      * Метод equals()
-     * */
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,7 +95,7 @@ public class Account {
 
     /**
      * Метод hashcode()
-     * */
+     */
     @Override
     public int hashCode() {
         return Objects.hash(number);

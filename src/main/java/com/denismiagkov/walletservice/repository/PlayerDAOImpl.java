@@ -1,22 +1,38 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
-import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
 import com.denismiagkov.walletservice.domain.model.Player;
-import org.apache.commons.configuration2.ex.ConfigurationException;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
 
 import java.sql.*;
 import java.util.*;
 
+
+/**
+ * Класс отвечает за доступ к данным об игроках, хранящимся в базе данных. Предоставляет методы для создания,
+ * чтения, обновления и удаления данных.
+ */
 public class PlayerDAOImpl implements PlayerDAO {
 
+    /**
+     * Соединение с базой данных
+     */
     DatabaseConnection dbConnection;
 
+    /**
+     * Конструктор класса
+     */
     public PlayerDAOImpl() {
         this.dbConnection = new DatabaseConnection();
     }
 
+    /**
+     * Метод сохраняет данные об игроке в базе данных
+     *
+     * @param player Игрок
+     * @return player Игрок
+     */
     @Override
     public Player savePlayer(Player player) {
         String insertPlayer = "INSERT INTO wallet.players (name, surname, email) VALUES (?, ?, ?)";
@@ -27,15 +43,19 @@ public class PlayerDAOImpl implements PlayerDAO {
             prStatement.setString(3, player.getEmail());
             prStatement.executeUpdate();
             player.setId(getPlayerId(player));
-            System.out.println(player.getId());
             return player;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println(1);
         }
         return null;
     }
 
+
+    /**
+     * Метод сохраняет данные о логине и пароле игрока в базе данных
+     *
+     * @param entry данные о логине и пароле игрока
+     */
     @Override
     public void saveEntry(Entry entry) {
         String insertEntry = "INSERT INTO wallet.entries (login, password, player_id) VALUES (?, ?, ?)";
@@ -47,10 +67,14 @@ public class PlayerDAOImpl implements PlayerDAO {
             prStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println(2);
         }
     }
 
+    /**
+     * Метод возвращает список всех игроков, зарегистрированных в приложении
+     *
+     * @return Set<Player>
+     */
     @Override
     public Set<Player> getAllPlayers() {
         try (Connection connection = dbConnection.getConnection();
@@ -65,12 +89,17 @@ public class PlayerDAOImpl implements PlayerDAO {
             }
             return allPlayers;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
-
-        @Override
+    /**
+     * Метод возвращает список всех комбинаций логин-пароль, хранящихся в базе данных
+     *
+     * @throws SQLException
+     */
+    @Override
     public Map<String, String> getAllEntries() {
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -83,10 +112,17 @@ public class PlayerDAOImpl implements PlayerDAO {
             }
             return allEntries;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
+    /**
+     * Метод возвращает id заданного игрока
+     *
+     * @param player Игрок
+     * @throws SQLException
+     */
     public int getPlayerId(Player player) {
         String getPlayerId = "SELECT id FROM wallet.players WHERE name = ? AND surname = ? and email = ?";
         try (Connection connection = dbConnection.getConnection();
@@ -100,12 +136,19 @@ public class PlayerDAOImpl implements PlayerDAO {
                 return playerId;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage());
-            System.out.println(3);
+            System.out.println(e.getMessage());
+            return -1;
         }
         return -1;
     }
 
+    /**
+     * Метод возвращает id заданного игрока по его логину и паролю
+     *
+     * @param login    логин игрока
+     * @param password пароль игрока
+     * @throws SQLException
+     */
     public int getPlayerId(String login, String password) {
         String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ? AND password = ?";
         try (Connection connection = dbConnection.getConnection()) {
@@ -118,26 +161,8 @@ public class PlayerDAOImpl implements PlayerDAO {
                 return playerId;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage() + e.getLocalizedMessage());
-            System.out.println(3);
+            System.out.println(e.getMessage());
         }
         return -1;
     }
-
-//    public int setEntryId(Entry entry) {
-//        String getEntryId = "SELECT id FROM wallet.entries WHERE login = ? AND password = ?";
-//        try (Connection connection = dbConnection.getConnection();
-//             PreparedStatement prStatement = connection.prepareStatement(getEntryId)) {
-//            prStatement.setString(1, entry.getLogin());
-//            prStatement.setString(2, entry.getPassword());
-//            ResultSet rs = prStatement.executeQuery();
-//            while (rs.next()) {
-//                int entryId = rs.getInt("id");
-//                return entryId;
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return -1;
-//    }
 }

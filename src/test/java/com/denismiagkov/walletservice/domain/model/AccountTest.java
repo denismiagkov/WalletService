@@ -34,10 +34,6 @@ class AccountTest {
         assertEquals(BigDecimal.valueOf(1500), account.getBalance());
     }
 
-    @Test
-    void getTransactionInventory() {
-        assertEquals(new ArrayList<>(), account.getTransactionInventory());
-    }
 
     @Test
     void testToString() {

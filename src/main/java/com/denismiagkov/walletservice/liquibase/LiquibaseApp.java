@@ -1,13 +1,12 @@
 package com.denismiagkov.walletservice.liquibase;
 
 import com.denismiagkov.walletservice.PropertyFile;
-import com.denismiagkov.walletservice.repository.DatabaseConnection;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,15 +21,17 @@ public class LiquibaseApp {
 
     public Liquibase initLiquibase() {
         DatabaseConnection dbConnection = new DatabaseConnection();
-        String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration";
+        String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(queryCreateMigrationSchema)) {
+            String schemaName = propertyFile.getProperties("LIQUIBASE_SCHEMA_NAME");
+            statement.setString(1, "migration");
             statement.executeUpdate();
 
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
                     new JdbcConnection(connection));
-            database.setLiquibaseSchemaName("migration");
-            String changelogFile = propertyFile.getProperties("src/main/resources/db/changelog/changelog.xml");
+            database.setLiquibaseSchemaName(schemaName);
+            String changelogFile = propertyFile.getProperties("LIQUIBASE_CHANGELOG_FILE");
             Liquibase liquibase = new Liquibase(changelogFile, new ClassLoaderResourceAccessor(), database);
             return liquibase;
         } catch (Exception e) {

@@ -1,19 +1,14 @@
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
-import com.denismiagkov.walletservice.liquibase.LiquibaseApp;
-import com.denismiagkov.walletservice.repository.DatabaseConnection;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.sql.*;
-import java.util.*;
 
 /**
  * Это точка входа в программу
@@ -22,7 +17,7 @@ public class Main {
     /**
      * Это класс  main()
      */
-    public static void main(String[] args) throws SQLException, ConfigurationException {
+    public static void main(String[] args) throws SQLException{
 //
         DatabaseConnection dbConnection = new DatabaseConnection();
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration;";

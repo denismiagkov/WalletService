@@ -18,15 +18,15 @@ class OperationTest {
     Operation operation2;
     Service service;
 
-    @BeforeEach
-    void setUp() {
-        player = new Player("Ivan", "Petrov", "123@mail.ru");
-        operation1 = new Operation(OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
-                player, OperationStatus.SUCCESS);
-        operation2 = new Operation(OperationType.AUTHORIZATION, new Timestamp(System.currentTimeMillis()),
-                player, OperationStatus.SUCCESS);
-        service = new Service();
-    }
+//    @BeforeEach
+//    void setUp() {
+//        player = new Player("Ivan", "Petrov", "123@mail.ru");
+//        operation1 = new Operation(OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
+//                player, OperationStatus.SUCCESS);
+//        operation2 = new Operation(OperationType.AUTHORIZATION, new Timestamp(System.currentTimeMillis()),
+//                player, OperationStatus.SUCCESS);
+//        service = new Service();
+//    }
 
     @Test
     void getType() {

@@ -8,7 +8,6 @@ import com.denismiagkov.walletservice.application.service.serviceImpl.exception.
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.PlayerService;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -120,4 +119,5 @@ public class PlayerServiceImpl implements PlayerService {
             return false;
         }
     }
+
 }

@@ -1,12 +1,8 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.domain.model.Transaction;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.repository.interfaces.AccountDAO;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -16,15 +12,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Класс отвечает за доступ к данным о счетах игроков, хранящимся в базе данных. Предоставляет методы для создания,
+ * чтения, обновления и удаления сведений в базе данных.
+ */
 public class AccountDAOImpl implements AccountDAO {
 
+    /**
+     * Соединение с базой данных
+     */
     DatabaseConnection dbConnection;
 
+    /**
+     * Конструктор класса
+     */
     public AccountDAOImpl() {
         this.dbConnection = new DatabaseConnection();
     }
 
+    /**
+     * Метод сохраняет данные о счете игрока в базе данных
+     *
+     * @param player Игрок
+     * @throws SQLException
+     */
     @Override
     public void saveAccount(Player player) {
         String insertAccount = "INSERT INTO wallet.accounts (number, balance, player_id) VALUES (?, ?, ?)";
@@ -39,6 +50,12 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
+    /**
+     * Метод возвращает сведения о текущем балансе на счете заданного игрока
+     *
+     * @param playerId id игрока
+     * @throws SQLException
+     */
     public BigDecimal getCurrentBalance(int playerId) {
         String queryCurrentBalance = "SELECT balance FROM wallet.accounts WHERE player_id = ?";
         try (Connection connection = dbConnection.getConnection();
@@ -55,8 +72,12 @@ public class AccountDAOImpl implements AccountDAO {
         return new BigDecimal(-1);
     }
 
-
-
+    /**
+     * Метод возвращает сведения о всех транзакциях, совершенных заданным игроком
+     *
+     * @param playerId id игрока
+     * @return List<String>
+     */
     public List<String> getTransactionHistory(int playerId) {
         String queryTransactionHistory = "SELECT commit_time, item_type, amount FROM wallet.transactions " +
                 "WHERE account = ?";
@@ -78,16 +99,38 @@ public class AccountDAOImpl implements AccountDAO {
         return null;
     }
 
+    /**
+     * Метод рассчитывает баланс на счете игрока в случае его пополнения и передает полученное значение в метод
+     * {@link #changeBalance(int, BigDecimal)} для последующей записи в базу данных
+     *
+     * @param playerId id игрока
+     * @param amount   сумма пополнения счета
+     */
     public void increaseBalance(int playerId, BigDecimal amount) {
         BigDecimal balance = getCurrentBalance(playerId).add(amount);
         changeBalance(playerId, balance);
     }
 
+    /**
+     * Метод рассчитывает баланс на счете игрока в случае списания средств и передает полученное значение в метод
+     * {@link #changeBalance(int, BigDecimal)} для последующей записи в базу данных
+     *
+     * @param playerId id игрока
+     * @param amount   сумма пополнения счета
+     */
     public void decreaseBalance(int playerId, BigDecimal amount) {
         BigDecimal balance = getCurrentBalance(playerId).subtract(amount);
         changeBalance(playerId, balance);
     }
 
+    /**
+     * Метод сохраняет в базу данных новое состояние баланса в случае пополнения счета или списания средств со счета
+     * игрока. Принимает значение из методов  {@link #increaseBalance(int, BigDecimal)} и
+     * {@link #decreaseBalance(int, BigDecimal)}
+     *
+     * @param playerId id игрока
+     * @param balance  новое состояния баланса после совершеннной транзакции
+     */
     public void changeBalance(int playerId, BigDecimal balance) {
         String queryIncreaseBalance = "UPDATE wallet.accounts SET balance = ? WHERE player_id = ?";
         try (Connection connection = dbConnection.getConnection();
@@ -100,17 +143,13 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
-    //     * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
-//     *                                          совершения транзакции
-    public boolean areFundsEnough(int playerId, BigDecimal amount) {
-        if (getCurrentBalance(playerId).compareTo(amount) < 0) {
-            throw new NotEnoughFundsOnAccountException();
-        } else {
-            return true;
-        }
-    }
-
-    public int getAccountId(int playerId){
+    /**
+     * Метод возвращает id счета игрока.
+     *
+     * @param playerId id игрока
+     * @return boolean
+     */
+    public int getAccountId(int playerId) {
         String queryGetAccountId = "SELECT id FROM wallet.accounts WHERE player_id = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(queryGetAccountId)) {
@@ -125,6 +164,4 @@ public class AccountDAOImpl implements AccountDAO {
         }
         return -1;
     }
-
-
 }
