@@ -12,32 +12,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 public class LiquibaseApp {
+    DatabaseConnection dbConnection;
 
-    PropertyFile propertyFile;
-
-    public LiquibaseApp() {
-        this.propertyFile = new PropertyFile();
+    public LiquibaseApp(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 
-    public Liquibase initLiquibase() {
-        DatabaseConnection dbConnection = new DatabaseConnection();
-        String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS ?";
-        try (Connection connection = dbConnection.getConnection();
+    public void start() {
+        String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration";
+
+        try (Connection connection = this.dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(queryCreateMigrationSchema)) {
-            String schemaName = propertyFile.getProperties("LIQUIBASE_SCHEMA_NAME");
-            statement.setString(1, "migration");
             statement.executeUpdate();
 
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(
                     new JdbcConnection(connection));
-            database.setLiquibaseSchemaName(schemaName);
-            String changelogFile = propertyFile.getProperties("LIQUIBASE_CHANGELOG_FILE");
-            Liquibase liquibase = new Liquibase(changelogFile, new ClassLoaderResourceAccessor(), database);
-            return liquibase;
+            database.setLiquibaseSchemaName("migration");
+            Liquibase liquibase = new Liquibase("db/changelog/changelog.xml",
+                    new ClassLoaderResourceAccessor(), database);
+            liquibase.update();
+            System.out.println("Миграции успешно выполнены!");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
     }
-
 }
