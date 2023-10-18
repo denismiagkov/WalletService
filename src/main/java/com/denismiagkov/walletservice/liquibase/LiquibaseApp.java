@@ -18,7 +18,7 @@ public class LiquibaseApp {
         this.dbConnection = dbConnection;
     }
 
-    public void start() {
+    public Liquibase start() {
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration";
 
         try (Connection connection = this.dbConnection.getConnection();
@@ -32,8 +32,10 @@ public class LiquibaseApp {
                     new ClassLoaderResourceAccessor(), database);
             liquibase.update();
             System.out.println("Миграции успешно выполнены!");
+            return liquibase;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
