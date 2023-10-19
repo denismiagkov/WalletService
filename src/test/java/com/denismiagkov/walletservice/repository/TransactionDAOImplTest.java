@@ -3,9 +3,8 @@ package com.denismiagkov.walletservice.repository;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
-import com.denismiagkov.walletservice.liquibase.LiquibaseApp;
+import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
-import liquibase.exception.LiquibaseException;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 

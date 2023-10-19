@@ -4,7 +4,7 @@ import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
-import com.denismiagkov.walletservice.liquibase.LiquibaseApp;
+import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;

@@ -3,7 +3,7 @@ package com.denismiagkov.walletservice.repository;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
-import com.denismiagkov.walletservice.liquibase.LiquibaseApp;
+import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
 import liquibase.exception.LiquibaseException;
 import org.junit.jupiter.api.*;
@@ -100,6 +100,7 @@ class AccountDAOImplTest {
     void getTransactionHistory() throws SQLException {
         connection.setAutoCommit(false);
         assertEquals(2, accountDAO.getTransactionHistory(1).size());
+        System.out.println(accountDAO.getTransactionHistory(2));
         connection.rollback();
     }
 
