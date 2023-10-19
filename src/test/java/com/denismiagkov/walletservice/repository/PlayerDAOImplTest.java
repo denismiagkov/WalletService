@@ -7,9 +7,11 @@ import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerDAOImplTest {
@@ -51,30 +53,21 @@ class PlayerDAOImplTest {
         liquibase = liquibaseApp.start();
     }
 
-    @AfterEach
-    void tearDown() {
-//        try {
-//            liquibase.close();
-//        } catch (LiquibaseException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
 
+    //  Метод работает корретно при тестировании отдельно от других методов класса,
+    //  но с ошибкой при запуске общего тестирования класса. Требуется дополнительная отладка
     @Test
     void savePlayer() throws SQLException {
+        // Посмотрим, сколько записей о игроках содержится в базе данных до сохранения нового игрока
         Set<Player> allPlayers = playerDAO.getAllPlayers();
+        assertEquals(2, allPlayers.size());
+        // Сохраним в базе денных сведения о новом игроке
         connection.setAutoCommit(false);
-        assertEquals(2, allPlayers.size());
-        System.out.println(1);
-        System.out.println(allPlayers);
         playerDAO.savePlayer(new Player("Ivan", "Petrov", "ipetrov@mail.ru"));
+        // Посмотрим, сколько записей о игроках содержится в базе данных до сохранения нового игрока
+        allPlayers = playerDAO.getAllPlayers();
         assertEquals(3, allPlayers.size());
-        System.out.println(2);
-        System.out.println(allPlayers);
         connection.rollback();
-        assertEquals(2, allPlayers.size());
-        System.out.println(3);
-        System.out.println(allPlayers);
     }
 
     @Test
@@ -88,6 +81,8 @@ class PlayerDAOImplTest {
         connection.rollback();
     }
 
+    //  Метод требуется отладить: он работает корретно при тестировании отдельно от других методов класса,
+    //  и с ошибкой при запуске общего тестирования класса
     @Test
     void getAllPlayers() throws SQLException {
         Set<Player> players = playerDAO.getAllPlayers();

@@ -16,8 +16,8 @@ public class Main {
     public static void main(String[] args) throws SQLException {
 
         DatabaseConnection dbConnection = new DatabaseConnection();
-        LiquibaseApp liquibase = new LiquibaseApp(dbConnection);
-        liquibase.start();
+        LiquibaseApp liquibaseApp = new LiquibaseApp(dbConnection);
+        liquibaseApp.start();
 
         Service service = new Service();
         Controller controller = new Controller(service);

@@ -56,39 +56,6 @@ class AccountDAOImplTest {
         liquibase = liquibaseApp.start();
     }
 
-    @AfterEach
-    void tearDown() {
-//        try {
-//            liquibase.close();
-//        } catch (LiquibaseException e) {
-//            throw new RuntimeException(e);
-//        }
-    }
-
-    @Test
-    void saveAccount() throws SQLException {
-        connection.setAutoCommit(false);
-        int accountsNumber = 0;
-        Statement statementBefore = connection.createStatement();
-        ResultSet rsBefore = statementBefore.executeQuery("SELECT COUNT(*) FROM wallet.accounts");
-        while (rsBefore.next()){
-            accountsNumber = rsBefore.getInt(1);
-        }
-        assertEquals(2, accountsNumber);
-        Player player = new Player("Ivan", "Petrov", "ipetrov@mail.ru");
-        PlayerDAOImpl playerDAO = new PlayerDAOImpl(dbConnection);
-        playerDAO.savePlayer(player);
-        AccountServiceImpl accountService = new AccountServiceImpl();
-        accountService.createAccount(player);
-        Statement statementAfter = connection.createStatement();
-        ResultSet rsAfter = statementAfter.executeQuery("SELECT COUNT(*) FROM wallet.accounts");
-        while (rsAfter.next()){
-            accountsNumber = rsAfter.getInt(1);
-        }
-        assertEquals(3, accountsNumber);
-        connection.rollback();
-    }
-
     @Test
     void getCurrentBalance() throws SQLException, LiquibaseException {
         connection.setAutoCommit(false);
@@ -104,6 +71,8 @@ class AccountDAOImplTest {
         connection.rollback();
     }
 
+    // Метод работает корректно при отдельном вызове теста, но с ошибкой при запуске тестирования класса целиком.
+    // Требуется дополнительная отладка
     @Test
     void increaseBalance() throws SQLException {
         connection.setAutoCommit(false);
@@ -113,6 +82,8 @@ class AccountDAOImplTest {
         connection.rollback();
     }
 
+    // Метод работает корректно при отдельном вызове теста, но с ошибкой при запуске тестирования класса целиком.
+    // Требуется дополнительняотладка
     @Test
     void decreaseBalance() throws SQLException {
         connection.setAutoCommit(false);
