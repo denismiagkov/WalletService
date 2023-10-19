@@ -22,13 +22,18 @@ class PlayerDAOImplTest {
             postgres.getJdbcUrl(),
             postgres.getUsername(),
             postgres.getPassword());
-    Connection connection = dbConnection.getConnection();
-    Liquibase liquibase;
-    PlayerDAOImpl playerDAO;
+    Connection connection;
 
-    PlayerDAOImplTest() throws SQLException {
+    {
+        try {
+            connection = dbConnection.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    Liquibase liquibase;
+    PlayerDAOImpl playerDAO;
 
     @BeforeAll
     static void beforeAll() {
@@ -58,30 +63,37 @@ class PlayerDAOImplTest {
 
     @Test
     void savePlayer() throws SQLException {
-        connection.setAutoCommit(false);
-        playerDAO.savePlayer(new Player("Ivan", "Petrov", "ipetrov@mail.ru"));
         Set<Player> allPlayers = playerDAO.getAllPlayers();
+        connection.setAutoCommit(false);
+        assertEquals(2, allPlayers.size());
+        System.out.println(1);
+        System.out.println(allPlayers);
+        playerDAO.savePlayer(new Player("Ivan", "Petrov", "ipetrov@mail.ru"));
         assertEquals(3, allPlayers.size());
+        System.out.println(2);
+        System.out.println(allPlayers);
         connection.rollback();
+        assertEquals(2, allPlayers.size());
+        System.out.println(3);
+        System.out.println(allPlayers);
     }
 
     @Test
     void saveEntry() throws SQLException {
         connection.setAutoCommit(false);
+        playerDAO.savePlayer(new Player("Nestor", "Sidorov", "nsidorov@mail.ru"));
         assertEquals(2, playerDAO.getAllEntries().size());
         Entry entry = new Entry(3, "login3", "password3");
         playerDAO.saveEntry(entry);
         assertEquals(3, playerDAO.getAllEntries().size());
-        System.out.println(playerDAO.getAllEntries());
         connection.rollback();
     }
 
     @Test
     void getAllPlayers() throws SQLException {
-        System.out.println(postgres.getJdbcUrl());
-        System.out.println(connection.getMetaData());
         Set<Player> players = playerDAO.getAllPlayers();
-        assertEquals(3, players.size());
+        System.out.println(players);
+        assertEquals(2, players.size());
     }
 
     @Test
@@ -100,12 +112,4 @@ class PlayerDAOImplTest {
         assertEquals(2, playerDAO.getPlayerId(new Player("Matt", "Miagkov", "kid@kidmail.ru")));
     }
 
-//    @Test
-//    void deletePlayer(int id) throws SQLException {
-//        connection.setAutoCommit(false);
-//        assertEquals(3, playerDAO.getAllPlayers().size());
-//        playerDAO.deletePlayer(3);
-//        assertEquals(2, playerDAO.getAllPlayers().size());
-//        connection.rollback();
-//    }
 }

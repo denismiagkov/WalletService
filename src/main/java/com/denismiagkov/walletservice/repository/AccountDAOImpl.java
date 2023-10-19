@@ -31,6 +31,15 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     /**
+     * Конструктор класса с параметром(для тестирования)
+     *
+     * @param dbConnection подключение к базе данных
+     * */
+    public AccountDAOImpl(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
+    /**
      * Метод сохраняет данные о счете игрока в базе данных
      *
      * @param player Игрок

@@ -25,6 +25,14 @@ public class OperationDAOImpl implements OperationDAO {
         this.dbConnection = new DatabaseConnection();
     }
 
+    /**
+     * Конструктор класса с параметром(для тестирования)
+     *
+     * @param dbConnection подключение к базе данных
+     * */
+    public OperationDAOImpl(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
 
     /**
      * Метод сохраняет данные о совершенном дейстии игрока в базе данных

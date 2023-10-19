@@ -18,10 +18,19 @@ public class TransactionDAOImpl implements TransactionDAO {
     DatabaseConnection dbConnection;
 
     /**
-     * Конструктор класса
+     * Базовый конструктор класса
      */
     public TransactionDAOImpl() {
         this.dbConnection = new DatabaseConnection();
+    }
+
+    /**
+     * Конструктор класса с параметром(для тестирования)
+     *
+     * @param dbConnection подключение к базе данных
+     * */
+    public TransactionDAOImpl(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 
     /**
