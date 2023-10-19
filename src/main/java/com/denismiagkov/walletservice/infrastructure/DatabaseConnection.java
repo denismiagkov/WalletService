@@ -34,6 +34,17 @@ public class DatabaseConnection {
         this.PASSWORD = password;
     }
 
+    public String getURL() {
+        return URL;
+    }
+
+    public String getUSERNAME() {
+        return USERNAME;
+    }
+
+    public String getPASSWORD() {
+        return PASSWORD;
+    }
 
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(this.URL, this.USERNAME, this.PASSWORD);

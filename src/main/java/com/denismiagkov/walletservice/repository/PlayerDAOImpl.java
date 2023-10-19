@@ -27,6 +27,10 @@ public class PlayerDAOImpl implements PlayerDAO {
         this.dbConnection = new DatabaseConnection();
     }
 
+    public PlayerDAOImpl(DatabaseConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
+
     /**
      * Метод сохраняет данные об игроке в базе данных
      *
@@ -92,6 +96,12 @@ public class PlayerDAOImpl implements PlayerDAO {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
+       // playerDAO.savePlayer(new Player("den", "ryeman", "tomsk"));
+        System.out.println(playerDAO.getAllPlayers());
     }
 
     /**
@@ -165,4 +175,15 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
         return -1;
     }
+
+//    public void deletePlayer(int id) {
+//        String deletePlayer = "DELETE FROM wallet.players WHERE name =?";
+//        try (Connection connection = dbConnection.getConnection();
+//             PreparedStatement prStatement = connection.prepareStatement(deletePlayer)) {
+//            prStatement.setId(1, id);
+//            prStatement.executeUpdate();
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }
