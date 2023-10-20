@@ -6,3 +6,4 @@
 2. Через проводник перейдите в директорию /resources ;
 3. Откройте терминал из директории /resources ;
 4. В терминале введите команду: sudo docker-compose up .
+5. Подключитесь к базе данных автоматически из IDE c проектом или из tool (DBeaver, PgAdmin) с использованием параметров "URL", "USER_NAME", "USER_PASSWORD" в конфигурационном файле config.properties . 
