@@ -5,12 +5,12 @@
          id="WebApp_ID" version="3.1">
     <display-name>Archetype Created Web Application</display-name>
 
-    <servlet>
-        <servlet-name>AppServlet</servlet-name>
-        <servlet-class>com.denismiagkov.walletservice.infrastructure.servlet.AppServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AppServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
+<!--    <servlet>-->
+<!--        <servlet-name>AppServlet</servlet-name>-->
+<!--        <servlet-class>com.denismiagkov.walletservice.infrastructure.servlet.AppServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AppServlet</servlet-name>-->
+<!--        <url-pattern>/</url-pattern>-->
+<!--    </servlet-mapping>-->
 </web-app>
