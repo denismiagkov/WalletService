@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="wallet-service">
-    <output-path>$PROJECT_DIR$/out/artifacts/wallet_service</output-path>
+  <artifact type="exploded-war" build-on-make="true" name="wallet-service">
+    <output-path>$PROJECT_DIR$/out/artifacts/wallet-service</output-path>
     <root id="root" />
   </artifact>
 </component>
