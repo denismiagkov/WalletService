@@ -27,12 +27,23 @@ public class Account {
      */
     int playerId;
 
+    public Account(int playerId) {
+        this.playerId = playerId;
+    }
+
     /**
      * Конструктор класса
      * */
     public Account(String number) {
         this.number = number;
         this.balance = new BigDecimal(0);
+    }
+
+    public Account(int id, String number, BigDecimal balance, int playerId) {
+        this.id = id;
+        this.number = number;
+        this.balance = balance;
+        this.playerId = playerId;
     }
 
     /**
@@ -69,6 +80,10 @@ public class Account {
      */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     /**

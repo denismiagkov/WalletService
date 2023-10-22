@@ -24,5 +24,5 @@ public interface AccountService {
     /**
      * Метод должен реализовывать просмотр истории транзакций
      */
-    List<String> getTransactionHistory(int playerId);
+    List<Transaction> getTransactionHistory(int playerId);
 }

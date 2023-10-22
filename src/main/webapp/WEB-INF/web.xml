@@ -6,11 +6,17 @@
     <display-name>Archetype Created Web Application</display-name>
 
 <!--    <servlet>-->
-<!--        <servlet-name>AppServlet</servlet-name>-->
-<!--        <servlet-class>com.denismiagkov.walletservice.infrastructure.servlet.AppServlet</servlet-class>-->
+<!--        <servlet-name>dispatcher</servlet-name>-->
+<!--        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+<!--        <init-param>-->
+<!--            <param-name>contextConfigLocation</param-name>-->
+<!--            <param-value>/WEB-INF/applicationContext.xml</param-value>-->
+<!--        </init-param>-->
+<!--        <load-on-startup>1</load-on-startup>-->
 <!--    </servlet>-->
+
 <!--    <servlet-mapping>-->
-<!--        <servlet-name>AppServlet</servlet-name>-->
+<!--        <servlet-name>dispatcher</servlet-name>-->
 <!--        <url-pattern>/</url-pattern>-->
 <!--    </servlet-mapping>-->
 </web-app>

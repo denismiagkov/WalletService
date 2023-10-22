@@ -10,6 +10,7 @@ import com.denismiagkov.walletservice.domain.model.*;
 import java.math.BigDecimal;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -163,10 +164,14 @@ public class Service {
     public List<String> getTransactionHistory(String login, String password) {
         int playerId = psi.getPlayerId(login, password);
         try {
-            List<String> transactionsHistory = asi.getTransactionHistory(playerId);
+            List<Transaction> allTransactions = asi.getTransactionHistory(playerId);
             osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
-            return transactionsHistory;
+            List<String> transactionHistory = new ArrayList<>();
+            for (Transaction transaction : allTransactions){
+                transactionHistory.add(transaction.toString());
+            }
+            return transactionHistory;
         } catch (Exception e) {
             osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);

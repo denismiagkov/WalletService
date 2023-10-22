@@ -1,6 +1,8 @@
 package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Operation;
+import com.denismiagkov.walletservice.domain.model.OperationStatus;
+import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.OperationDAO;
 
@@ -62,17 +64,21 @@ public class OperationDAOImpl implements OperationDAO {
      * @return List<String>
      * */
     @Override
-    public List<String> getLog() {
+    public List<Operation> getLog() {
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery("SELECT * FROM wallet.operations");
-            List<String> log = new ArrayList<>();
+            List<Operation> log = new ArrayList<>();
             while (rs.next()) {
-                String type = rs.getString("operation_type");
-                String time = rs.getString("perform_time");
-                String status = rs.getString("operation_status");
-                String playerId = rs.getString("player_id");
-                String operation = "{" + type + " - " + time + " - " + status + " - " + playerId + "}";
+                int id = rs.getInt("id");
+                String stringType = rs.getString("operation_type");
+                OperationType type = OperationType.valueOf(stringType);
+                Timestamp time = rs.getTimestamp("perform_time");
+                String stringStatus = rs.getString("operation_status");
+                OperationStatus status = OperationStatus.valueOf(stringStatus);
+                int playerId = rs.getInt("player_id");
+                Operation operation = new Operation(type, time, status, playerId);
+                operation.setId(id);
                 log.add(operation);
             }
             return log;

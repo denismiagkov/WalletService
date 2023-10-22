@@ -33,6 +33,9 @@ public class Transaction {
     BigDecimal amount;
 
 
+    public Transaction() {
+    }
+
     /**
      * Конструктор класса
      */
@@ -42,6 +45,11 @@ public class Transaction {
         this.time = time;
         this.type = type;
         this.amount = amount;
+    }
+
+    public Transaction(int id, int accountId, Timestamp time, TransactionType type, BigDecimal amount) {
+        this(accountId, time, type, amount);
+        this.id = id;
     }
 
     public int getId() {
@@ -83,18 +91,20 @@ public class Transaction {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
+
     /**
      * Метод toString()
      */
     @Override
     public String toString() {
         return "Transaction{" +
-                "id='" + id + '\'' + "\n" +
-                ", accountNumber=" + accountId + "\n" +
-                ", time=" + time + "\n" +
-                ", type=" + type + "\n" +
+                "id='" + id +
+                ", accountNumber=" + accountId +
+                ", time=" + time +
+                ", type=" + type +
                 ", amount=" + amount +
-                '}';
+                '}' + "\n";
     }
 
     /**

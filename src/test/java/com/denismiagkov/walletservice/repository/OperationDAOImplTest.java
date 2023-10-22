@@ -71,7 +71,7 @@ class OperationDAOImplTest {
         connection.setAutoCommit(false);
         int size = operationDAO.getLog().size();
         Operation operation = new Operation(OperationType.CREDITING, new Timestamp(System.currentTimeMillis()),
-                2, OperationStatus.SUCCESS);
+                OperationStatus.SUCCESS, 2);
         operationDAO.saveOperation(operation);
         assertEquals(size + 1, operationDAO.getLog().size());
         connection.rollback();
@@ -80,7 +80,7 @@ class OperationDAOImplTest {
     @Test
     void getLog() throws SQLException {
         connection.setAutoCommit(false);
-        List<String> log = new ArrayList<>();
+        List<Operation> log = new ArrayList<>();
         log = operationDAO.getLog();
         assertNotEquals(0, log.size());
         connection.rollback();

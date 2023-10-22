@@ -1,6 +1,7 @@
 package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
@@ -31,7 +32,7 @@ public class PlayerDAOImpl implements PlayerDAO {
      * Конструктор класса с параметром(для тестирования)
      *
      * @param dbConnection подключение к базе данных
-     * */
+     */
     public PlayerDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -101,12 +102,6 @@ public class PlayerDAOImpl implements PlayerDAO {
             System.out.println(e.getMessage());
             return null;
         }
-    }
-
-    public static void main(String[] args) {
-        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
-       // playerDAO.savePlayer(new Player("den", "ryeman", "tomsk"));
-        System.out.println(playerDAO.getAllPlayers());
     }
 
     /**
@@ -179,6 +174,26 @@ public class PlayerDAOImpl implements PlayerDAO {
             System.out.println(e.getMessage());
         }
         return -1;
+    }
+
+    public Player getPlayer(int id) {
+        String getPlayerId = "SELECT * FROM wallet.players WHERE id = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
+            prStatement.setInt(1, id);
+            ResultSet rs = prStatement.executeQuery();
+            while (rs.next()) {
+                int playerId = rs.getInt("id");
+                String firstName = rs.getString("name");
+                String lastName = rs.getString("surname");
+                String email = rs.getString("email");
+                Player player = new Player(playerId, firstName, lastName, email);
+                return player;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 //    public void deletePlayer(int id) {

@@ -1,14 +1,14 @@
 package com.denismiagkov.walletservice.repository;
 
+import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
+import com.denismiagkov.walletservice.domain.model.Transaction;
+import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.AccountDAO;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,18 +87,21 @@ public class AccountDAOImpl implements AccountDAO {
      * @param playerId id игрока
      * @return List<String>
      */
-    public List<String> getTransactionHistory(int playerId) {
-        String queryTransactionHistory = "SELECT commit_time, item_type, amount FROM wallet.transactions " +
+    public List<Transaction> getTransactionHistory(int playerId) {
+        String queryTransactionHistory = "SELECT * FROM wallet.transactions " +
                 "WHERE account = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(queryTransactionHistory)) {
             prStatement.setInt(1, playerId);
-            List<String> transactionHistory = new ArrayList<>();
+            List<Transaction> transactionHistory = new ArrayList<>();
             ResultSet rs = prStatement.executeQuery();
             while (rs.next()) {
-                String transaction = "{" + rs.getTimestamp("commit_time") +
-                        " - " + rs.getString("item_type") +
-                        " - " + rs.getFloat("amount") + "}";
+                int id = rs.getInt("id");
+                int accountId = rs.getInt("account");
+                Timestamp time = rs.getTimestamp("commit_time");
+                TransactionType type = TransactionType.valueOf(rs.getString("item_type"));
+                BigDecimal amount = rs.getBigDecimal("amount");
+                Transaction transaction = new Transaction(id, accountId, time, type, amount);
                 transactionHistory.add(transaction);
             }
             return transactionHistory;
@@ -173,4 +176,28 @@ public class AccountDAOImpl implements AccountDAO {
         }
         return -1;
     }
+
+    public Account getAccount(int playerId) {
+        String queryGetAccountId = "SELECT * FROM wallet.accounts WHERE player_id = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(queryGetAccountId)) {
+            prStatement.setInt(1, playerId);
+            ResultSet rs = prStatement.executeQuery();
+            Account account = new Account(playerId);
+            while (rs.next()) {
+                int accountId = rs.getInt("id");
+                account.setId(accountId);
+                String number = rs.getString("number");
+                account.setNumber(number);
+                BigDecimal balance = rs.getBigDecimal("balance");
+                account.setBalance(balance);
+            }
+            return account;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+
 }

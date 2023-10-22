@@ -82,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
      * @return список дебетовых и кредитных операций по счету игрока
      */
     @Override
-    public List<String> getTransactionHistory(int playerId) {
+    public List<Transaction> getTransactionHistory(int playerId) {
         return adi.getTransactionHistory(playerId);
     }
 
