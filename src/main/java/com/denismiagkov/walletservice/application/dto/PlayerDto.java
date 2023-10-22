@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.dto;
+package com.denismiagkov.walletservice.application.dto;
 
 public class PlayerDto {
     public String name;

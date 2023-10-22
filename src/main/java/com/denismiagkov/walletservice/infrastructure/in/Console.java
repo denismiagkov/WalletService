@@ -199,7 +199,7 @@ public class Console implements View {
      * Метод запрашивает в контроллере баланс счета игрока и выводит результат запроса в терминал
      */
     public void showCurrentBalance(String login, String password) {
-        BigDecimal balance = controller.getCurrentBalance(login, password);
+        BigDecimal balance = controller.getCurrentBalance(login);
         System.out.println("Ваш текущий баланс составляет: " + balance + " денежных единиц");
     }
 

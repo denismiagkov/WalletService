@@ -14,6 +14,7 @@ import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import com.denismiagkov.walletservice.repository.AccountDAOImpl;
 import com.denismiagkov.walletservice.repository.OperationDAOImpl;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
+import io.jsonwebtoken.security.Keys;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,6 +23,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.security.Keys;
 
 /**
  * Это класс Main - вход в программу
@@ -38,8 +43,8 @@ public class Main {
 
         Service service = new Service();
         Controller controller = new Controller(service);
-        Console console = new Console(controller);
-        console.start();
+//        Console console = new Console(controller);
+//        console.start();
 //        PlayerDAOImpl playerService = new PlayerDAOImpl();
 //        Player player = playerService.getPlayer(1);
 //        PlayerMapper mapper = Mappers.getMapper(PlayerMapper.class);
@@ -64,4 +69,17 @@ public class Main {
 
 
     }
+}
+
+class GenerateKeys {
+
+    public static void main(String[] args) {
+        System.out.println(generateKey());
+        System.out.println(generateKey());
+    }
+
+    private static String generateKey() {
+        return Encoders.BASE64.encode(Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded());
+    }
+
 }

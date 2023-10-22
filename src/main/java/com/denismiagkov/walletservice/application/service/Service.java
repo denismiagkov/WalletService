@@ -151,6 +151,21 @@ public class Service {
         }
     }
 
+    public Account getCurrentBalance(String login) {
+        int playerId = psi.getPlayerId(login);
+        try {
+            Account account = asi.getCurrentBalance(playerId);
+            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
+                    OperationStatus.SUCCESS);
+            return balance;
+        } catch (Exception e) {
+            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
+                    OperationStatus.FAIL);
+            return null;
+        }
+    }
+
+
     /**
      * Посредством вызова методов нижнеуровневых сервисов Метод передает игроку историю дебетовых и кредитных операций
      * по его счету с фиксацией статуса события в журнале аудита.
@@ -247,6 +262,10 @@ public class Service {
         int playerId = psi.getPlayerId(login, password);
         osi.putOnLog(playerId, OperationType.EXIT, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
+    }
+
+    public Player getPlayerByLogin(String login){
+        return psi.getPlayerByLogin(login);
     }
 }
 

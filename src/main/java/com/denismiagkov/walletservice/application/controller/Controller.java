@@ -65,8 +65,8 @@ public class Controller {
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
      */
-    public BigDecimal getCurrentBalance(String login, String password) {
-        return service.getCurrentBalance(login, password);
+    public BigDecimal getCurrentBalance(String login) {
+        return service.getCurrentBalance(login);
     }
 
     /**

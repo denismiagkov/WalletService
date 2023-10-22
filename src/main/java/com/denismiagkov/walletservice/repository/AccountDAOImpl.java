@@ -65,21 +65,21 @@ public class AccountDAOImpl implements AccountDAO {
      * @param playerId id игрока
      * @throws SQLException
      */
-    public BigDecimal getCurrentBalance(int playerId) {
-        String queryCurrentBalance = "SELECT balance FROM wallet.accounts WHERE player_id = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement prStatement = connection.prepareStatement(queryCurrentBalance)) {
-            prStatement.setInt(1, playerId);
-            ResultSet rs = prStatement.executeQuery();
-            while (rs.next()) {
-                BigDecimal balance = rs.getBigDecimal("balance");
-                return balance;
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return new BigDecimal(-1);
-    }
+//    public BigDecimal getCurrentBalance(int playerId) {
+//        String queryCurrentBalance = "SELECT balance FROM wallet.accounts WHERE player_id = ?";
+//        try (Connection connection = dbConnection.getConnection();
+//             PreparedStatement prStatement = connection.prepareStatement(queryCurrentBalance)) {
+//            prStatement.setInt(1, playerId);
+//            ResultSet rs = prStatement.executeQuery();
+//            while (rs.next()) {
+//                BigDecimal balance = rs.getBigDecimal("balance");
+//                return balance;
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return new BigDecimal(-1);
+//    }
 
     /**
      * Метод возвращает сведения о всех транзакциях, совершенных заданным игроком
@@ -177,7 +177,7 @@ public class AccountDAOImpl implements AccountDAO {
         return -1;
     }
 
-    public Account getAccount(int playerId) {
+    public Account getCurrentBalance(int playerId) {
         String queryGetAccountId = "SELECT * FROM wallet.accounts WHERE player_id = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(queryGetAccountId)) {

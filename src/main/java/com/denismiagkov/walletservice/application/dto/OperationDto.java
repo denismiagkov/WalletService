@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.dto;
+package com.denismiagkov.walletservice.application.dto;
 
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;

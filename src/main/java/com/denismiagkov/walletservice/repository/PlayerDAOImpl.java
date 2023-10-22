@@ -156,15 +156,13 @@ public class PlayerDAOImpl implements PlayerDAO {
      * Метод возвращает id заданного игрока по его логину и паролю
      *
      * @param login    логин игрока
-     * @param password пароль игрока
      * @throws SQLException
      */
-    public int getPlayerId(String login, String password) {
+    public int getPlayerId(String login) {
         String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ? AND password = ?";
         try (Connection connection = dbConnection.getConnection()) {
             PreparedStatement prStatement = connection.prepareStatement(queryPlayerId);
             prStatement.setString(1, login);
-            prStatement.setString(2, password);
             ResultSet rs = prStatement.executeQuery();
             while (rs.next()) {
                 int playerId = rs.getInt("player_id");
@@ -176,7 +174,7 @@ public class PlayerDAOImpl implements PlayerDAO {
         return -1;
     }
 
-    public Player getPlayer(int id) {
+    public Player getPlayerById(int id) {
         String getPlayerId = "SELECT * FROM wallet.players WHERE id = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
@@ -190,6 +188,23 @@ public class PlayerDAOImpl implements PlayerDAO {
                 Player player = new Player(playerId, firstName, lastName, email);
                 return player;
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Player getPlayerByLogin(String login) {
+        String getPlayerId = "SELECT * FROM wallet.entries WHERE login = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
+            prStatement.setString(1, login);
+            ResultSet rs = prStatement.executeQuery();
+            int playerId = 0;
+            while (rs.next()) {
+                playerId = rs.getInt("id");
+            }
+            Player player = getPlayerById(playerId);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

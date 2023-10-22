@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
      * @return текущий баланс денежного счета игрока
      */
     @Override
-    public BigDecimal getCurrentBalance(int playerId) {
+    public Account getCurrentBalance(int playerId) {
         return adi.getCurrentBalance(playerId);
     }
 

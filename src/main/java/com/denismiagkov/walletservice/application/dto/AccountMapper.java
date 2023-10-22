@@ -1,9 +1,8 @@
-package com.denismiagkov.walletservice.dto;
+package com.denismiagkov.walletservice.application.dto;
 
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

@@ -92,8 +92,8 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
 
-    public int getPlayerId(String login, String password) {
-        return pdi.getPlayerId(login, password);
+    public int getPlayerId(String login) {
+        return pdi.getPlayerId(login);
     }
 
     private boolean isPlayerExist(Player player) {
@@ -118,6 +118,10 @@ public class PlayerServiceImpl implements PlayerService {
         } else {
             return false;
         }
+    }
+
+    public Player getPlayerByLogin(String login){
+        return pdi.getPlayerByLogin(login);
     }
 
 }
