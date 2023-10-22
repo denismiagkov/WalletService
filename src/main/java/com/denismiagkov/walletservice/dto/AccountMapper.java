@@ -10,13 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 @Mapper
-public interface PlayerMapper {
-    PlayerMapper INSTANCE = Mappers.getMapper(PlayerMapper.class);
+public interface AccountMapper {
+    AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
-    @Mapping(source = "firstName", target = "name")
-    @Mapping(source = "lastName", target = "surname")
-    PlayerDto toPlayerDto(Player player);
+    AccountDto toAccountDto(Account account);
 
     Set<PlayerDto> toPlayerDtoList(List<Player> players);
+
 
 }

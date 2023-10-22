@@ -113,4 +113,26 @@ public class OperationDAOImpl implements OperationDAO {
         }
         return -1;
     }
+
+    public Operation getOperation(int operationId) {
+        String getOperation = "SELECT * FROM wallet.operations WHERE id = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(getOperation)) {
+            prStatement.setInt(1, operationId);
+            ResultSet rs = prStatement.executeQuery();
+            while (rs.next()) {
+                OperationType type = OperationType.valueOf(rs.getString("operation_type"));
+                Timestamp time = rs.getTimestamp("perform_time");
+                OperationStatus status = OperationStatus.valueOf(rs.getString("operation_status"));
+                int playerId = rs.getInt("player_id");
+                Operation operation = new Operation(type, time, status, playerId);
+                operation.setId(operationId);
+                return operation;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
 }

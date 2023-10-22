@@ -15,5 +15,5 @@ public interface TransactionMapper {
 
     TransactionDto toTransactionDto(Transaction transaction);
 
-    List<Transaction> toTransactionDtoList(List<Transaction> players);
+    List<Transaction> toTransactionDtoList(List<Transaction> transactions);
 }

@@ -2,15 +2,17 @@ import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
+import com.denismiagkov.walletservice.domain.model.Account;
+import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.dto.PlayerDto;
-import com.denismiagkov.walletservice.dto.PlayerMapper;
-import com.denismiagkov.walletservice.dto.TransactionDto;
-import com.denismiagkov.walletservice.dto.TransactionMapper;
+import com.denismiagkov.walletservice.dto.*;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
+import com.denismiagkov.walletservice.repository.AccountDAOImpl;
+import com.denismiagkov.walletservice.repository.OperationDAOImpl;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -36,13 +38,30 @@ public class Main {
 
         Service service = new Service();
         Controller controller = new Controller(service);
-//        Console console = new Console(controller);
-//        console.start();
-        AccountServiceImpl accountService = new AccountServiceImpl();
-        TransactionMapper mapper = Mappers.getMapper(TransactionMapper.class);
-        List<Transaction> list = accountService.getTransactionHistory(1);
-        List<Transaction> transactionDtoList = mapper.toTransactionDtoList(list);
-        System.out.println(transactionDtoList);
+        Console console = new Console(controller);
+        console.start();
+//        PlayerDAOImpl playerService = new PlayerDAOImpl();
+//        Player player = playerService.getPlayer(1);
+//        PlayerMapper mapper = Mappers.getMapper(PlayerMapper.class);
+//        PlayerDto playerDto = mapper.toPlayerDto(player);
+//        System.out.println(playerDto.getSurname());
+
+//        AccountDAOImpl accountService = new AccountDAOImpl();
+//        Account account = accountService.getAccount(1);
+//        AccountMapper mapper = Mappers.getMapper(AccountMapper.class);
+//        AccountDto accountDto = mapper.toAccountDto(account);
+//        System.out.println(account.getNumber());
+
+//        OperationDAOImpl operationDAO = new OperationDAOImpl();
+//        Operation operation = operationDAO.getOperation(1);
+//        System.out.println(operation);
+//
+//        OperationMapper operationMapper= Mappers.getMapper(OperationMapper.class);
+//        OperationDto operationDto = operationMapper.toOperationDto(operation);
+//        System.out.println(operationDto.getTime());
+//        List<OperationDto> list = operationMapper.toOperationDtoList(operationDAO.getLog());
+//        System.out.println(list.get(1).getType());
+
 
     }
 }
