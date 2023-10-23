@@ -119,7 +119,7 @@ public class AccountDAOImpl implements AccountDAO {
      * @param amount   сумма пополнения счета
      */
     public void increaseBalance(int playerId, BigDecimal amount) {
-        BigDecimal balance = getCurrentBalance(playerId).add(amount);
+        BigDecimal balance = getCurrentBalance(playerId).getBalance().add(amount);
         changeBalance(playerId, balance);
     }
 
@@ -131,7 +131,7 @@ public class AccountDAOImpl implements AccountDAO {
      * @param amount   сумма пополнения счета
      */
     public void decreaseBalance(int playerId, BigDecimal amount) {
-        BigDecimal balance = getCurrentBalance(playerId).subtract(amount);
+        BigDecimal balance = getCurrentBalance(playerId).getBalance().subtract(amount);
         changeBalance(playerId, balance);
     }
 
@@ -192,6 +192,7 @@ public class AccountDAOImpl implements AccountDAO {
                 BigDecimal balance = rs.getBigDecimal("balance");
                 account.setBalance(balance);
             }
+            System.out.println("ACCOUNT: " + account);
             return account;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

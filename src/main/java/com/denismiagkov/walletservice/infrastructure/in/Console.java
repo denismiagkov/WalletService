@@ -1,6 +1,8 @@
 package com.denismiagkov.walletservice.infrastructure.in;
 
 import com.denismiagkov.walletservice.application.controller.Controller;
+import com.denismiagkov.walletservice.application.dto.AccountDto;
+import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.infrastructure.in.menu.MainMenu;
 import com.denismiagkov.walletservice.infrastructure.in.menu.ProfileMenu;
 
@@ -199,8 +201,9 @@ public class Console implements View {
      * Метод запрашивает в контроллере баланс счета игрока и выводит результат запроса в терминал
      */
     public void showCurrentBalance(String login, String password) {
-        BigDecimal balance = controller.getCurrentBalance(login);
-        System.out.println("Ваш текущий баланс составляет: " + balance + " денежных единиц");
+        AccountDto accountDto = controller.getCurrentBalance(login);
+        System.out.println("ACCOUNT DTO: " + accountDto);
+        System.out.println("Ваш текущий баланс составляет: " + accountDto.getBalance() + " денежных единиц");
     }
 
     /**
@@ -252,7 +255,7 @@ public class Console implements View {
      * Метод запрашивает в контроллере историю транзакций и выводит полученный результат в терминал
      */
     public void showTransactionHistory(String login, String password) {
-        String transactionHistory = controller.getTransactionsHistory(login, password);
+        String transactionHistory = controller.getTransactionsHistory(login);
         System.out.println("История транзакций по Вашему счету: " + transactionHistory + "\n");
     }
 }

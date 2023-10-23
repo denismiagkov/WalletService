@@ -1,9 +1,11 @@
 package com.denismiagkov.walletservice.application.controller;
 
+import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
+import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.domain.model.Player;
@@ -63,9 +65,8 @@ public class Controller {
      * Метод передает в сервис запрос о текущем состоянии баланса игрока.
      *
      * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
      */
-    public BigDecimal getCurrentBalance(String login) {
+    public AccountDto getCurrentBalance(String login) {
         return service.getCurrentBalance(login);
     }
 
@@ -73,10 +74,10 @@ public class Controller {
      * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока.
      *
      * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
      */
-    public String getTransactionsHistory(String login, String password) {
-        return service.getTransactionHistory(login, password).toString();
+    public String getTransactionsHistory(String login) {
+        System.out.println("CONTROLLER");
+        return service.getTransactionHistory(login).toString();
     }
 
     /**

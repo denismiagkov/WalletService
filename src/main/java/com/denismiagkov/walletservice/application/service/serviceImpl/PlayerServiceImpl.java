@@ -81,10 +81,11 @@ public class PlayerServiceImpl implements PlayerService {
      * @throws IncorrectPasswordException в случае, если пользователем введен неверный пароль
      */
     public int authorizePlayer(String login, String password) throws RuntimeException {
+        System.out.println("playerServiceImpl");
         if (!isLoginExist(login)) {
             throw new IncorrectLoginException(login);
         } else if (isPasswordCorrect(login, password)) {
-            int playerId = pdi.getPlayerId(login, password);
+            int playerId = pdi.getPlayerId(login);
             return playerId;
         } else {
             throw new IncorrectPasswordException();

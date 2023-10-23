@@ -92,8 +92,10 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "number=" + number +
+                "id=" + id +
+                ", number='" + number + '\'' +
                 ", balance=" + balance +
+                ", playerId=" + playerId +
                 '}';
     }
 

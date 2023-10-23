@@ -19,11 +19,6 @@ import java.util.*;
  */
 public class AccountServiceImpl implements AccountService {
 
-    /**
-     * Перечень денежных счетов игроков
-     */
-    Set<String> accountsInventory;
-
     AccountDAOImpl adi;
 
     /**
@@ -31,7 +26,6 @@ public class AccountServiceImpl implements AccountService {
      * */
     public AccountServiceImpl() {
         this.adi = new AccountDAOImpl();
-        this.accountsInventory = new HashSet<>();
     }
 
 
@@ -45,9 +39,9 @@ public class AccountServiceImpl implements AccountService {
         while (true) {
             Random n = new Random();
             String number = String.valueOf(n.nextInt(899_000_000) + 100_000_000);
-            if (!accountsInventory.contains(number)) {
+            // if (!accountsInventory.contains(number)) {
                 return number;
-            }
+          //  }
         }
     }
 
@@ -64,12 +58,6 @@ public class AccountServiceImpl implements AccountService {
         adi.saveAccount(player);
     }
 
-    /**
-     * Метод возвращает текущий баланс денежного счета игрока
-     *
-     * @param playerId идентификатор игрока, о состоянии баланса счета которого запрашивается информация
-     * @return текущий баланс денежного счета игрока
-     */
     @Override
     public Account getCurrentBalance(int playerId) {
         return adi.getCurrentBalance(playerId);
@@ -104,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
      * @return boolean
      * */
     public boolean areFundsEnough(int playerId, BigDecimal amount) {
-        if (getCurrentBalance(playerId).compareTo(amount) < 0) {
+        if (getCurrentBalance(playerId).getBalance().compareTo(amount) < 0) {
             throw new NotEnoughFundsOnAccountException();
         } else {
             return true;

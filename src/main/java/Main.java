@@ -7,7 +7,7 @@ import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.dto.*;
+import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.infrastructure.in.Console;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
@@ -43,8 +43,8 @@ public class Main {
 
         Service service = new Service();
         Controller controller = new Controller(service);
-//        Console console = new Console(controller);
-//        console.start();
+        Console console = new Console(controller);
+        console.start();
 //        PlayerDAOImpl playerService = new PlayerDAOImpl();
 //        Player player = playerService.getPlayer(1);
 //        PlayerMapper mapper = Mappers.getMapper(PlayerMapper.class);
@@ -70,16 +70,16 @@ public class Main {
 
     }
 }
-
-class GenerateKeys {
-
-    public static void main(String[] args) {
-        System.out.println(generateKey());
-        System.out.println(generateKey());
-    }
-
-    private static String generateKey() {
-        return Encoders.BASE64.encode(Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded());
-    }
-
-}
+//
+//class GenerateKeys {
+//
+//    public static void main(String[] args) {
+//        System.out.println(generateKey());
+//        System.out.println(generateKey());
+//    }
+//
+//    private static String generateKey() {
+//        return Encoders.BASE64.encode(Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded());
+//    }
+//
+//}

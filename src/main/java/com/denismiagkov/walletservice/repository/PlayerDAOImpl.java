@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
+import org.apache.maven.plugin.PluginParameterException;
 
 import java.sql.*;
 import java.util.*;
@@ -159,7 +160,8 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @throws SQLException
      */
     public int getPlayerId(String login) {
-        String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ? AND password = ?";
+        System.out.println("PlayerDAOImpl");
+        String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ?";
         try (Connection connection = dbConnection.getConnection()) {
             PreparedStatement prStatement = connection.prepareStatement(queryPlayerId);
             prStatement.setString(1, login);
@@ -172,6 +174,11 @@ public class PlayerDAOImpl implements PlayerDAO {
             System.out.println(e.getMessage());
         }
         return -1;
+    }
+
+    public static void main(String[] args) {
+        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
+        System.out.println(playerDAO.getPlayerId("login1"));
     }
 
     public Player getPlayerById(int id) {
@@ -204,7 +211,10 @@ public class PlayerDAOImpl implements PlayerDAO {
             while (rs.next()) {
                 playerId = rs.getInt("id");
             }
+            System.out.println("PDI: PlayerId = " + playerId);
             Player player = getPlayerById(playerId);
+            System.out.println("PDI: Player = " + player);
+            return player;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -40,7 +40,7 @@ public class PropertyFile {
             property.load(fis);
             return property.getProperty(parameter);
         } catch (FileNotFoundException e) {
-            System.err.println("ОШИБКА: конфигурационный файл отсуствует!");
+            System.err.println("ОШИБКА: конфигурационный файл отсуствует!-1");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -54,7 +54,7 @@ public class PropertyFile {
             property.setProperty(field, parameter);
             property.store(new BufferedWriter(new FileWriter(file)), parameter);
         } catch (FileNotFoundException e) {
-            System.err.println("ОШИБКА: конфигурационный файл отсуствует!");
+            System.err.println("ОШИБКА: конфигурационный файл отсуствует!-2");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

@@ -98,7 +98,7 @@ class PlayerDAOImplTest {
 
     @Test
     void getPlayerId() {
-        assertEquals(1, playerDAO.getPlayerId("login1", "password1"));
+        assertEquals(1, playerDAO.getPlayerId("login1"));
     }
 
     @Test
