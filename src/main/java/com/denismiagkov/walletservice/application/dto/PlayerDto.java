@@ -41,8 +41,13 @@ public class PlayerDto {
         this.accountNumber = accountNumber;
     }
 
-//    public String toJson(){
-//        return null;
-//    }
-
+    @Override
+    public String toString() {
+        return "PlayerDto{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", accountNumber=" + accountNumber +
+                '}';
+    }
 }

@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.infrastructure.servlet;
+package com.denismiagkov.walletservice.infrastructure.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,4 +21,8 @@ public class AppServlet extends HttpServlet {
         System.out.println(s1s);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
 }

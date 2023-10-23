@@ -160,7 +160,6 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @throws SQLException
      */
     public int getPlayerId(String login) {
-        System.out.println("PlayerDAOImpl");
         String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ?";
         try (Connection connection = dbConnection.getConnection()) {
             PreparedStatement prStatement = connection.prepareStatement(queryPlayerId);
@@ -174,11 +173,6 @@ public class PlayerDAOImpl implements PlayerDAO {
             System.out.println(e.getMessage());
         }
         return -1;
-    }
-
-    public static void main(String[] args) {
-        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
-        System.out.println(playerDAO.getPlayerId("login1"));
     }
 
     public Player getPlayerById(int id) {
@@ -211,9 +205,7 @@ public class PlayerDAOImpl implements PlayerDAO {
             while (rs.next()) {
                 playerId = rs.getInt("id");
             }
-            System.out.println("PDI: PlayerId = " + playerId);
             Player player = getPlayerById(playerId);
-            System.out.println("PDI: Player = " + player);
             return player;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

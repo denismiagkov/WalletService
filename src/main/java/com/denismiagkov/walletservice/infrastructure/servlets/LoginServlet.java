@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.infrastructure.servlet;
+package com.denismiagkov.walletservice.infrastructure.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

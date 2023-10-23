@@ -1,3 +1,4 @@
+import com.denismiagkov.walletservice.application.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
@@ -18,6 +19,7 @@ import io.jsonwebtoken.security.Keys;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.lang.module.Configuration;
 import java.sql.*;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,9 +44,12 @@ public class Main {
         liquibaseApp.start();
 
         Service service = new Service();
+
         Controller controller = new Controller(service);
         Console console = new Console(controller);
         console.start();
+
+
 //        PlayerDAOImpl playerService = new PlayerDAOImpl();
 //        Player player = playerService.getPlayer(1);
 //        PlayerMapper mapper = Mappers.getMapper(PlayerMapper.class);

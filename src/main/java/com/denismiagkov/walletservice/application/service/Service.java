@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.application.service;
 
+import com.denismiagkov.walletservice.application.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.AccountMapper;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
@@ -44,6 +45,8 @@ public class Service {
 
     private AccountMapper accountMapper;
 
+    private LoggingAspect loggingAspect;
+
     /**
      * Конструктор класса
      */
@@ -52,6 +55,7 @@ public class Service {
         this.asi = new AccountServiceImpl();
         this.tsi = new TransactionServiceImpl();
         this.osi = new OperationServiceImpl();
+        this.loggingAspect = new LoggingAspect(osi, psi);
     }
 
     /**
@@ -115,7 +119,7 @@ public class Service {
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
-        System.out.println("service");
+        System.out.println("entered into 1");
         int playerId = -1;
         try {
             playerId = psi.authorizePlayer(login, password);
@@ -158,19 +162,15 @@ public class Service {
 //    }
 
     public AccountDto getCurrentBalance(String login) {
+        System.out.println("entered into 2");
         int playerId = psi.getPlayerId(login);
         try {
             Account account = asi.getCurrentBalance(playerId);
             osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
                     OperationStatus.SUCCESS);
             Player player = psi.getPlayerByLogin(login);
-            System.out.println("Player = " + player);
             accountMapper = Mappers.getMapper(AccountMapper.class);
             AccountDto accountDto = accountMapper.toAccountDto(player, account);
-            System.out.println("******************");
-            System.out.println("ACCOUNT= " + account);
-            System.out.println("ACCOUNTdto= " + accountDto);
-            System.out.println("*****************");
             return accountDto;
         } catch (Exception e) {
             osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
