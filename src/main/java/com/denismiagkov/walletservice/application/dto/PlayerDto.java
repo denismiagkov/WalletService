@@ -4,7 +4,8 @@ public class PlayerDto {
     public String name;
     public String surname;
     public String email;
-    public int accountNumber;
+    public String login;
+    public String password;
 
     public PlayerDto() {
     }
@@ -33,12 +34,20 @@ public class PlayerDto {
         this.email = email;
     }
 
-    public int getAccountNumber() {
-        return accountNumber;
+    public String getLogin() {
+        return login;
     }
 
-    public void setAccountNumber(int accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -47,7 +56,8 @@ public class PlayerDto {
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", accountNumber=" + accountNumber +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

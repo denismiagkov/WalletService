@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
+import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectLoginException;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectPasswordException;
@@ -32,38 +33,33 @@ public class PlayerServiceImpl implements PlayerService {
         this.pdi = new PlayerDAOImpl();
     }
 
-    /**
-     * Метод создает игрока, уникальную комбинацию идентификатора (логина) и пароля, необходимую для проведения
-     * аутентификации игрока при использовании приложения, "привязывает" данную комбинацию к игроку.
-     *
-     * @param firstName имя игрока
-     * @param lastName  фамилия игрока
-     * @param email     электронная почта игрока
-     * @param login     уникальный идентификатор игрока (логин)
-     * @param password  идентифицирующий признак игрока (пароль)
-     * @return новый игрок
-     * @throws PlayerAlreadyExistsException в случае, если у игрока уже имеется учетная запись в системе и он
-     *                                      пытается зарегистрироваться повторно
-     * @throws LoginIsNotUniqueException    в случае, если логин, предложенный пользователем в процессе регистрации,
-     *                                      уже зарегистрирован в системе за другим игроком
-     */
+//    /**
+//     * Метод создает игрока, уникальную комбинацию идентификатора (логина) и пароля, необходимую для проведения
+//     * аутентификации игрока при использовании приложения, "привязывает" данную комбинацию к игроку.
+//     *
+//     * @param firstName имя игрока
+//     * @param lastName  фамилия игрока
+//     * @param email     электронная почта игрока
+//     * @param login     уникальный идентификатор игрока (логин)
+//     * @param password  идентифицирующий признак игрока (пароль)
+//     * @return новый игрок
+//     * @throws PlayerAlreadyExistsException в случае, если у игрока уже имеется учетная запись в системе и он
+//     *                                      пытается зарегистрироваться повторно
+//     * @throws LoginIsNotUniqueException    в случае, если логин, предложенный пользователем в процессе регистрации,
+//     *                                      уже зарегистрирован в системе за другим игроком
+//     */
     @Override
-    public Player registerPlayer(String firstName, String lastName, String email, String login, String password)
+    public Player registerPlayer(PlayerDto playerDto)
             throws RuntimeException {
-        if (isPlayerExist(new Player(firstName, lastName, email))) {
-            throw new PlayerAlreadyExistsException(firstName, lastName, email);
-        } else if (isLoginExist(login)) {
-            throw new LoginIsNotUniqueException(login);
+        if (isPlayerExist(new Player(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail()))) {
+            throw new PlayerAlreadyExistsException(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail());
+        } else if (isLoginExist(playerDto.getLogin())) {
+            throw new LoginIsNotUniqueException(playerDto.getLogin());
         } else {
-            Player player = new Player(firstName, lastName, email);
+            Player player = new Player(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail());
             player = pdi.savePlayer(player);
-            Entry entry = new Entry(player.getId(), login, password);
+            Entry entry = new Entry(player.getId(), playerDto.getLogin(), playerDto.getPassword());
             pdi.saveEntry(entry);
-//
-//
-//            allPlayers.add(player);
-//            allEntries.put(login, password);
-//            loginsPerPlayers.put(login, player);
             return player;
         }
     }

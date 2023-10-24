@@ -2,6 +2,7 @@ package com.denismiagkov.walletservice.infrastructure.in;
 
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
+import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.infrastructure.in.menu.MainMenu;
@@ -162,18 +163,19 @@ public class Console implements View {
      */
     public void getDataToRegisterPlayer() {
         try {
+            PlayerDto playerDto = new PlayerDto();
             String[] input = new String[5];
             System.out.println("Введите имя: ");
-            String firstName = reader.readLine();
+            playerDto.setName(reader.readLine());
             System.out.println("Введите фамилию: ");
-            String lastName = reader.readLine();
+            playerDto.setSurname(reader.readLine());
             System.out.println("Введите адрес электронной почты: ");
-            String email = reader.readLine();
+            playerDto.setEmail(reader.readLine());
             System.out.println("Введите логин: ");
-            String login = reader.readLine();
+            playerDto.setLogin(reader.readLine());
             System.out.println("Введите пароль: ");
-            String password = reader.readLine();
-            boolean isSuccessful = controller.registerPlayer(firstName, lastName, email, login, password);
+            playerDto.setPassword(reader.readLine());
+            boolean isSuccessful = controller.registerPlayer(playerDto);
             if (isSuccessful) {
                 System.out.println("Поздравляю! Вы успешно зарегистрированы!");
             }

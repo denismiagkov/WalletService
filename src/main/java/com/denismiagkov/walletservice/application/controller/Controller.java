@@ -1,6 +1,7 @@
 package com.denismiagkov.walletservice.application.controller;
 
 import com.denismiagkov.walletservice.application.dto.AccountDto;
+import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
@@ -43,10 +44,10 @@ public class Controller {
      * @param password  идентифицирующий признак игрока (пароль)
      * @return статус успеха регистрации
      */
-    public boolean registerPlayer(String firstName, String lastName, String email, String login, String password) {
+    public boolean registerPlayer(PlayerDto playerDto) {
         boolean isSuccessful = false;
         try {
-            service.registerPlayer(firstName, lastName, email, login, password);
+            service.registerPlayer(playerDto);
             isSuccessful = true;
         } catch (RuntimeException e) {
         }

@@ -2,10 +2,7 @@ package com.denismiagkov.walletservice.application.service;
 
 import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
-import com.denismiagkov.walletservice.application.dto.AccountDto;
-import com.denismiagkov.walletservice.application.dto.AccountMapper;
-import com.denismiagkov.walletservice.application.dto.TransactionDto;
-import com.denismiagkov.walletservice.application.dto.TransactionMapper;
+import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
@@ -103,9 +100,9 @@ public class Service {
      * @see AccountServiceImpl#createAccount(Player)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public void registerPlayer(String firstName, String lastName, String email, String login, String password)
+    public void registerPlayer(PlayerDto playerDto)
             throws RuntimeException {
-        Player player = psi.registerPlayer(firstName, lastName, email, login, password);
+        Player player = psi.registerPlayer(playerDto);
         asi.createAccount(player);
         osi.putOnLog(player.getId(), OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
@@ -123,7 +120,6 @@ public class Service {
      */
     @Loggable
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
-        System.out.println("entered into 1");
         int playerId = -1;
         try {
             playerId = psi.authorizePlayer(login, password);
@@ -166,7 +162,6 @@ public class Service {
 //    }
     @Loggable
     public AccountDto getCurrentBalance(String login) {
-        System.out.println("entered into 2");
         int playerId = psi.getPlayerId(login);
         System.out.println("login = " + login + ", playerId = " + playerId);
         try {

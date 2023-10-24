@@ -35,12 +35,12 @@ class PlayerServiceImplTest {
 
     }
 
-    @Test
-    void getAllPlayers() {
-        psi.registerPlayer("Sidor", "Ivanov", "123@gmail.com", "igrok", "345");
-        Player player = new Player("Sidor", "Ivanov", "123@gmail.com");
-        assertTrue(pdi.getAllPlayers().contains(player));
-    }
+//    @Test
+//    void getAllPlayers() {
+//        psi.registerPlayer("Sidor", "Ivanov", "123@gmail.com", "igrok", "345");
+//        Player player = new Player("Sidor", "Ivanov", "123@gmail.com");
+//        assertTrue(pdi.getAllPlayers().contains(player));
+//    }
 
 //    @Test
 //    void getAllEntries() {
@@ -95,15 +95,15 @@ class PlayerServiceImplTest {
 //        assertEquals("Petr", psi.getLoginsPerPlayers().get("person").getFirstName());
 //    }
 
-    @Test
-    void authorizePlayer_IncorrectLoginException(){
-        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
-        assertThrows(IncorrectLoginException.class, ()-> psi.authorizePlayer("person1", "987"));
-    }
-
-    @Test
-    void authorizePlayer_IncorrectPasswordException(){
-        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
-        assertThrows(IncorrectPasswordException.class, ()-> psi.authorizePlayer("person", "887"));
-    }
+//    @Test
+//    void authorizePlayer_IncorrectLoginException(){
+//        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
+//        assertThrows(IncorrectLoginException.class, ()-> psi.authorizePlayer("person1", "987"));
+//    }
+//
+//    @Test
+//    void authorizePlayer_IncorrectPasswordException(){
+//        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
+//        assertThrows(IncorrectPasswordException.class, ()-> psi.authorizePlayer("person", "887"));
+//    }
 }

@@ -30,7 +30,6 @@ public class DatabaseConnection {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("entered into connection");
         return DriverManager.getConnection(this.URL, this.USERNAME, this.PASSWORD);
     }
 }
