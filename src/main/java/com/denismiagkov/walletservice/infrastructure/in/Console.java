@@ -2,6 +2,7 @@ package com.denismiagkov.walletservice.infrastructure.in;
 
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
+import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.infrastructure.in.menu.MainMenu;
 import com.denismiagkov.walletservice.infrastructure.in.menu.ProfileMenu;
@@ -10,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Класс реализует непосредственное взаимодействие приложения с пользователем через терминал,
@@ -255,7 +257,7 @@ public class Console implements View {
      * Метод запрашивает в контроллере историю транзакций и выводит полученный результат в терминал
      */
     public void showTransactionHistory(String login, String password) {
-        String transactionHistory = controller.getTransactionsHistory(login);
+        List<TransactionDto> transactionHistory = controller.getTransactionsHistory(login);
         System.out.println("История транзакций по Вашему счету: " + transactionHistory + "\n");
     }
 }

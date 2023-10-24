@@ -60,6 +60,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getCurrentBalance(int playerId) {
+
+        System.out.println("AcountServiceImple");
         return adi.getCurrentBalance(playerId);
     }
 

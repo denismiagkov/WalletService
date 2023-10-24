@@ -1,8 +1,11 @@
 package com.denismiagkov.walletservice.application.service;
 
-import com.denismiagkov.walletservice.application.aspects.LoggingAspect;
+import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
+import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.AccountMapper;
+import com.denismiagkov.walletservice.application.dto.TransactionDto;
+import com.denismiagkov.walletservice.application.dto.TransactionMapper;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
@@ -45,7 +48,7 @@ public class Service {
 
     private AccountMapper accountMapper;
 
-    private LoggingAspect loggingAspect;
+   // private LoggingAspect loggingAspect;
 
     /**
      * Конструктор класса
@@ -55,7 +58,7 @@ public class Service {
         this.asi = new AccountServiceImpl();
         this.tsi = new TransactionServiceImpl();
         this.osi = new OperationServiceImpl();
-        this.loggingAspect = new LoggingAspect(osi, psi);
+      //  this.loggingAspect = new LoggingAspect(osi, psi);
     }
 
     /**
@@ -118,6 +121,7 @@ public class Service {
      * @see PlayerServiceImpl#authorizePlayer(String, String)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
+    @Loggable
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
         System.out.println("entered into 1");
         int playerId = -1;
@@ -137,15 +141,15 @@ public class Service {
         return false;
     }
 
-    /**
-     * Посредством вызова методов нижнеуровневых сервисов Метод передает игроку текущее состояние баланса на его счете
-     * с фиксацией статуса события в журнале аудита.
-     *
-     * @param playerId    идентификатор игрока (логин)
-     * @see PlayerServiceImpl#getPlayerId(String)
-     * @see AccountServiceImpl#getCurrentBalance(int)
-     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
-     */
+//    /**
+//     * Посредством вызова методов нижнеуровневых сервисов Метод передает игроку текущее состояние баланса на его счете
+//     * с фиксацией статуса события в журнале аудита.
+//     *
+//     * @param playerId    идентификатор игрока (логин)
+//     * @see PlayerServiceImpl#getPlayerId(String)
+//     * @see AccountServiceImpl#getCurrentBalance(int)
+//     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
+//     */
 //    public AccountDto getCurrentBalance(int playerId) {
 //        try {
 //            Account account = asi.getCurrentBalance(playerId);
@@ -160,10 +164,11 @@ public class Service {
 //            return null;
 //        }
 //    }
-
+    @Loggable
     public AccountDto getCurrentBalance(String login) {
         System.out.println("entered into 2");
         int playerId = psi.getPlayerId(login);
+        System.out.println("login = " + login + ", playerId = " + playerId);
         try {
             Account account = asi.getCurrentBalance(playerId);
             osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
@@ -189,17 +194,15 @@ public class Service {
      * @see AccountServiceImpl#getTransactionHistory(int)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public List<String> getTransactionHistory(String login) {
+    public List<TransactionDto> getTransactionHistory(String login) {
         int playerId = psi.getPlayerId(login);
         try {
             List<Transaction> allTransactions = asi.getTransactionHistory(playerId);
             osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
-            List<String> transactionHistory = new ArrayList<>();
-            for (Transaction transaction : allTransactions){
-                transactionHistory.add(transaction.toString());
-            }
-            return transactionHistory;
+            TransactionMapper transactionMapper = Mappers.getMapper(TransactionMapper.class);
+            List<TransactionDto> transactionDtoList = transactionMapper.toTransactionDtoList(allTransactions);
+            return transactionDtoList;
         } catch (Exception e) {
             osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);

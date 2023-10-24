@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.application.aspects;
+package com.denismiagkov.walletservice.application.aop.aspects;
 
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
@@ -12,17 +12,32 @@ import java.sql.Timestamp;
 @Aspect
 public class LoggingAspect {
 
-    OperationServiceImpl operationService;
-    PlayerServiceImpl playerService;
-
-    public LoggingAspect(OperationServiceImpl operationService, PlayerServiceImpl playerService) {
-        this.operationService = operationService;
-        this.playerService = playerService;
+    @Pointcut("within(@com.denismiagkov.walletservice.application.aop.annotations.Loggable *) && execution(* *(..))")
+    public void annotatedByLoggable() {
     }
 
-    public void afterRegistrationPlayer() {
-
+    @Around("annotatedByLoggable()")
+    public Object logging(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        System.out.println("Calling method " + proceedingJoinPoint.getSignature());
+        long startTime = System.currentTimeMillis();
+        Object result = proceedingJoinPoint.proceed();
+        long endTime = System.currentTimeMillis();
+        System.out.println("Execution of method " + proceedingJoinPoint.getSignature() +
+                " finished. Execution time is " + (endTime - startTime) + " ms");
+        return result;
     }
+
+//    OperationServiceImpl operationService;
+//    PlayerServiceImpl playerService;
+//
+//    public LoggingAspect(OperationServiceImpl operationService, PlayerServiceImpl playerService) {
+//        this.operationService = operationService;
+//        this.playerService = playerService;
+//    }
+//
+//    public void afterRegistrationPlayer() {
+//
+//    }
 
     @AfterReturning("execution(public boolean " +
             "com.denismiagkov.walletservice.application.service.Service.authorizePlayer(String, String) " +

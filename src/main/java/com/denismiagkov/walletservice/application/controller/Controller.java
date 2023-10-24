@@ -1,6 +1,7 @@
 package com.denismiagkov.walletservice.application.controller;
 
 import com.denismiagkov.walletservice.application.dto.AccountDto;
+import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
@@ -12,6 +13,7 @@ import com.denismiagkov.walletservice.domain.model.Player;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
@@ -75,9 +77,9 @@ public class Controller {
      *
      * @param login    идентификатор игрока (логин)
      */
-    public String getTransactionsHistory(String login) {
+    public List<TransactionDto> getTransactionsHistory(String login) {
         System.out.println("CONTROLLER");
-        return service.getTransactionHistory(login).toString();
+        return service.getTransactionHistory(login);
     }
 
     /**

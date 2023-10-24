@@ -8,64 +8,30 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    PropertyFile propertyFile;
     private final String URL;
     private final String USERNAME;
     private final String PASSWORD;
 
-    public DatabaseConnection()  {
-        this.propertyFile = new PropertyFile();
-        this.URL = propertyFile.getProperties("URL");
-        this.USERNAME = propertyFile.getProperties("USER_NAME");
-        this.PASSWORD = propertyFile.getProperties("USER_PASSWORD");
+    public DatabaseConnection() {
+        this.URL = PropertyFile.getProperties("URL");
+        this.USERNAME = PropertyFile.getProperties("USER_NAME");
+        this.PASSWORD = PropertyFile.getProperties("USER_PASSWORD");
     }
 
-    public DatabaseConnection(File file)  {
-        this.propertyFile = new PropertyFile(file);
-        this.URL = propertyFile.getProperties("URL");
-        this.USERNAME = propertyFile.getProperties("USER_NAME");
-        this.PASSWORD = propertyFile.getProperties("USER_PASSWORD");
-    }
-
-    public DatabaseConnection(String url, String username, String password)  {
-        this.propertyFile = null;
+    public DatabaseConnection(String url, String username, String password) {
         this.URL = url;
         this.USERNAME = username;
         this.PASSWORD = password;
     }
 
-    public String getURL() {
-        return URL;
-    }
-
-    public String getUSERNAME() {
-        return USERNAME;
-    }
-
-    public String getPASSWORD() {
-        return PASSWORD;
-    }
-
     public Connection getConnection() throws SQLException {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("entered into connection");
         return DriverManager.getConnection(this.URL, this.USERNAME, this.PASSWORD);
     }
 }
 
-//public class DatabaseConnection {
-//    PropertyFile propertyFile;
-//
-//    public DatabaseConnection()  {
-//        this.propertyFile = new PropertyFile();
-//    }
-//    public DatabaseConnection(File file)  {
-//        this.propertyFile = new PropertyFile(file);
-//    }
-//
-//
-//    public Connection getConnection() throws SQLException {
-//        String url = propertyFile.getProperties("URL");
-//        String user_name = propertyFile.getProperties("USER_NAME");
-//        String user_password = propertyFile.getProperties("USER_PASSWORD");
-//        return DriverManager.getConnection(url, user_name, user_password);
-//    }
-//}

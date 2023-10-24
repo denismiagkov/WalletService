@@ -156,24 +156,32 @@ public class PlayerDAOImpl implements PlayerDAO {
     /**
      * Метод возвращает id заданного игрока по его логину и паролю
      *
-     * @param login    логин игрока
+     * @param login логин игрока
      * @throws SQLException
      */
     public int getPlayerId(String login) {
+        int playerId = -1;
         String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ?";
         try (Connection connection = dbConnection.getConnection()) {
             PreparedStatement prStatement = connection.prepareStatement(queryPlayerId);
             prStatement.setString(1, login);
             ResultSet rs = prStatement.executeQuery();
             while (rs.next()) {
-                int playerId = rs.getInt("player_id");
-                return playerId;
+                playerId = rs.getInt("player_id");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("THIS IS ERROR: " + e.getMessage());
         }
-        return -1;
+        return playerId;
     }
+
+    public static void main(String[] args) {
+        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
+        int playerId = playerDAO.getPlayerId("login1");
+        System.out.println(playerId);
+    }
+
+
 
     public Player getPlayerById(int id) {
         String getPlayerId = "SELECT * FROM wallet.players WHERE id = ?";
@@ -194,6 +202,8 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
         return null;
     }
+
+
 
     public Player getPlayerByLogin(String login) {
         String getPlayerId = "SELECT * FROM wallet.entries WHERE login = ?";
