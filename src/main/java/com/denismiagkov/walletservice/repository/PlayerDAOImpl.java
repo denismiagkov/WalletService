@@ -128,6 +128,11 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
     }
 
+    public static void main(String[] args) {
+        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
+        System.out.println(playerDAO.getPlayerId("baba"));
+    }
+
     /**
      * Метод возвращает id заданного игрока
      *
@@ -174,14 +179,6 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
         return playerId;
     }
-
-    public static void main(String[] args) {
-        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
-        int playerId = playerDAO.getPlayerId("login1");
-        System.out.println(playerId);
-    }
-
-
 
     public Player getPlayerById(int id) {
         String getPlayerId = "SELECT * FROM wallet.players WHERE id = ?";

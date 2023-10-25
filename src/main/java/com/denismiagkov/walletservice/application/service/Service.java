@@ -1,7 +1,7 @@
 package com.denismiagkov.walletservice.application.service;
 
 import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
-import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
+//import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;

@@ -11,21 +11,21 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/")
+//@WebServlet("/")
 public class LoginController extends HttpServlet {
-    Person person = new Person("Ivan", "Petrov", 27);
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-         String json = new ObjectMapper().writeValueAsString(person);
-        resp.getWriter().write(json);
-    }
+  //  Person person = new Person("Ivan", "Petrov", 27);
+//
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        super.doGet(req, resp);
+//    }
+//
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//
+//         String json = new ObjectMapper().writeValueAsString(person);
+//        resp.getWriter().write(json);
+//    }
 
     // private final AuthService authService;
 
@@ -51,28 +51,4 @@ public class LoginController extends HttpServlet {
 //        return ResponseEntity.ok(token);
 //    }
 
-}
-
-class Person{
-   public String name;
-    public String surname;
-   public int age;
-
-    public Person(String name, String surname, int age) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
-
-
-}
-
-class Main {
-    public static void main(String[] args) throws JsonProcessingException {
-        Person person = new Person("John", "Doe", 30);
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        String json = objectMapper.writeValueAsString(person);
-        System.out.println(json);
-    }
 }
