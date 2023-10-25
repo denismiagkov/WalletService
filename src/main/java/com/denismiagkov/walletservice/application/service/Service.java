@@ -3,10 +3,7 @@ package com.denismiagkov.walletservice.application.service;
 import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 //import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.dto.*;
-import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.*;
 import com.denismiagkov.walletservice.domain.model.*;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +13,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Класс представляет основную бизнес-логику. Координирует и использует нижележащие сервисы
@@ -269,6 +267,14 @@ public class Service {
 
     public Player getPlayerByLogin(String login){
         return psi.getPlayerByLogin(login);
+    }
+
+    public Map<String, String> getAllEntries(){
+        return psi.getAllEntries();
+    }
+
+    public Entry getEntryByLogin(String login){
+        return psi.getEntryByLogin(login);
     }
 }
 

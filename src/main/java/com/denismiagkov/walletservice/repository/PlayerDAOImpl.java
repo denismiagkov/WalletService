@@ -128,11 +128,6 @@ public class PlayerDAOImpl implements PlayerDAO {
         }
     }
 
-    public static void main(String[] args) {
-        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
-        System.out.println(playerDAO.getPlayerId("baba"));
-    }
-
     /**
      * Метод возвращает id заданного игрока
      *
@@ -201,7 +196,6 @@ public class PlayerDAOImpl implements PlayerDAO {
     }
 
 
-
     public Player getPlayerByLogin(String login) {
         String getPlayerId = "SELECT * FROM wallet.entries WHERE login = ?";
         try (Connection connection = dbConnection.getConnection();
@@ -220,14 +214,23 @@ public class PlayerDAOImpl implements PlayerDAO {
         return null;
     }
 
-//    public void deletePlayer(int id) {
-//        String deletePlayer = "DELETE FROM wallet.players WHERE name =?";
-//        try (Connection connection = dbConnection.getConnection();
-//             PreparedStatement prStatement = connection.prepareStatement(deletePlayer)) {
-//            prStatement.setId(1, id);
-//            prStatement.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+    public Entry getEntryByLogin(String login) {
+        String getEntry = "SELECT * FROM wallet.entries WHERE login = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement prStatement = connection.prepareStatement(getEntry)) {
+            prStatement.setString(1, login);
+            ResultSet rs = prStatement.executeQuery();
+            int playerId = 0;
+            String password = null;
+            while (rs.next()) {
+                playerId = rs.getInt("id");
+                password = rs.getString("password");
+            }
+            Entry entry = new Entry(playerId, login, password);
+            return entry;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

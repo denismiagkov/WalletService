@@ -31,6 +31,11 @@ public class Entry {
         this.password = password;
     }
 
+    public Entry(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
     public int getPlayerId() {
         return playerId;
     }
@@ -57,12 +62,13 @@ public class Entry {
 
     /**
      * Метод toString()
-     * */
+     */
     @Override
     public String toString() {
         return "Entry{" +
-                "player=" + playerId +
+                "playerId=" + playerId +
                 ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 

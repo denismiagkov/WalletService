@@ -1,6 +1,9 @@
 package com.denismiagkov.walletservice.login_service;
 
 import com.denismiagkov.walletservice.PropertyFile;
+import com.denismiagkov.walletservice.application.dto.PlayerDto;
+import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.domain.model.Player;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -16,37 +19,35 @@ public class JwtProvider {
 
     private final SecretKey JWT_ACCESS_SECRET_KEY;
     private final SecretKey JWT_REFRESH_SECRET_KEY;
-    PropertyFile propertyFile;
-
-    public static void main(String[] args) {
-    }
 
     public JwtProvider() {
-        this.propertyFile = new PropertyFile();
-        String valueOfJwtAccessSecretKey = propertyFile.getProperties("JWT_ACCESS_SECRET_KEY");
-        String valueOfJwtRefreshSecretKey = propertyFile.getProperties("JWT_REFRESH_SECRET_KEY");
+        String valueOfJwtAccessSecretKey = PropertyFile.getProperties("JWT_ACCESS_SECRET_KEY");
+        String valueOfJwtRefreshSecretKey = PropertyFile.getProperties("JWT_REFRESH_SECRET_KEY");
         this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(valueOfJwtAccessSecretKey));
         this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(valueOfJwtRefreshSecretKey));
-        ;
     }
 
-    public String generateAccessToken(User user) {
-        final LocalDateTime now = LocalDateTime.now();
-        final Instant accessExpirationInstant = now.plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant();
-        final Date accessExpiration = Date.from(accessExpirationInstant);
+    public SecretKey getJWT_ACCESS_SECRET_KEY() {
+        return JWT_ACCESS_SECRET_KEY;
+    }
+
+    public String generateAccessToken(Entry entry) {
+        LocalDateTime now = LocalDateTime.now();
+        Instant accessExpirationInstant = now.plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant();
+        Date accessExpiration = Date.from(accessExpirationInstant);
         return Jwts.builder()
-                .setSubject(user.getLogin())
+                .setSubject(entry.getLogin())
                 .setExpiration(accessExpiration)
                 .signWith(JWT_ACCESS_SECRET_KEY)
                 .compact();
     }
 
-    public String generateRefreshToken(User user) {
+    public String generateRefreshToken(Entry entry) {
         final LocalDateTime now = LocalDateTime.now();
-        final Instant refreshExpirationInstant = now.plusMinutes(30).atZone(ZoneId.systemDefault()).toInstant();
+        final Instant refreshExpirationInstant = now.plusDays(30).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
         return Jwts.builder()
-                .setSubject(user.getLogin())
+                .setSubject(entry.getLogin())
                 .setExpiration(refreshExpiration)
                 .signWith(JWT_REFRESH_SECRET_KEY)
                 .compact();
@@ -76,8 +77,8 @@ public class JwtProvider {
         } catch (MalformedJwtException mjEx) {
             System.out.println(mjEx.getMessage());
             //  log.error("Malformed jwt", mjEx);
-//        } catch (SignatureException sEx) {
-//            System.out.println(sEx.getMessage());
+        } catch (SignatureException sEx) {
+            System.out.println(sEx.getMessage());
 //         //   log.error("Invalid signature", sEx);
         } catch (Exception e) {
             System.out.println(e.getMessage());

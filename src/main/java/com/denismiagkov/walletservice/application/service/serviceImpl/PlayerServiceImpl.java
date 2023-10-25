@@ -120,4 +120,12 @@ public class PlayerServiceImpl implements PlayerService {
         return pdi.getPlayerByLogin(login);
     }
 
+    public Map<String, String> getAllEntries(){
+        return pdi.getAllEntries();
+    }
+
+    public Entry getEntryByLogin(String login){
+        return pdi.getEntryByLogin(login);
+    }
+
 }
