@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/players")
+@WebServlet("/players/balance")
 public class BalanceViewServlet extends HttpServlet {
     Controller controller;
     ObjectMapper objectMapper;
@@ -25,10 +25,8 @@ public class BalanceViewServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         DatabaseConnection dbConnection = new DatabaseConnection();
-        System.out.println("dbConnection right");
         try {
             Connection connection = dbConnection.getConnection();
-            System.out.println("connection right");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -36,37 +34,23 @@ public class BalanceViewServlet extends HttpServlet {
         objectMapper = new ObjectMapper();
     }
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().write("HEloo!!!");
-        System.out.println(req.getParameter("login"));
+        String login = req.getParameter("login");
+        AccountDto accountDto = controller.getCurrentBalance(login);
+        byte[] responseJson = objectMapper.writeValueAsBytes(accountDto);
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType("application/json");
+        resp.getOutputStream().write(responseJson);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String login = objectMapper.readValue(req.getParameter("login"), String.class);
-//        resp.getWriter().write(login + "xyz");
-//        System.out.println("LOGIN: " + login);
-//        PlayerDto playerDto = objectMapper.readValue(req.getInputStream(), PlayerDto.class);
-//        System.out.println(playerDto==null);
-//        System.out.println(playerDto);
-        EntryDto entryDto = objectMapper.readValue(req.getInputStream(), EntryDto.class);
-        System.out.println(entryDto==null);
-        System.out.println(entryDto);
-
-        String login = entryDto.getLogin();
+        String login = objectMapper.readTree(req.getInputStream()).get("login").asText();
         AccountDto accountDto = controller.getCurrentBalance(login);
-        System.out.println(accountDto==null);
-        String responseJson = objectMapper.writeValueAsString(accountDto);
+        byte[] responseJson = objectMapper.writeValueAsBytes(accountDto);
+        resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
-        resp.getWriter().write(responseJson);
-
-
-//                controller.getCurrentBalance("login1");
-//        System.out.println("DTO: " + accountDto);
-//        String json = new ObjectMapper().writeValueAsString(accountDto);
-//        resp.getWriter().write(json);
+        resp.getOutputStream().write(responseJson);
     }
-
 }

@@ -16,10 +16,23 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/transactions")
+@WebServlet("/players/transactions")
 public class TransactionHistoryServlet extends HttpServlet {
     Controller controller;
     ObjectMapper objectMapper;
+
+    @Override
+    public void init() throws ServletException {
+        DatabaseConnection dbConnection = new DatabaseConnection();
+        try {
+            Connection connection = dbConnection.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        controller = new Controller(new Service());
+        objectMapper = new ObjectMapper();
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
@@ -28,29 +41,15 @@ public class TransactionHistoryServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.getOutputStream().write(this.objectMapper.writeValueAsBytes(
                 (controller.getTransactionsHistory(login))));
-//
-//        List<TransactionDto> transactionDtoList = controller.getTransactionsHistory(login);
-//        String responseJson = objectMapper.writeValueAsString(transactionDtoList);
-//        resp.setContentType("application/json");
-//        resp.getWriter().write(responseJson);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
-
-    @Override
-    public void init() throws ServletException {
-        DatabaseConnection dbConnection = new DatabaseConnection();
-        System.out.println("dbConnection right");
-        try {
-            Connection connection = dbConnection.getConnection();
-            System.out.println("connection right");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        controller = new Controller(new Service());
-        objectMapper = new ObjectMapper();
+        String login = objectMapper.readTree(req.getInputStream()).get("login").asText();
+        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setContentType("application/json");
+        List<TransactionDto> transactionDtoList = controller.getTransactionsHistory(login);
+        byte[] responseJson = this.objectMapper.writeValueAsBytes(transactionDtoList);
+        resp.getOutputStream().write(responseJson);
     }
 }
