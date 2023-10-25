@@ -1,10 +1,7 @@
 package com.denismiagkov.walletservice.login_service;
 
-import com.denismiagkov.walletservice.application.dto.PlayerDto;
-import com.denismiagkov.walletservice.application.dto.PlayerMapper;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
-import com.denismiagkov.walletservice.domain.model.Player;
 import io.jsonwebtoken.Claims;
 
 import java.util.HashMap;

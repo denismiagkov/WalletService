@@ -1,9 +1,7 @@
 package com.denismiagkov.walletservice.login_service;
 
 import com.denismiagkov.walletservice.PropertyFile;
-import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
-import com.denismiagkov.walletservice.domain.model.Player;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
