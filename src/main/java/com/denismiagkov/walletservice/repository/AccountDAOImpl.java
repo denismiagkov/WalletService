@@ -178,7 +178,6 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     public Account getCurrentBalance(int playerId) {
-        System.out.println("AccountDAOImpl");
         String queryGetAccountId = "SELECT * FROM wallet.accounts WHERE player_id = ?";
         System.out.println(playerId);
         try (Connection connection = dbConnection.getConnection();
@@ -194,7 +193,6 @@ public class AccountDAOImpl implements AccountDAO {
                 BigDecimal balance = rs.getBigDecimal("balance");
                 account.setBalance(balance);
             }
-            System.out.println("ACCOUNT: " + account);
             return account;
         } catch (SQLException e) {
             System.out.println(e.getMessage());

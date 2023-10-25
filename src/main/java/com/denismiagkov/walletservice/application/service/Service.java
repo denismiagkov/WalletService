@@ -91,12 +91,7 @@ public class Service {
      * денежный счет и фиксирует операцию в журнале аудита. Метод пробрасывает исключения
      * PlayerAlreadyExistsException, LoginIsNotUniqueException на уровень контроллера.
      *
-     * @param firstName имя игрока
-     * @param lastName  фамилия игрока
-     * @param email     электронная почта игрока
-     * @param login     уникальный идентификатор игрока (логин)
-     * @param password  идентифицирующий признак игрока (пароль)
-     * @see PlayerServiceImpl#registerPlayer(String, String, String, String, String)
+     * @param playerDto ДТО игрока
      * @see AccountServiceImpl#createAccount(Player)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
@@ -163,7 +158,6 @@ public class Service {
     @Loggable
     public AccountDto getCurrentBalance(String login) {
         int playerId = psi.getPlayerId(login);
-        System.out.println("login = " + login + ", playerId = " + playerId);
         try {
             Account account = asi.getCurrentBalance(playerId);
             osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
@@ -211,10 +205,9 @@ public class Service {
      * NotUniqueTransactionIdException на уровень контроллера.
      *
      * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
      * @param amount   сумма выполняемой операции
      */
-    public void topUpAccount(String login, String password, BigDecimal amount)
+    public void topUpAccount(String login, BigDecimal amount)
             throws RuntimeException {
         int playerId = psi.getPlayerId(login);
         try {
@@ -237,13 +230,12 @@ public class Service {
      * на уровень контроллера.
      *
      * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
      * @param amount   сумма выполняемой операции
      * @see PlayerServiceImpl#getPlayerId(String)
      * @see TransactionServiceImpl#writeOffFunds(int, BigDecimal)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public void writeOffFunds(String login, String password, BigDecimal amount)
+    public void writeOffFunds(String login, BigDecimal amount)
             throws RuntimeException {
         int playerId = psi.getPlayerId(login);
         try {

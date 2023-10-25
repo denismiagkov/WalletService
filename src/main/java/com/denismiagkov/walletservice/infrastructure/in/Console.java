@@ -219,7 +219,7 @@ public class Console implements View {
             String input = reader.readLine();
             if (check(input, Integer.MAX_VALUE)) {
                 BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
-                boolean success = controller.topUpAccount(login, password, amount);
+                boolean success = controller.topUpAccount(login, amount);
                 if (success) {
                     System.out.println("Ваш счет пополнен на сумму: " + amount + " денежных единиц\n");
                 }
@@ -243,7 +243,7 @@ public class Console implements View {
             String input = reader.readLine();
             if (check(input, Integer.MAX_VALUE)) {
                 BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
-                boolean success = controller.writeOffFunds(login, password, amount);
+                boolean success = controller.writeOffFunds(login, amount);
                 if (success) {
                     System.out.println("С вашего счета списано: " + amount + " денежных единиц\n");
                 }

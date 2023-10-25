@@ -37,11 +37,7 @@ public class Controller {
      * Метод вызывает в сервисе метод регистрации нового игрока. В зависимости от полученного результата
      * возвращает в консоль булевое значение.
      *
-     * @param firstName имя игрока
-     * @param lastName  фамилия игрока
-     * @param email     электронная почта игрока
-     * @param login     уникальный идентификатор игрока (логин)
-     * @param password  идентифицирующий признак игрока (пароль)
+     * @param playerDto ДТО игрока
      * @return статус успеха регистрации
      */
     public boolean registerPlayer(PlayerDto playerDto) {
@@ -87,12 +83,11 @@ public class Controller {
      * Метод вызывает метод сервиса по пополнению денежного счета игрока.
      *
      * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
      * @param amount   сумма выполняемой операции
      */
-    public boolean topUpAccount(String login, String password, BigDecimal amount) {
+    public boolean topUpAccount(String login, BigDecimal amount) {
         try {
-            service.topUpAccount(login, password, amount);
+            service.topUpAccount(login, amount);
             return true;
         } catch (RuntimeException e) {
             return false;
@@ -103,12 +98,11 @@ public class Controller {
      * Метод вызывает метод сервиса по списанию денежных средств со счета игрока.
      *
      * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
      * @param amount   сумма выполняемой операции
      */
-    public boolean writeOffFunds(String login, String password, BigDecimal amount) {
+    public boolean writeOffFunds(String login, BigDecimal amount) {
         try {
-            service.writeOffFunds(login, password, amount);
+            service.writeOffFunds(login, amount);
             return true;
         } catch (RuntimeException e) {
             return false;
