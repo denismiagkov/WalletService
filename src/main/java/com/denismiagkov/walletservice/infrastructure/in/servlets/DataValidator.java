@@ -18,8 +18,12 @@ public class DataValidator {
         return input.matches("[0-9]+") && Integer.parseInt(input) > 0;
     }
 
-    public static boolean checkNotEmptyField(String input) {
+    public static boolean checkLogin(String input) {
         return (!input.isEmpty());
+    }
+
+    public static boolean checkPassword(String input) {
+        return (input.length() > 5);
     }
 
     public static boolean checkEmail(String input) {
@@ -30,7 +34,7 @@ public class DataValidator {
         return input.matches("[a-zA-Zа-яА-Я]+");
     }
 
-    public static boolean checkRegistrationForm(PlayerDto playerDto) throws RuntimeException {
+    public static boolean checkRegistrationForm(PlayerDto playerDto) {
         if (!DataValidator.checkName(playerDto.getName())) {
             throw new IncorrectNameException();
         }
@@ -40,10 +44,10 @@ public class DataValidator {
         if (!DataValidator.checkEmail(playerDto.getEmail())) {
             throw new IncorrectEmailException();
         }
-        if (!DataValidator.checkNotEmptyField(playerDto.getLogin())) {
+        if (!DataValidator.checkLogin(playerDto.getLogin())) {
             throw new IncorrectLoginException();
         }
-        if (!DataValidator.checkNotEmptyField(playerDto.getPassword())) {
+        if (!DataValidator.checkPassword(playerDto.getPassword())) {
             throw new IncorrectPasswordException();
         }
         return true;
