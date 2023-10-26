@@ -23,12 +23,6 @@ public class AccountWithdrawalServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-//        DatabaseConnection dbConnection = new DatabaseConnection();
-//        try {
-//            Connection connection = dbConnection.getConnection();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
         controller = new Controller(new Service());
         objectMapper = new ObjectMapper();
         authService = new AuthService();
@@ -42,6 +36,7 @@ public class AccountWithdrawalServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
+        String jsonResponse = null;
         String token = authService.getTokenFromRequest(req);
         try {
             if (authService.validateAccessToken(token)) {
@@ -50,21 +45,27 @@ public class AccountWithdrawalServlet extends HttpServlet {
                 String input = jsonNode.get("amount").asText();
                 if (DataValidator.checkNumber(input)) {
                     BigDecimal amount = jsonNode.get("amount").decimalValue();
-                    controller.writeOffFunds(login, amount);
-                    resp.setStatus(HttpServletResponse.SC_OK);
-                    resp.getWriter().write("{\"message\": \"С вашего счета списана сумма " + amount + " " +
-                            "денежных единиц\"");
+                    try {
+                        controller.writeOffFunds(login, amount);
+                        resp.setStatus(HttpServletResponse.SC_OK);
+                        jsonResponse = "С вашего счета списана сумма " + amount + " денежных единиц";
+                    } catch (RuntimeException e) {
+                        jsonResponse = e.getMessage();
+                        System.out.println("ERROR: " + jsonResponse);
+                    }
                 } else {
                     resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    resp.getWriter().write("{\"message\": \"Введено некорректное число!\"");
+                    jsonResponse = "Введено некорректное число!";
                 }
             } else {
                 resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                resp.getWriter().write("{\"message\": \"Не пройдена аутентификация!\"");
+                jsonResponse = "Не пройдена аутентификация!";
             }
         } catch (JsonProcessingException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("Ошибка форматирования JSON");
+            jsonResponse = "Ошибка форматирования JSON";
+        } finally {
+            resp.getWriter().write("{\"message\": \"" + jsonResponse + "\"}");
         }
     }
 }

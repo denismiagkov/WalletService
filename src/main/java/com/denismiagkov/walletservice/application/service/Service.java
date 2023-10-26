@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 //import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.*;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.*;
 import org.mapstruct.factory.Mappers;
 
@@ -42,7 +43,7 @@ public class Service {
 
     private AccountMapper accountMapper;
 
-   // private LoggingAspect loggingAspect;
+    // private LoggingAspect loggingAspect;
 
     /**
      * Конструктор класса
@@ -52,7 +53,7 @@ public class Service {
         this.asi = new AccountServiceImpl();
         this.tsi = new TransactionServiceImpl();
         this.osi = new OperationServiceImpl();
-      //  this.loggingAspect = new LoggingAspect(osi, psi);
+        //  this.loggingAspect = new LoggingAspect(osi, psi);
     }
 
     /**
@@ -129,7 +130,7 @@ public class Service {
         return false;
     }
 
-//    /**
+    //    /**
 //     * Посредством вызова методов нижнеуровневых сервисов Метод передает игроку текущее состояние баланса на его счете
 //     * с фиксацией статуса события в журнале аудита.
 //     *
@@ -175,7 +176,7 @@ public class Service {
      * Посредством вызова методов нижнеуровневых сервисов Метод передает игроку историю дебетовых и кредитных операций
      * по его счету с фиксацией статуса события в журнале аудита.
      *
-     * @param login    идентификатор игрока (логин)
+     * @param login идентификатор игрока (логин)
      * @see PlayerServiceImpl#getPlayerId(String)
      * @see AccountServiceImpl#getTransactionHistory(int)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
@@ -202,8 +203,8 @@ public class Service {
      * с фиксацией результата операции в журнале аудита. Метод пробрасывает исключение
      * NotUniqueTransactionIdException на уровень контроллера.
      *
-     * @param login    идентификатор игрока (логин)
-     * @param amount   сумма выполняемой операции
+     * @param login  идентификатор игрока (логин)
+     * @param amount сумма выполняемой операции
      */
     @Loggable
     public void topUpAccount(String login, BigDecimal amount)
@@ -228,15 +229,14 @@ public class Service {
      * Метод пробрасывает исключения NotUniqueTransactionIdException и NotEnoughFundsOnAccountException
      * на уровень контроллера.
      *
-     * @param login    идентификатор игрока (логин)
-     * @param amount   сумма выполняемой операции
+     * @param login  идентификатор игрока (логин)
+     * @param amount сумма выполняемой операции
      * @see PlayerServiceImpl#getPlayerId(String)
      * @see TransactionServiceImpl#writeOffFunds(int, BigDecimal)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
     @Loggable
-    public void writeOffFunds(String login, BigDecimal amount)
-            throws RuntimeException {
+    public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException {
         int playerId = psi.getPlayerId(login);
         try {
             if (asi.areFundsEnough(playerId, amount)) {
@@ -245,6 +245,8 @@ public class Service {
                 asi.decreaseBalance(playerId, amount);
                 osi.putOnLog(playerId, OperationType.DEBITING,
                         new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
+            } else {
+                throw new NotEnoughFundsOnAccountException();
             }
         } catch (Exception e) {
             osi.putOnLog(playerId, OperationType.DEBITING,
@@ -267,15 +269,15 @@ public class Service {
                 OperationStatus.SUCCESS);
     }
 
-    public Player getPlayerByLogin(String login){
+    public Player getPlayerByLogin(String login) {
         return psi.getPlayerByLogin(login);
     }
 
-    public Map<String, String> getAllEntries(){
+    public Map<String, String> getAllEntries() {
         return psi.getAllEntries();
     }
 
-    public Entry getEntryByLogin(String login){
+    public Entry getEntryByLogin(String login) {
         return psi.getEntryByLogin(login);
     }
 }

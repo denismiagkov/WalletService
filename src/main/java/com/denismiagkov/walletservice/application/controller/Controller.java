@@ -40,14 +40,8 @@ public class Controller {
      * @param playerDto ДТО игрока
      * @return статус успеха регистрации
      */
-    public boolean registerPlayer(PlayerDto playerDto) {
-        boolean isSuccessful = false;
-        try {
+    public void registerPlayer(PlayerDto playerDto) throws RuntimeException{
             service.registerPlayer(playerDto);
-            isSuccessful = true;
-        } catch (RuntimeException e) {
-        }
-        return isSuccessful;
     }
 
     /**
@@ -56,7 +50,7 @@ public class Controller {
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
      */
-    public boolean authorizePlayer(String login, String password) {
+    public boolean authorizePlayer(String login, String password) throws RuntimeException {
         return service.authorizePlayer(login, password);
     }
 
@@ -99,13 +93,8 @@ public class Controller {
      * @param login    идентификатор игрока (логин)
      * @param amount   сумма выполняемой операции
      */
-    public boolean writeOffFunds(String login, BigDecimal amount) {
-        try {
-            service.writeOffFunds(login, amount);
-            return true;
-        } catch (RuntimeException e) {
-            return false;
-        }
+    public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException{
+        service.writeOffFunds(login, amount);
     }
 
     /**

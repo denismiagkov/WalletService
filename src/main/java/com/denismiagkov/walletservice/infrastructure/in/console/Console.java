@@ -174,10 +174,7 @@ public class Console implements View {
             playerDto.setLogin(reader.readLine());
             System.out.println("Введите пароль: ");
             playerDto.setPassword(reader.readLine());
-            boolean isSuccessful = controller.registerPlayer(playerDto);
-            if (isSuccessful) {
-                System.out.println("Поздравляю! Вы успешно зарегистрированы!");
-            }
+            controller.registerPlayer(playerDto);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -241,10 +238,7 @@ public class Console implements View {
             String input = reader.readLine();
             if (check(input, Integer.MAX_VALUE)) {
                 BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(input));
-                boolean success = controller.writeOffFunds(login, amount);
-                if (success) {
-                    System.out.println("С вашего счета списано: " + amount + " денежных единиц\n");
-                }
+                controller.writeOffFunds(login, amount);
             } else {
                 System.out.println("Введено некорректное число!\n");
             }

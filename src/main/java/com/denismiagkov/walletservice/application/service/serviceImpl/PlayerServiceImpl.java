@@ -29,7 +29,7 @@ public class PlayerServiceImpl implements PlayerService {
         this.pdi = new PlayerDAOImpl();
     }
 
-//    /**
+    //    /**
 //     * Метод создает игрока, уникальную комбинацию идентификатора (логина) и пароля, необходимую для проведения
 //     * аутентификации игрока при использовании приложения, "привязывает" данную комбинацию к игроку.
 //     *
@@ -45,8 +45,7 @@ public class PlayerServiceImpl implements PlayerService {
 //     *                                      уже зарегистрирован в системе за другим игроком
 //     */
     @Override
-    public Player registerPlayer(PlayerDto playerDto)
-            throws RuntimeException {
+    public Player registerPlayer(PlayerDto playerDto) throws RuntimeException {
         if (isPlayerExist(new Player(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail()))) {
             throw new PlayerAlreadyExistsException(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail());
         } else if (isLoginExist(playerDto.getLogin())) {
@@ -112,15 +111,15 @@ public class PlayerServiceImpl implements PlayerService {
         }
     }
 
-    public Player getPlayerByLogin(String login){
+    public Player getPlayerByLogin(String login) {
         return pdi.getPlayerByLogin(login);
     }
 
-    public Map<String, String> getAllEntries(){
+    public Map<String, String> getAllEntries() {
         return pdi.getAllEntries();
     }
 
-    public Entry getEntryByLogin(String login){
+    public Entry getEntryByLogin(String login) {
         return pdi.getEntryByLogin(login);
     }
 
