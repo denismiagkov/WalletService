@@ -48,9 +48,9 @@ public class AccountDepositingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         String token = authService.getTokenFromRequest(req);
-        String login = authService.getLoginFromToken(token);
         try {
             if (authService.validateAccessToken(token)) {
+                String login = authService.getLoginFromToken(token);
                 JsonNode jsonNode = objectMapper.readTree(req.getInputStream());
                 String input = jsonNode.get("amount").asText();
                 if (DataValidator.checkNumber(input)) {
