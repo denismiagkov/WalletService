@@ -1,7 +1,7 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotEnoughFundsOnAccountException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * Метод создает денежный счет. Применяется высокоуровневым сервисом при создании
-     * и регистрации нового игрока {@link Service#registerPlayer(String, String, String, String, String)}
+     * и регистрации нового игрока {@link Service#registerPlayer(com.denismiagkov.walletservice.application.dto.PlayerDto)}
      *
      * @param player игрок, для которого создается денежный счет
      */

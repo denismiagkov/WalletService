@@ -3,6 +3,8 @@ package com.denismiagkov.walletservice.login_service;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +69,18 @@ public class AuthService {
 
     public boolean validateRefreshToken(String refreshToken) {
         return jwtProvider.validateRefreshToken(refreshToken);
+    }
+
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token!=null && token.startsWith("Bearer ")) {
+            return token.substring(7);
+        }
+        return null;
+    }
+
+    public String getLoginFromToken(String token){
+        return jwtProvider.getLoginFromToken(token);
     }
 
 }

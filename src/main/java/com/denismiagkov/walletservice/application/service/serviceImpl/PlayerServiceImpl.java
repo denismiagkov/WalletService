@@ -2,19 +2,15 @@ package com.denismiagkov.walletservice.application.service.serviceImpl;
 
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectLoginException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectPasswordException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.LoginIsNotUniqueException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.PlayerAlreadyExistsException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.IncorrectLoginException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.IncorrectPasswordException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.LoginIsNotUniqueException;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.PlayerAlreadyExistsException;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.PlayerService;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Низкоуровневый сервис, реализующий методы, связанные с <strong>обработкой и манипуляцией данных об игроке</strong>.

@@ -39,8 +39,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(entry.getLogin())
                 .setExpiration(accessExpiration)
-                .claim("name", service.getPlayerByLogin(entry.getLogin()).getFirstName())
-                .claim("surname", service.getPlayerByLogin(entry.getLogin()).getLastName())
+                .claim("userId", service.getPlayerByLogin(entry.getLogin()).getId())
                 .signWith(JWT_ACCESS_SECRET_KEY)
                 .compact();
     }
@@ -106,5 +105,12 @@ public class JwtProvider {
                 .getBody();
     }
 
-
+    public String getLoginFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(JWT_ACCESS_SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
+        String login = claims.getSubject();
+        return login;
+    }
 }

@@ -206,7 +206,6 @@ public class Console implements View {
      */
     public void showCurrentBalance(String login, String password) {
         AccountDto accountDto = controller.getCurrentBalance(login);
-        System.out.println("ACCOUNT DTO: " + accountDto);
         System.out.println("Ваш текущий баланс составляет: " + accountDto.getBalance() + " денежных единиц");
     }
 

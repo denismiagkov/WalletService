@@ -40,8 +40,8 @@ public class AccountBalanceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         byte[] responseJson = null;
-        String token = req.getHeader("Authorization").substring(7);
-        String login = objectMapper.readTree(req.getInputStream()).get("login").asText();
+        String token = authService.getTokenFromRequest(req);
+        String login = authService.getLoginFromToken(token);
         try {
             if (authService.validateAccessToken(token)) {
                 AccountDto accountDto = controller.getCurrentBalance(login);
