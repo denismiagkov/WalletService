@@ -1,9 +1,13 @@
 package com.denismiagkov.walletservice.infrastructure.servlets;
 
 import com.denismiagkov.walletservice.application.controller.Controller;
+import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.login_service.AuthService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,6 +25,7 @@ import java.util.List;
 public class TransactionHistoryServlet extends HttpServlet {
     Controller controller;
     ObjectMapper objectMapper;
+    AuthService authService;
 
     @Override
     public void init() throws ServletException {
@@ -31,6 +37,7 @@ public class TransactionHistoryServlet extends HttpServlet {
         }
         controller = new Controller(new Service());
         objectMapper = new ObjectMapper();
+        authService = new AuthService();
     }
 
     @Override
@@ -45,11 +52,23 @@ public class TransactionHistoryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = objectMapper.readTree(req.getInputStream()).get("login").asText();
-        resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
-        List<TransactionDto> transactionDtoList = controller.getTransactionsHistory(login);
-        byte[] responseJson = this.objectMapper.writeValueAsBytes(transactionDtoList);
-        resp.getOutputStream().write(responseJson);
+        byte[] responseJson = null;
+        String token = authService.getTokenFromRequest(req);
+        try {
+            if (authService.validateAccessToken(token)) {
+                String login = authService.getLoginFromToken(token);
+                List<TransactionDto> transactionDtoList = controller.getTransactionsHistory(login);
+                responseJson = objectMapper.writeValueAsBytes(transactionDtoList);
+                resp.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                responseJson = objectMapper.writeValueAsBytes("Не пройдена аутентификация!");
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+            resp.getOutputStream().write(responseJson);
+        } catch (JsonProcessingException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().write("Ошибка форматирования JSON");
+        }
     }
 }
