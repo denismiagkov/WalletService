@@ -180,6 +180,7 @@ public class Service {
      * @see AccountServiceImpl#getTransactionHistory(int)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
+    @Loggable
     public List<TransactionDto> getTransactionHistory(String login) {
         int playerId = psi.getPlayerId(login);
         try {
@@ -204,6 +205,7 @@ public class Service {
      * @param login    идентификатор игрока (логин)
      * @param amount   сумма выполняемой операции
      */
+    @Loggable
     public void topUpAccount(String login, BigDecimal amount)
             throws RuntimeException {
         int playerId = psi.getPlayerId(login);
@@ -232,6 +234,7 @@ public class Service {
      * @see TransactionServiceImpl#writeOffFunds(int, BigDecimal)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
+    @Loggable
     public void writeOffFunds(String login, BigDecimal amount)
             throws RuntimeException {
         int playerId = psi.getPlayerId(login);

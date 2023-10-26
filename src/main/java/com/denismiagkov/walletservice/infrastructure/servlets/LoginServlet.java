@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.servlets;
 
+import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.login_service.AuthService;
 import com.denismiagkov.walletservice.login_service.JwtRequest;
@@ -37,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 
     }
 
+    @Loggable
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         JwtRequest authRequest = objectMapper.readValue(req.getInputStream(), JwtRequest.class);

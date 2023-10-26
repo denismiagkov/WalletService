@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.servlets;
 
+import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.service.Service;
@@ -36,6 +37,7 @@ public class AccountBalanceServlet extends HttpServlet {
         authService = new AuthService();
     }
 
+    @Loggable
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");

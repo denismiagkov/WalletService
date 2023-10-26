@@ -17,6 +17,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
+
     </properties>
 
     <dependencies>
@@ -86,13 +88,13 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.9.20.1</version>
-            <scope>runtime</scope>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.aspectj/aspectjweaver &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.aspectj</groupId>-->
+<!--            <artifactId>aspectjweaver</artifactId>-->
+<!--            <version>1.9.20.1</version>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -187,13 +189,13 @@
                     <artifactId>aspectj-maven-plugin</artifactId>
                     <version>1.14.0</version>
                     <configuration>
-                        <complianceLevel>16</complianceLevel>
-                        <source>16</source>
-                        <target>16</target>
+                        <complianceLevel>17</complianceLevel>
+                        <source>17</source>
+                        <target>17</target>
                         <showWeaveInfo>true</showWeaveInfo>
                         <verbose>true</verbose>
                         <Xlint>ignore</Xlint>
-                        <encoding>UTF-8</encoding>
+                        <encoding>UTF-8 </encoding>
                     </configuration>
                     <executions>
                         <execution>

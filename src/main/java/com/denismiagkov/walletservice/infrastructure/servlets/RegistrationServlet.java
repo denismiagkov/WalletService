@@ -25,10 +25,20 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PlayerDto playerDto = objectMapper.readValue(req.getInputStream(), PlayerDto.class);
-        controller.registerPlayer(playerDto);
-        resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.setContentType("application/json");
-        resp.getOutputStream().write(objectMapper.writeValueAsBytes(playerDto));
+        PlayerDto playerDto = objectMapper.readValue(req.getInputStream(), PlayerDto.class);
+        try {
+            DataValidator.checkRegistrationForm(playerDto);
+            controller.registerPlayer(playerDto);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+            resp.getWriter().write("{\"message\": \"Игрок " + playerDto.getName() + " " +
+                    playerDto.getSurname() + " зарегистрирован\"}");
+        } catch (RuntimeException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            String jsonResponse  = "{\"message\": \"" + e.getMessage() + "\"}";
+            System.out.println("1" + jsonResponse);
+            System.out.println("2" + e.getMessage());
+            resp.getWriter().write(jsonResponse);
+        }
     }
 }
