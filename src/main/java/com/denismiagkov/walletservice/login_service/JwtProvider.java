@@ -1,6 +1,7 @@
 package com.denismiagkov.walletservice.login_service;
 
 import com.denismiagkov.walletservice.PropertyFile;
+import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -17,12 +18,14 @@ public class JwtProvider {
 
     private final SecretKey JWT_ACCESS_SECRET_KEY;
     private final SecretKey JWT_REFRESH_SECRET_KEY;
+    private Service service;
 
     public JwtProvider() {
         String valueOfJwtAccessSecretKey = PropertyFile.getProperties("JWT_ACCESS_SECRET_KEY");
         String valueOfJwtRefreshSecretKey = PropertyFile.getProperties("JWT_REFRESH_SECRET_KEY");
         this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(valueOfJwtAccessSecretKey));
         this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(valueOfJwtRefreshSecretKey));
+        this.service = new Service();
     }
 
     public SecretKey getJWT_ACCESS_SECRET_KEY() {
@@ -36,6 +39,8 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(entry.getLogin())
                 .setExpiration(accessExpiration)
+                .claim("name", service.getPlayerByLogin(entry.getLogin()).getFirstName())
+                .claim("surname", service.getPlayerByLogin(entry.getLogin()).getLastName())
                 .signWith(JWT_ACCESS_SECRET_KEY)
                 .compact();
     }

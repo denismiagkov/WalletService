@@ -31,8 +31,4 @@ public class RegistrationServlet extends HttpServlet {
         resp.setContentType("application/json");
         resp.getOutputStream().write(objectMapper.writeValueAsBytes(playerDto));
     }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
 }

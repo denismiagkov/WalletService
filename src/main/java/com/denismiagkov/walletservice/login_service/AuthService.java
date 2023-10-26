@@ -24,7 +24,7 @@ public class AuthService {
         if (entry.getPassword().equals(authRequest.getPassword())) {
             String accessToken = jwtProvider.generateAccessToken(entry);
             String refreshToken = jwtProvider.generateRefreshToken(entry);
-            refreshStorage.put(entry.getLogin(), refreshToken);
+            //   refreshStorage.put(entry.getLogin(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new AuthException("Неправильный пароль");
@@ -61,9 +61,13 @@ public class AuthService {
         throw new AuthException("Невалидный JWT токен");
     }
 
-//    public JwtAuthentication getAuthInfo() {
-//        return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
-//    }
+    public boolean validateAccessToken(String accessToken) {
+        return jwtProvider.validateAccessToken(accessToken);
+    }
+
+    public boolean validateRefreshToken(String refreshToken) {
+        return jwtProvider.validateRefreshToken(refreshToken);
+    }
 
 }
 

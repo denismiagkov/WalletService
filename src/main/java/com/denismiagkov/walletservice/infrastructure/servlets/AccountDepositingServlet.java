@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.servlets;
 
 import com.denismiagkov.walletservice.application.controller.Controller;
-import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,10 +15,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/players/depositing")
-public class DepositingServlet extends HttpServlet {
+public class AccountDepositingServlet extends HttpServlet {
     Controller controller;
     ObjectMapper objectMapper;
 

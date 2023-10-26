@@ -17,7 +17,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @WebServlet("/players/withdrawal")
-public class WithdrawalServlet extends HttpServlet {
+public class AccountWithdrawalServlet extends HttpServlet {
     Controller controller;
     ObjectMapper objectMapper;
 

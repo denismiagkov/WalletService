@@ -11,7 +11,6 @@ import org.mapstruct.factory.Mappers;
 import java.math.BigDecimal;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
