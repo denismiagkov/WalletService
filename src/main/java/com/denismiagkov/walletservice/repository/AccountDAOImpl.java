@@ -4,7 +4,7 @@ import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.AccountDAO;
 
 import java.math.BigDecimal;

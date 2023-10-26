@@ -1,8 +1,4 @@
-import com.denismiagkov.walletservice.application.controller.Controller;
-import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.infrastructure.in.Console;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
-import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
+import com.denismiagkov.walletservice.init.ConsoleInit;
 
 import java.sql.*;
 
@@ -15,13 +11,7 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException {
 
-        DatabaseConnection dbConnection = new DatabaseConnection();
-        LiquibaseApp liquibaseApp = new LiquibaseApp(dbConnection);
-        liquibaseApp.start();
+        ConsoleInit.start();
 
-        Service service = new Service();
-        Controller controller = new Controller(service);
-        Console console = new Console(controller);
-        console.start();
     }
 }

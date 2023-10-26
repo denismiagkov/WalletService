@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.liquibase;
 
-import com.denismiagkov.walletservice.PropertyFile;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;

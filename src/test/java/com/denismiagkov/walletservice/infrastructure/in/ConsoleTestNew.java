@@ -4,8 +4,8 @@
 //import com.denismiagkov.walletservice.application.service.Service;
 //import com.denismiagkov.walletservice.domain.model.Player;
 //import com.denismiagkov.walletservice.infrastructure.in.Console;
-//import com.denismiagkov.walletservice.infrastructure.in.menu.MainMenu;
-//import com.denismiagkov.walletservice.infrastructure.in.menu.ProfileMenu;
+//import MainMenu;
+//import ProfileMenu;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //

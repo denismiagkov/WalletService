@@ -1,11 +1,10 @@
 package com.denismiagkov.walletservice.repository;
 
+import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
-import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
-import org.apache.maven.plugin.PluginParameterException;
 
 import java.sql.*;
 import java.util.*;
@@ -159,6 +158,7 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @param login логин игрока
      * @throws SQLException
      */
+    @Loggable
     public int getPlayerId(String login) {
         int playerId = -1;
         String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ?";
@@ -173,6 +173,12 @@ public class PlayerDAOImpl implements PlayerDAO {
             System.out.println("THIS IS ERROR: " + e.getMessage());
         }
         return playerId;
+    }
+
+    public static void main(String[] args) {
+        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
+        int id = playerDAO.getPlayerId("ann");
+        System.out.println(id);
     }
 
     public Player getPlayerById(int id) {

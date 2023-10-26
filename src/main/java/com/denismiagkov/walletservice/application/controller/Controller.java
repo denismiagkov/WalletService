@@ -75,7 +75,6 @@ public class Controller {
      * @param login    идентификатор игрока (логин)
      */
     public List<TransactionDto> getTransactionsHistory(String login) {
-        System.out.println("CONTROLLER");
         return service.getTransactionHistory(login);
     }
 

@@ -1,8 +1,6 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
-import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
 import liquibase.exception.LiquibaseException;
@@ -11,9 +9,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
