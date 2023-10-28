@@ -1,0 +1,16 @@
+unnamed package
+com.denismiagkov.walletservice
+com.denismiagkov.walletservice.application.controller
+com.denismiagkov.walletservice.application.service
+com.denismiagkov.walletservice.application.service.serviceImpl
+com.denismiagkov.walletservice.application.service.serviceImpl.exception
+com.denismiagkov.walletservice.application.service.serviciImpl
+com.denismiagkov.walletservice.domain.model
+com.denismiagkov.walletservice.domain.service
+com.denismiagkov.walletservice.infrastructure
+com.denismiagkov.walletservice.infrastructure.in
+com.denismiagkov.walletservice.infrastructure.in.commands
+com.denismiagkov.walletservice.infrastructure.in.menu
+com.denismiagkov.walletservice.infrastructure.liquibase
+com.denismiagkov.walletservice.repository
+com.denismiagkov.walletservice.repository.interfaces
