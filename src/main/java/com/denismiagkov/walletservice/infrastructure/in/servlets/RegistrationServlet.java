@@ -1,9 +1,9 @@
 package com.denismiagkov.walletservice.infrastructure.in.servlets;
 
+import annotations.Loggable;
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.infrastructure.in.servlets.exceptions.IncorrectSurnameException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,6 +24,7 @@ public class RegistrationServlet extends HttpServlet {
         objectMapper = new ObjectMapper();
     }
 
+    @Loggable
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");

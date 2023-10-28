@@ -1,7 +1,5 @@
 package com.denismiagkov.walletservice.application.service;
 
-import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
-//import com.denismiagkov.walletservice.application.aop.aspects.LoggingAspect;
 import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
@@ -111,7 +109,6 @@ public class Service {
      * @see PlayerServiceImpl#authorizePlayer(String, String)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    @Loggable
     public boolean authorizePlayer(String login, String password) throws RuntimeException {
         int playerId = -1;
         try {
@@ -153,7 +150,6 @@ public class Service {
 //            return null;
 //        }
 //    }
-    @Loggable
     public AccountDto getCurrentBalance(String login) {
         int playerId = psi.getPlayerId(login);
         try {
@@ -181,7 +177,7 @@ public class Service {
      * @see AccountServiceImpl#getTransactionHistory(int)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    @Loggable
+
     public List<TransactionDto> getTransactionHistory(String login) {
         int playerId = psi.getPlayerId(login);
         try {
@@ -206,7 +202,7 @@ public class Service {
      * @param login  идентификатор игрока (логин)
      * @param amount сумма выполняемой операции
      */
-    @Loggable
+
     public void topUpAccount(String login, BigDecimal amount)
             throws RuntimeException {
         int playerId = psi.getPlayerId(login);
@@ -235,7 +231,7 @@ public class Service {
      * @see TransactionServiceImpl#writeOffFunds(int, BigDecimal)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    @Loggable
+
     public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException {
         int playerId = psi.getPlayerId(login);
         try {

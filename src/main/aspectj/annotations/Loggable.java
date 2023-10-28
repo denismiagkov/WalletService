@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.application.aop.annotations;
+package annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

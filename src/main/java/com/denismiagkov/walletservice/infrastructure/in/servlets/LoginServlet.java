@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.in.servlets;
 
-import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
+import annotations.Loggable;
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;

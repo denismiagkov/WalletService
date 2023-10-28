@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.in.servlets;
 
-import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
+import annotations.Loggable;
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.service.Service;
@@ -23,12 +23,6 @@ public class AccountBalanceServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-//        DatabaseConnection dbConnection = new DatabaseConnection();
-//        try {
-//            Connection connection = dbConnection.getConnection();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
         controller = new Controller(new Service());
         objectMapper = new ObjectMapper();
         authService = new AuthService();

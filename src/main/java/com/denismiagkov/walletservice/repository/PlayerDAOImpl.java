@@ -1,6 +1,5 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
@@ -158,7 +157,7 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @param login логин игрока
      * @throws SQLException
      */
-    @Loggable
+
     public int getPlayerId(String login) {
         int playerId = -1;
         String queryPlayerId = "SELECT player_id FROM wallet.entries WHERE login = ?";

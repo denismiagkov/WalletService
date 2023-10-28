@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.in.servlets;
 
+import annotations.Loggable;
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
@@ -23,12 +24,6 @@ public class TransactionHistoryServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-//        DatabaseConnection dbConnection = new DatabaseConnection();
-//        try {
-//            Connection connection = dbConnection.getConnection();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
         controller = new Controller(new Service());
         objectMapper = new ObjectMapper();
         authService = new AuthService();
@@ -44,6 +39,7 @@ public class TransactionHistoryServlet extends HttpServlet {
                 (controller.getTransactionsHistory(login))));
     }
 
+    @Loggable
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");

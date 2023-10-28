@@ -1,9 +1,8 @@
 package com.denismiagkov.walletservice.infrastructure.in.servlets;
 
-import com.denismiagkov.walletservice.application.aop.annotations.Loggable;
+import annotations.Loggable;
 import com.denismiagkov.walletservice.application.controller.Controller;
 import com.denismiagkov.walletservice.application.service.Service;
-
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,12 +24,6 @@ public class AccountDepositingServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-//        DatabaseConnection dbConnection = new DatabaseConnection();
-//        try {
-//            Connection connection = dbConnection.getConnection();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
         controller = new Controller(new Service());
         objectMapper = new ObjectMapper();
         authService = new AuthService();
