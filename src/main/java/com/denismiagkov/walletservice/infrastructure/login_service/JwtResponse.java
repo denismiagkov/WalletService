@@ -1,7 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
 public class JwtResponse {
-    public final String type = "Bearer";
     public String accessToken;
     public String refreshToken;
 
