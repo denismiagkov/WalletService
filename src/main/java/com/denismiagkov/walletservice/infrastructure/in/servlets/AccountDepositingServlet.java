@@ -29,11 +29,6 @@ public class AccountDepositingServlet extends HttpServlet {
         authService = new AuthService();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-
     @Loggable
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
