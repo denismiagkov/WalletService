@@ -2,7 +2,7 @@ package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
 import org.junit.jupiter.api.*;
@@ -98,7 +98,7 @@ class PlayerDAOImplTest {
 
     @Test
     void getPlayerId() {
-        assertEquals(1, playerDAO.getPlayerId("login1", "password1"));
+        assertEquals(1, playerDAO.getPlayerId("login1"));
     }
 
     @Test

@@ -3,7 +3,7 @@ package com.denismiagkov.walletservice.repository;
 import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
 import liquibase.Liquibase;
 import org.junit.jupiter.api.*;
@@ -71,7 +71,7 @@ class OperationDAOImplTest {
         connection.setAutoCommit(false);
         int size = operationDAO.getLog().size();
         Operation operation = new Operation(OperationType.CREDITING, new Timestamp(System.currentTimeMillis()),
-                2, OperationStatus.SUCCESS);
+                OperationStatus.SUCCESS, 2);
         operationDAO.saveOperation(operation);
         assertEquals(size + 1, operationDAO.getLog().size());
         connection.rollback();
@@ -80,7 +80,7 @@ class OperationDAOImplTest {
     @Test
     void getLog() throws SQLException {
         connection.setAutoCommit(false);
-        List<String> log = new ArrayList<>();
+        List<Operation> log = new ArrayList<>();
         log = operationDAO.getLog();
         assertNotEquals(0, log.size());
         connection.rollback();

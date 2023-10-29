@@ -1,0 +1,32 @@
+package com.denismiagkov.walletservice.init;
+
+import java.io.*;
+import java.util.Properties;
+
+/**
+ * Класс описывает конфигурационный файл, включая путь и способ извлечения данных.
+ */
+public class PropertyFile {
+
+    private static final Properties PROPERTIES = new Properties();
+
+    public PropertyFile() {
+    }
+
+    static {
+        loadProperties();
+    }
+
+    private static void loadProperties() {
+        try (var inputStream = PropertyFile.class.getClassLoader().getResourceAsStream("config.properties")) {
+            PROPERTIES.load(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String getProperties(String parameter) {
+        return PROPERTIES.getProperty(parameter);
+    }
+
+}

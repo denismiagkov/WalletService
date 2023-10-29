@@ -1,7 +1,7 @@
 package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.TransactionDAO;
 
 import java.sql.*;

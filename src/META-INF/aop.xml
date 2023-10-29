@@ -1,0 +1,5 @@
+<aspectj>
+    <aspects>
+        <aspect name="com/denismiagkov/walletservice/application/aspects/LoggingAspect.java"/>
+    </aspects>
+</aspectj>

@@ -52,7 +52,7 @@ public class OperationServiceImpl implements OperationService {
      */
     @Override
     public void putOnLog(int playerId, OperationType type, Timestamp time, OperationStatus status) {
-        Operation operation = new Operation(type, time, playerId, status);
+        Operation operation = new Operation(type, time, status, playerId);
 
         odi.saveOperation(operation);
     }
@@ -63,7 +63,7 @@ public class OperationServiceImpl implements OperationService {
      * @return журнал действий игроков в системе
      */
     @Override
-    public List<String> viewLog() {
+    public List<Operation> viewLog() {
 
         return odi.getLog();
     }

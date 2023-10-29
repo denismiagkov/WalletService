@@ -1,8 +1,6 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotEnoughFundsOnAccountException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotUniqueTransactionIdException;
-import com.denismiagkov.walletservice.domain.model.Account;
+import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotUniqueTransactionIdException;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.domain.service.TransactionService;
@@ -10,8 +8,6 @@ import com.denismiagkov.walletservice.repository.TransactionDAOImpl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Низкоуровневый сервис, реализующий методы <strong>по пополнению и списанию денежных средств со счета игрока</strong>.

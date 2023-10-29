@@ -1,6 +1,8 @@
 package com.denismiagkov.walletservice.repository.interfaces;
 
+import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
+import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.repository.AccountDAOImpl;
 
 import java.math.BigDecimal;
@@ -22,14 +24,14 @@ public interface AccountDAO {
      *
      * @see AccountDAOImpl#getCurrentBalance(int)
      */
-    BigDecimal getCurrentBalance(int playerId);
+    Account getCurrentBalance(int playerId);
 
     /**
      * Метод возвращает историю транзакций по счету игрока
      *
      * @see AccountDAOImpl#getTransactionHistory(int)
      */
-    public List<String> getTransactionHistory(int playerId);
+    public List<Transaction> getTransactionHistory(int playerId);
 
     /**
      * Метод сохраняет в базе данных состояние счета после совершенной транзакции

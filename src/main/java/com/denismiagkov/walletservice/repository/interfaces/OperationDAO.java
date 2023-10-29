@@ -26,5 +26,5 @@ public interface OperationDAO {
      *
      * @see OperationDAOImpl#saveOperation(Operation)
      */
-    public List<String> getLog();
+    public List<Operation> getLog();
 }

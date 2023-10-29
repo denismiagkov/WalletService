@@ -8,6 +8,10 @@ import java.util.Objects;
  * */
 public class Operation {
     /**
+     * Идентификатор операции
+     * */
+    int id;
+    /**
      * Тип действия
      * @see OperationType
      * */
@@ -28,11 +32,11 @@ public class Operation {
     /**
      * Конструктор класса
      * */
-    public Operation(OperationType type, Timestamp time, int playerId, OperationStatus status) {
+    public Operation(OperationType type, Timestamp time, OperationStatus status, int playerId) {
         this.type = type;
         this.time = time;
-        this.playerId = playerId;
         this.status = status;
+        this.playerId = playerId;
     }
 
     /**
@@ -79,7 +83,7 @@ public class Operation {
         return "Operation{" +
                 "type='" + type + '\'' +
                 ", time=" + time +
-                ", player='" + playerId + " " + //player.getLastName() + '\'' +
+                ", player=" + playerId + " " + //player.getLastName() + '\'' +
                 ", status=" + status +
                 '}' + "\n";
     }

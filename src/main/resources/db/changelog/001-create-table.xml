@@ -100,13 +100,13 @@
             <column name="id" type="BIGINT" defaultValueSequenceNext="operations_id_seq">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="operation_type" type="VARCHAR(20)">
+            <column name="operation_type" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column name="perform_time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="operation_status" type="VARCHAR(20)">
+            <column name="operation_status" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
             <column name="player_id" type="BIGINT">

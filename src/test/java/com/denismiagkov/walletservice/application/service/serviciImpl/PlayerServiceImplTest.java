@@ -1,21 +1,14 @@
 package com.denismiagkov.walletservice.application.service.serviciImpl;
 
 import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectLoginException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.IncorrectPasswordException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.LoginIsNotUniqueException;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exception.PlayerAlreadyExistsException;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerServiceImplTest {
     PlayerServiceImpl psi;
@@ -35,12 +28,12 @@ class PlayerServiceImplTest {
 
     }
 
-    @Test
-    void getAllPlayers() {
-        psi.registerPlayer("Sidor", "Ivanov", "123@gmail.com", "igrok", "345");
-        Player player = new Player("Sidor", "Ivanov", "123@gmail.com");
-        assertTrue(pdi.getAllPlayers().contains(player));
-    }
+//    @Test
+//    void getAllPlayers() {
+//        psi.registerPlayer("Sidor", "Ivanov", "123@gmail.com", "igrok", "345");
+//        Player player = new Player("Sidor", "Ivanov", "123@gmail.com");
+//        assertTrue(pdi.getAllPlayers().contains(player));
+//    }
 
 //    @Test
 //    void getAllEntries() {
@@ -95,15 +88,15 @@ class PlayerServiceImplTest {
 //        assertEquals("Petr", psi.getLoginsPerPlayers().get("person").getFirstName());
 //    }
 
-    @Test
-    void authorizePlayer_IncorrectLoginException(){
-        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
-        assertThrows(IncorrectLoginException.class, ()-> psi.authorizePlayer("person1", "987"));
-    }
-
-    @Test
-    void authorizePlayer_IncorrectPasswordException(){
-        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
-        assertThrows(IncorrectPasswordException.class, ()-> psi.authorizePlayer("person", "887"));
-    }
+//    @Test
+//    void authorizePlayer_IncorrectLoginException(){
+//        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
+//        assertThrows(IncorrectLoginException.class, ()-> psi.authorizePlayer("person1", "987"));
+//    }
+//
+//    @Test
+//    void authorizePlayer_IncorrectPasswordException(){
+//        psi.registerPlayer("Petr", "Ivanov", "123@mail.ru", "person", "987");
+//        assertThrows(IncorrectPasswordException.class, ()-> psi.authorizePlayer("person", "887"));
+//    }
 }

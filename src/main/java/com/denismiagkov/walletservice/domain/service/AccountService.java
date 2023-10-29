@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.domain.service;
 
+import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 
@@ -19,10 +20,10 @@ public interface AccountService {
     /**
      * * Метод должен реализовывать просмотр текущего баланса
      */
-    BigDecimal getCurrentBalance(int playerId);
+    Account getCurrentBalance(int playerId);
 
     /**
      * Метод должен реализовывать просмотр истории транзакций
      */
-    List<String> getTransactionHistory(int playerId);
+    List<Transaction> getTransactionHistory(int playerId);
 }
