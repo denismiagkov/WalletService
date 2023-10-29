@@ -22,24 +22,12 @@ public class TransactionDto {
         return time;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
-    }
-
     public TransactionType getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
     public BigDecimal getAmount() {
         return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
     }
 
     @Override
