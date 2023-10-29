@@ -7,10 +7,10 @@ import java.sql.Timestamp;
 
 public class OperationDto {
 
-    Timestamp time;
-    OperationType type;
-    int playerId;
-    OperationStatus status;
+    private Timestamp time;
+    private OperationType type;
+    private int playerId;
+    private OperationStatus status;
 
     public OperationDto() {
     }
