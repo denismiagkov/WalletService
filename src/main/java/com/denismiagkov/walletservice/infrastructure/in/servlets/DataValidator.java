@@ -5,11 +5,6 @@ import com.denismiagkov.walletservice.infrastructure.in.servlets.exceptions.*;
 import com.denismiagkov.walletservice.infrastructure.in.servlets.exceptions.*;
 
 public class DataValidator {
-    private final String input;
-
-    public DataValidator(String input) {
-        this.input = input;
-    }
 
     /**
      * Метод проверяет корректность введенных пользователем числовых данных
