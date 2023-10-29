@@ -11,9 +11,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class TransactionDto {
-    private Timestamp time;
-    private TransactionType type;
-    private BigDecimal amount;
+    public Timestamp time;
+    public TransactionType type;
+    public BigDecimal amount;
 
     public TransactionDto() {
     }

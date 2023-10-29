@@ -3,7 +3,9 @@ package com.denismiagkov.walletservice.infrastructure.login_service;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+
 
 public class AuthService {
 

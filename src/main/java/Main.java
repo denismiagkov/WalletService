@@ -1,5 +1,3 @@
-import com.denismiagkov.walletservice.init.ConsoleInit;
-
 import java.sql.*;
 
 /**
@@ -11,7 +9,7 @@ public class Main {
      */
     public static void main(String[] args) throws SQLException {
 
-        ConsoleInit.start();
+
 
     }
 }
