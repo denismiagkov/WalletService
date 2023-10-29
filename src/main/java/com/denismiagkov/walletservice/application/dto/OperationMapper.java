@@ -10,8 +10,6 @@ import java.util.List;
 public interface OperationMapper {
     OperationMapper INSTANCE = Mappers.getMapper(OperationMapper.class);
 
-//    @Mapping(source = "player.firstName", target = "name")
-//    @Mapping(source = "player.lastName", target = "surname")
     OperationDto toOperationDto(Operation operation);
 
     List<OperationDto> toOperationDtoList(List<Operation> operations);
