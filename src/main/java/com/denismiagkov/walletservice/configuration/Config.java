@@ -4,9 +4,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -19,7 +16,6 @@ import java.util.Properties;
 @Configuration
 @ComponentScan(basePackages = "com.denismiagkov.walletservice")
 @EnableWebMvc
-@EnableTransactionManagement
 public class Config {
 
     @Bean
@@ -62,7 +58,7 @@ public class Config {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/view/");
         viewResolver.setSuffix(".jsp");
-        return viewResolver();
+        return viewResolver;
     }
 
 
