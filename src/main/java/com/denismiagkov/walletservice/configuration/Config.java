@@ -18,19 +18,19 @@ import java.util.Properties;
 @EnableWebMvc
 public class Config {
 
-    @Bean
-    public DataSource dataSource() {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
-        try {
-            dataSource.setDriverClass("org.postgresql.Driver");
-            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5431/wallet");
-            dataSource.setUser("wallet");
-            dataSource.setPassword("123");
-        } catch (PropertyVetoException e) {
-            throw new RuntimeException(e);
-        }
-        return dataSource;
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//        try {
+//            dataSource.setDriverClass("org.postgresql.Driver");
+//            dataSource.setJdbcUrl("jdbc:postgresql://localhost:5431/wallet");
+//            dataSource.setUser("wallet");
+//            dataSource.setPassword("123");
+//        } catch (PropertyVetoException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return dataSource;
+//    }
 
 //    @Bean
 //    public LocalSessionFactoryBean sessionFactory() {

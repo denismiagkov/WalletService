@@ -6,6 +6,7 @@ import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.OperationService;
 import com.denismiagkov.walletservice.repository.OperationDAOImpl;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
  * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных
  * операций, соответствующих бизнес-логике.
  */
+@Service
 public class OperationServiceImpl implements OperationService {
 
     OperationDAOImpl odi;

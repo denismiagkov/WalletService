@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.*;
@@ -13,6 +14,8 @@ import java.util.*;
  * Класс отвечает за доступ к данным об игроках, хранящимся в базе данных. Предоставляет методы для создания,
  * чтения, обновления и удаления данных.
  */
+
+@Repository
 public class PlayerDAOImpl implements PlayerDAO {
 
     /**

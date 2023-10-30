@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.domain.service;
 
+import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.domain.model.Player;
 
@@ -26,5 +27,5 @@ public interface PlayerService {
      * @param password идентифицирующий признак игрока (пароль)
      * @return игрок, пытающийся войти в систему или совершить в ней определенное действие
      */
-    int authorizePlayer(String login, String password);
+    int authorizePlayer(EntryDto entryDto);
 }

@@ -1,5 +1,6 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
+import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.IncorrectLoginException;
@@ -17,6 +18,7 @@ import java.util.Map;
  * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных операций,
  * соответствующих бизнес-логике.
  */
+@org.springframework.stereotype.Service
 public class PlayerServiceImpl implements PlayerService {
 
     PlayerDAOImpl pdi;
@@ -71,11 +73,11 @@ public class PlayerServiceImpl implements PlayerService {
      * @throws IncorrectLoginException    в случае, если пользователем введен логин, не зарегистрированный в системе
      * @throws IncorrectPasswordException в случае, если пользователем введен неверный пароль
      */
-    public int authorizePlayer(String login, String password) throws RuntimeException {
-        if (!isLoginExist(login)) {
-            throw new IncorrectLoginException(login);
-        } else if (isPasswordCorrect(login, password)) {
-            int playerId = pdi.getPlayerId(login);
+    public int authorizePlayer(EntryDto entryDto) throws RuntimeException {
+        if (!isLoginExist(entryDto.getLogin())) {
+            throw new IncorrectLoginException(entryDto.getLogin());
+        } else if (isPasswordCorrect(entryDto.getLogin(), entryDto.getPassword())) {
+            int playerId = pdi.getPlayerId(entryDto.getLogin());
             return playerId;
         } else {
             throw new IncorrectPasswordException();

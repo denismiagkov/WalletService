@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.domain.service.TransactionService;
 import com.denismiagkov.walletservice.repository.TransactionDAOImpl;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
  * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных
  * операций, соответствующих бизнес-логике.
  */
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     TransactionDAOImpl tdi;

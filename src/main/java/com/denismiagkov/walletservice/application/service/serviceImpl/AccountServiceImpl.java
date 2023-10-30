@@ -17,6 +17,7 @@ import java.util.*;
  * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных
  * операций, соответствующих бизнес-логике.
  */
+@org.springframework.stereotype.Service
 public class AccountServiceImpl implements AccountService {
 
     AccountDAOImpl adi;

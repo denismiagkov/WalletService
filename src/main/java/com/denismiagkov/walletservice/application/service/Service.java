@@ -110,19 +110,19 @@ public class Service {
      * @see PlayerServiceImpl#authorizePlayer(String, String)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public boolean authorizePlayer(String login, String password) throws RuntimeException {
+    public boolean authorizePlayer(EntryDto entryDto) throws RuntimeException {
         int playerId = -1;
         try {
-            playerId = psi.authorizePlayer(login, password);
+            playerId = psi.authorizePlayer(entryDto);
             if (playerId > 0) {
-                osi.putOnLog(psi.getPlayerId(login), OperationType.AUTHORIZATION,
+                osi.putOnLog(psi.getPlayerId(entryDto.getLogin()), OperationType.AUTHORIZATION,
                         new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
                 return true;
             } else {
                 return false;
             }
         } catch (RuntimeException e) {
-            osi.putOnLog(psi.getPlayerId(login), OperationType.AUTHORIZATION,
+            osi.putOnLog(psi.getPlayerId(entryDto.getLogin()), OperationType.AUTHORIZATION,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
         }
         return false;

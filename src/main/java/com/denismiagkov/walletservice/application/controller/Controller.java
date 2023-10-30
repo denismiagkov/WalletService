@@ -1,11 +1,13 @@
 package com.denismiagkov.walletservice.application.controller;
 
 import com.denismiagkov.walletservice.application.dto.AccountDto;
+import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -16,8 +18,8 @@ import java.util.List;
  * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
  * и внутренними слоями приложения
  */
-@Controller
-public class AppController {
+@org.springframework.stereotype.Controller
+public class Controller {
     /**
      * Cервис приложения
      */
@@ -28,7 +30,7 @@ public class AppController {
      * Конструктор класса
      */
   //  @Autowired
-    public AppController(Service service) {
+    public Controller(Service service) {
         System.out.println("Controller created!");
         this.service = service;
     }
@@ -36,8 +38,24 @@ public class AppController {
 
     @RequestMapping("/")
     public String startPage(){
-        return "view";
+        return "start-view";
     }
+
+
+    @RequestMapping("/registerForm")
+    public String getInfoForRegistration(Model model){
+        PlayerDto playerDto = new PlayerDto();
+        model.addAttribute("playerDto", playerDto);
+        return "register-form-view";
+    }
+
+    @RequestMapping("/loginForm")
+    public String getInfoForLogin(Model model){
+        EntryDto entryDto = new EntryDto();
+        model.addAttribute("entryDto", entryDto);
+        return "login-form-view";
+    }
+
 
     /**
      * Метод вызывает в сервисе метод регистрации нового игрока. В зависимости от полученного результата
@@ -47,10 +65,10 @@ public class AppController {
      * @return статус успеха регистрации
      */
     @RequestMapping("/registration")
-    public String registerPlayer(PlayerDto playerDto) throws RuntimeException {
-        System.out.println("entered into registerPlayer");
+    public String registerPlayer(@ModelAttribute("playerDto") PlayerDto playerDto) throws RuntimeException {
+        System.out.println(playerDto);
         service.registerPlayer(playerDto);
-        return "view";
+        return "registration-view";
     }
 
     /**
@@ -59,8 +77,10 @@ public class AppController {
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
      */
-    public boolean authorizePlayer(String login, String password) throws RuntimeException {
-        return service.authorizePlayer(login, password);
+    @RequestMapping("/authentication")
+    public boolean authorizePlayer(@ModelAttribute("entryDto") EntryDto entryDto) throws RuntimeException {
+        System.out.println(entryDto);
+        return service.authorizePlayer(entryDto);
     }
 
     /**
