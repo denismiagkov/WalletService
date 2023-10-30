@@ -18,6 +18,7 @@ import java.util.Map;
  * для модификации модели данных и предоставления конечных данных пользовательскому интерфейсу.
  */
 
+@org.springframework.stereotype.Service
 public class Service {
     /**
      * Низкоуровневый сервис игрока

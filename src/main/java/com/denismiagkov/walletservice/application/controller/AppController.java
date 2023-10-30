@@ -4,33 +4,39 @@ import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
-import com.denismiagkov.walletservice.domain.model.Account;
-import com.denismiagkov.walletservice.domain.model.OperationStatus;
-import com.denismiagkov.walletservice.domain.model.OperationType;
-import com.denismiagkov.walletservice.domain.model.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
  * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
  * и внутренними слоями приложения
  */
-public class Controller {
+@Controller
+public class AppController {
     /**
      * Cервис приложения
      */
+    @Autowired
     private Service service;
 
     /**
      * Конструктор класса
      */
-    public Controller(Service service) {
+  //  @Autowired
+    public AppController(Service service) {
+        System.out.println("Controller created!");
         this.service = service;
+    }
+
+
+    @RequestMapping("/")
+    public String startPage(){
+        return "view";
     }
 
     /**
@@ -40,8 +46,11 @@ public class Controller {
      * @param playerDto ДТО игрока
      * @return статус успеха регистрации
      */
-    public void registerPlayer(PlayerDto playerDto) throws RuntimeException{
-            service.registerPlayer(playerDto);
+    @RequestMapping("/registration")
+    public String registerPlayer(PlayerDto playerDto) throws RuntimeException {
+        System.out.println("entered into registerPlayer");
+        service.registerPlayer(playerDto);
+        return "view";
     }
 
     /**
@@ -57,7 +66,7 @@ public class Controller {
     /**
      * Метод передает в сервис запрос о текущем состоянии баланса игрока.
      *
-     * @param login    идентификатор игрока (логин)
+     * @param login идентификатор игрока (логин)
      */
     public AccountDto getCurrentBalance(String login) {
         return service.getCurrentBalance(login);
@@ -66,7 +75,7 @@ public class Controller {
     /**
      * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока.
      *
-     * @param login    идентификатор игрока (логин)
+     * @param login идентификатор игрока (логин)
      */
     public List<TransactionDto> getTransactionsHistory(String login) {
         return service.getTransactionHistory(login);
@@ -75,8 +84,8 @@ public class Controller {
     /**
      * Метод вызывает метод сервиса по пополнению денежного счета игрока.
      *
-     * @param login    идентификатор игрока (логин)
-     * @param amount   сумма выполняемой операции
+     * @param login  идентификатор игрока (логин)
+     * @param amount сумма выполняемой операции
      */
     public boolean topUpAccount(String login, BigDecimal amount) {
         try {
@@ -90,10 +99,10 @@ public class Controller {
     /**
      * Метод вызывает метод сервиса по списанию денежных средств со счета игрока.
      *
-     * @param login    идентификатор игрока (логин)
-     * @param amount   сумма выполняемой операции
+     * @param login  идентификатор игрока (логин)
+     * @param amount сумма выполняемой операции
      */
-    public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException{
+    public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException {
         service.writeOffFunds(login, amount);
     }
 

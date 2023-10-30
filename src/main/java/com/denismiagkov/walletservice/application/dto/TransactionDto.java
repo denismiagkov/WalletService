@@ -1,14 +1,9 @@
 package com.denismiagkov.walletservice.application.dto;
 
-import com.denismiagkov.walletservice.application.controller.Controller;
-import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
-import org.mapstruct.factory.Mappers;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 
 public class TransactionDto {
     public Timestamp time;
