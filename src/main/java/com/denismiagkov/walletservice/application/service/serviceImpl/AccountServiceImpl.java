@@ -7,6 +7,7 @@ import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.service.AccountService;
 import com.denismiagkov.walletservice.repository.AccountDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -20,13 +21,17 @@ import java.util.*;
 @org.springframework.stereotype.Service
 public class AccountServiceImpl implements AccountService {
 
-    AccountDAOImpl adi;
+    /**
+     * ДАО счета
+     */
+    AccountDAOImpl accountDAO;
 
     /**
      * Конструктор класса
-     * */
+     */
+    @Autowired
     public AccountServiceImpl() {
-        this.adi = new AccountDAOImpl();
+        this.accountDAO = new AccountDAOImpl();
     }
 
 
@@ -40,9 +45,7 @@ public class AccountServiceImpl implements AccountService {
         while (true) {
             Random n = new Random();
             String number = String.valueOf(n.nextInt(899_000_000) + 100_000_000);
-            // if (!accountsInventory.contains(number)) {
-                return number;
-          //  }
+            return number;
         }
     }
 
@@ -56,12 +59,18 @@ public class AccountServiceImpl implements AccountService {
     public void createAccount(Player player) {
         Account account = new Account(getAccountNumber());
         player.setAccount(account);
-        adi.saveAccount(player);
+        accountDAO.saveAccount(player);
     }
 
+    /**
+     * Метод возвращает текущий баланс на счете игрока по его id
+     *
+     * @param playerId id игрока
+     * @return денежный счет
+     */
     @Override
     public Account getCurrentBalance(int playerId) {
-        return adi.getCurrentBalance(playerId);
+        return accountDAO.getCurrentBalance(playerId);
     }
 
     /**
@@ -72,26 +81,38 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public List<Transaction> getTransactionHistory(int playerId) {
-        return adi.getTransactionHistory(playerId);
+        return accountDAO.getTransactionHistory(playerId);
     }
 
-    public void increaseBalance(int playerId, BigDecimal amount){
-        adi.increaseBalance(playerId, amount);
+    /**
+     * Метод корректирует баланс на счете игрока после пополнения счета
+     *
+     * @param playerId id игрока
+     * @param amount   денежная сумма
+     */
+    public void increaseBalance(int playerId, BigDecimal amount) {
+        accountDAO.increaseBalance(playerId, amount);
     }
 
-    public void decreaseBalance(int playerId, BigDecimal amount){
-        adi.decreaseBalance(playerId, amount);
+    /**
+     * Метод корректирует баланс на счете игрока после списания средств
+     *
+     * @param playerId id игрока
+     * @param amount   денежная сумма
+     */
+    public void decreaseBalance(int playerId, BigDecimal amount) {
+        accountDAO.decreaseBalance(playerId, amount);
     }
 
     /**
      * Метод рассчитывает, достаточно ли денежных средств на счете игрока для их списания.
      *
      * @param playerId id игрока
-     * @param amount сумма списания
-     * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
-     * совершения транзакции
+     * @param amount   сумма списания
      * @return boolean
-     * */
+     * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
+     *                                          совершения транзакции
+     */
     public boolean areFundsEnough(int playerId, BigDecimal amount) {
         if (getCurrentBalance(playerId).getBalance().compareTo(amount) < 0) {
             throw new NotEnoughFundsOnAccountException();
@@ -100,8 +121,13 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    public int getAccountId(int playerId){
-       return adi.getAccountId(playerId);
+    /**
+     * Метод возвращает id денежного счета по id игрока
+     *
+     * @param playerId id игрока
+     * @return id счета
+     */
+    public int getAccountId(int playerId) {
+        return accountDAO.getAccountId(playerId);
     }
-
 }
