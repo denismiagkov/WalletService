@@ -8,7 +8,11 @@ import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.infrastructure.in.DataValidator;
 import com.denismiagkov.walletservice.infrastructure.in.exceptions.IncorrectNameException;
 import com.denismiagkov.walletservice.infrastructure.in.exceptions.InfoMessage;
+import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
+import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
+import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;
 import com.denismiagkov.walletservice.init.WebInit;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,6 +34,7 @@ public class Controller {
      * Cервис приложения
      */
     private Service service;
+    private AuthService authService;
 
     /**
      * Конструктор класса
@@ -37,6 +42,7 @@ public class Controller {
     @Autowired
     public Controller(Service service) {
         this.service = service;
+        this.authService = new AuthService();
         WebInit.start();
     }
 
@@ -60,23 +66,32 @@ public class Controller {
     /**
      * Метод вызывает в сервисе метод аутентентификации пользователя.     *
      *
-     * @param entryDto ДТО учетной записи игрока, включающий его логин и пароль
+     * @param authRequest запрос на авторизацию игрока, включающий его логин и пароль
      */
     @PostMapping("/authentication")
-    public boolean authorizePlayer(@ModelAttribute("entryDto") EntryDto entryDto) throws RuntimeException {
-        System.out.println(entryDto);
-        return service.authorizePlayer(entryDto);
+    public ResponseEntity<JwtResponse> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
+        JwtResponse authResponse = authService.login(authRequest);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authResponse);
     }
+
 
     /**
      * Метод передает в сервис запрос о текущем состоянии баланса игрока.
      *
-     * @param login идентификатор игрока (логин)
+     * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
      */
 
     @PostMapping("/balance")
-    public AccountDto getCurrentBalance(String login) {
-        return service.getCurrentBalance(login);
+    public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
+        String token = authService.getTokenFromHeader(header);
+        String login = authService.getLoginFromToken(token);
+        authService.validateAccessToken(token);
+        AccountDto accountDto = service.getCurrentBalance(login);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(accountDto);
     }
 
     /**

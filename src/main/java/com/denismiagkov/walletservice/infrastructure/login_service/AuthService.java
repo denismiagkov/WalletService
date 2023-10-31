@@ -54,6 +54,10 @@ public class AuthService {
         return null;
     }
 
+    public String getTokenFromHeader(String header) {
+        return header.substring(7);
+    }
+
     public String getLoginFromToken(String token) {
         return jwtProvider.getLoginFromToken(token);
     }
