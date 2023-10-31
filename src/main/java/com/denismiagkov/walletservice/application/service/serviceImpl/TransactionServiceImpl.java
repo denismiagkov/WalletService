@@ -1,6 +1,5 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotUniqueTransactionIdException;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.domain.service.TransactionService;

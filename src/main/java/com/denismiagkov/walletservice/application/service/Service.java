@@ -4,9 +4,8 @@ import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.*;
-import com.denismiagkov.walletservice.domain.model.*;
 import org.mapstruct.factory.Mappers;
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 
@@ -24,64 +23,43 @@ public class Service {
     /**
      * Низкоуровневый сервис игрока
      */
-    private PlayerServiceImpl psi;
+    private PlayerServiceImpl playerService;
 
     /**
      * Низкоуровневый сервис счета игрока
      */
-    private AccountServiceImpl asi = new AccountServiceImpl();
+    private AccountServiceImpl accountService;
 
     /**
      * Низкоуровневый сервис транзакции
      */
-    private TransactionServiceImpl tsi;
+    private TransactionServiceImpl transactionService;
 
     /**
      * Низкоуровневый сервис действия игрока
      */
-    private OperationServiceImpl osi;
+    private OperationServiceImpl operationService;
 
+    /**
+     * Маппер счета
+     */
     private AccountMapper accountMapper;
-
-    // private LoggingAspect loggingAspect;
+    /**
+     * Маппер транзакций
+     */
+    TransactionMapper transactionMapper;
 
     /**
      * Конструктор класса
      */
+    @Autowired
     public Service() {
-        this.psi = new PlayerServiceImpl();
-        this.asi = new AccountServiceImpl();
-        this.tsi = new TransactionServiceImpl();
-        this.osi = new OperationServiceImpl();
-        //  this.loggingAspect = new LoggingAspect(osi, psi);
-    }
-
-    /**
-     * Метод возвращает Низкоуровневый сервис игрока
-     */
-    public PlayerServiceImpl getPsi() {
-        return psi;
-    }
-
-    /**
-     * Метод возвращает Низкоуровневый сервис счета игрока
-     */
-    public AccountServiceImpl getAsi() {
-        return asi;
-    }
-
-    /**
-     * Метод возвращает Низкоуровневый сервис транзакции
-     */
-    public TransactionServiceImpl getTsi() {
-        return tsi;
-    }
-
-    /**
-     * Метод возвращает Низкоуровневый сервис действия игрока
-     */
-    public OperationServiceImpl getOsi() {
-        return osi;
+        this.playerService = new PlayerServiceImpl();
+        this.accountService = new AccountServiceImpl();
+        this.transactionService = new TransactionServiceImpl();
+        this.operationService = new OperationServiceImpl();
+        this.accountMapper = Mappers.getMapper(AccountMapper.class);
+        this.transactionMapper = Mappers.getMapper(TransactionMapper.class);
     }
 
     /**
@@ -93,77 +71,33 @@ public class Service {
      * @see AccountServiceImpl#createAccount(Player)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public void registerPlayer(PlayerDto playerDto)
-            throws RuntimeException {
-        Player player = psi.registerPlayer(playerDto);
-        asi.createAccount(player);
-        osi.putOnLog(player.getId(), OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
+    public void registerPlayer(PlayerDto playerDto) throws RuntimeException {
+        Player player = playerService.registerPlayer(playerDto);
+        accountService.createAccount(player);
+        operationService.putOnLog(player.getId(), OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),
                 OperationStatus.SUCCESS);
     }
 
     /**
-     * Посредством вызова методов нижнеуровневых сервисов Метод выполняет аутентентификацию пользователя с фиксацией
-     * результатов в журнале аудита. Метод пробрасывает исключения IncorrectLoginException, IncorrectPasswordException
-     * на уровень контроллера.
+     * Посредством вызова методов нижнеуровневых сервисов Метод передает пользователю текущее состояние баланса
+     * на его счете с фиксацией статуса события в журнале аудита.
      *
-     * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
-     * @see PlayerServiceImpl#authorizePlayer(String, String)
+     * @param login идентификатор игрока (логин)
+     * @see PlayerServiceImpl#getPlayerId(String)
+     * @see AccountServiceImpl#getCurrentBalance(int)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-    public boolean authorizePlayer(EntryDto entryDto) throws RuntimeException {
-        int playerId = -1;
-        try {
-            playerId = psi.authorizePlayer(entryDto);
-            if (playerId > 0) {
-                osi.putOnLog(psi.getPlayerId(entryDto.getLogin()), OperationType.AUTHORIZATION,
-                        new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
-                return true;
-            } else {
-                return false;
-            }
-        } catch (RuntimeException e) {
-            osi.putOnLog(psi.getPlayerId(entryDto.getLogin()), OperationType.AUTHORIZATION,
-                    new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
-        }
-        return false;
-    }
-
-    //    /**
-//     * Посредством вызова методов нижнеуровневых сервисов Метод передает игроку текущее состояние баланса на его счете
-//     * с фиксацией статуса события в журнале аудита.
-//     *
-//     * @param playerId    идентификатор игрока (логин)
-//     * @see PlayerServiceImpl#getPlayerId(String)
-//     * @see AccountServiceImpl#getCurrentBalance(int)
-//     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
-//     */
-//    public AccountDto getCurrentBalance(int playerId) {
-//        try {
-//            Account account = asi.getCurrentBalance(playerId);
-//            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
-//                    OperationStatus.SUCCESS);
-//            accountMapper = Mappers.getMapper(AccountMapper.class);
-//            AccountDto accountDto = accountMapper.toAccountDto(player, account);
-//            return accountDto;
-//        } catch (Exception e) {
-//            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
-//                    OperationStatus.FAIL);
-//            return null;
-//        }
-//    }
     public AccountDto getCurrentBalance(String login) {
-        int playerId = psi.getPlayerId(login);
+        int playerId = playerService.getPlayerId(login);
         try {
-            Account account = asi.getCurrentBalance(playerId);
-            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
+            Account account = accountService.getCurrentBalance(playerId);
+            operationService.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
                     OperationStatus.SUCCESS);
-            Player player = psi.getPlayerByLogin(login);
-            accountMapper = Mappers.getMapper(AccountMapper.class);
+            Player player = playerService.getPlayerByLogin(login);
             AccountDto accountDto = accountMapper.toAccountDto(player, account);
             return accountDto;
         } catch (Exception e) {
-            osi.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
+            operationService.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
                     OperationStatus.FAIL);
             return null;
         }
@@ -179,18 +113,16 @@ public class Service {
      * @see AccountServiceImpl#getTransactionHistory(int)
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
-
     public List<TransactionDto> getTransactionHistory(String login) {
-        int playerId = psi.getPlayerId(login);
+        int playerId = playerService.getPlayerId(login);
         try {
-            List<Transaction> allTransactions = asi.getTransactionHistory(playerId);
-            osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
+            List<Transaction> allTransactions = accountService.getTransactionHistory(playerId);
+            operationService.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
-            TransactionMapper transactionMapper = Mappers.getMapper(TransactionMapper.class);
             List<TransactionDto> transactionDtoList = transactionMapper.toTransactionDtoList(allTransactions);
             return transactionDtoList;
         } catch (Exception e) {
-            osi.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
+            operationService.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
             return null;
         }
@@ -198,34 +130,30 @@ public class Service {
 
     /**
      * Посредством вызова методов нижнеуровневых сервисов Метод выполняет пополнение денежного счета игрока
-     * с фиксацией результата операции в журнале аудита. Метод пробрасывает исключение
-     * NotUniqueTransactionIdException на уровень контроллера.
+     * с фиксацией результата операции в журнале аудита
      *
      * @param login  идентификатор игрока (логин)
      * @param amount сумма выполняемой операции
      */
 
-    public void topUpAccount(String login, BigDecimal amount)
-            throws RuntimeException {
-        int playerId = psi.getPlayerId(login);
+    public void topUpAccount(String login, BigDecimal amount) {
+        int playerId = playerService.getPlayerId(login);
         try {
-            int accountId = asi.getAccountId(playerId);
-            tsi.topUpAccount(accountId, amount);
-            asi.increaseBalance(playerId, amount);
-            osi.putOnLog(playerId, OperationType.CREDITING,
+            int accountId = accountService.getAccountId(playerId);
+            transactionService.topUpAccount(accountId, amount);
+            accountService.increaseBalance(playerId, amount);
+            operationService.putOnLog(playerId, OperationType.CREDITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
         } catch (Exception e) {
-            osi.putOnLog(playerId, OperationType.CREDITING,
+            operationService.putOnLog(playerId, OperationType.CREDITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
-            throw e;
         }
     }
 
     /**
      * Посредством вызова методов нижнеуровневых сервисов Метод выполняет списание денежных средств со счета
      * игрока при наличии на счете необходимых средств с фиксацией результата операции в журнале аудита.
-     * Метод пробрасывает исключения NotUniqueTransactionIdException и NotEnoughFundsOnAccountException
-     * на уровень контроллера.
+     * Метод пробрасывает исключение NotEnoughFundsOnAccountException на уровень контроллера.
      *
      * @param login  идентификатор игрока (логин)
      * @param amount сумма выполняемой операции
@@ -235,48 +163,43 @@ public class Service {
      */
 
     public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException {
-        int playerId = psi.getPlayerId(login);
+        int playerId = playerService.getPlayerId(login);
         try {
-            if (asi.areFundsEnough(playerId, amount)) {
-                int accountId = asi.getAccountId(playerId);
-                tsi.writeOffFunds(accountId, amount);
-                asi.decreaseBalance(playerId, amount);
-                osi.putOnLog(playerId, OperationType.DEBITING,
+            if (accountService.areFundsEnough(playerId, amount)) {
+                int accountId = accountService.getAccountId(playerId);
+                transactionService.writeOffFunds(accountId, amount);
+                accountService.decreaseBalance(playerId, amount);
+                operationService.putOnLog(playerId, OperationType.DEBITING,
                         new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
             } else {
                 throw new NotEnoughFundsOnAccountException();
             }
         } catch (Exception e) {
-            osi.putOnLog(playerId, OperationType.DEBITING,
+            operationService.putOnLog(playerId, OperationType.DEBITING,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.FAIL);
             throw e;
         }
     }
 
     /**
-     * Посредством вызова метода нижнеуровневого сервиса Метод обеспечивает фиксирование выхода игрока из
-     * приложения в журнале аудита
+     * Метод возвращает игрока по его логину
      *
-     * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
-     * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
+     * @param login идентификатор игрока (логин)
+     * @return игрок
+     * @see com.denismiagkov.walletservice.infrastructure.login_service.JwtProvider#generateAccessToken(Entry)
      */
-    public void logExit(String login, String password) {
-        int playerId = psi.getPlayerId(login);
-        osi.putOnLog(playerId, OperationType.EXIT, new Timestamp(System.currentTimeMillis()),
-                OperationStatus.SUCCESS);
-    }
-
     public Player getPlayerByLogin(String login) {
-        return psi.getPlayerByLogin(login);
+        return playerService.getPlayerByLogin(login);
     }
 
-    public Map<String, String> getAllEntries() {
-        return psi.getAllEntries();
-    }
-
+    /**
+     * Метод возвращает комбинацию логин - пароль по логину игрока
+     *
+     * @param login идентификатор игрока (логин)
+     * @return комбинация логин-пароль игрока
+     */
     public Entry getEntryByLogin(String login) {
-        return psi.getEntryByLogin(login);
+        return playerService.getEntryByLogin(login);
     }
 }
 
