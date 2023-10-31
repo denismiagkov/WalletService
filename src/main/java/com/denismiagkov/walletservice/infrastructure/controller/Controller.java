@@ -115,13 +115,14 @@ public class Controller {
     /**
      * Метод вызывает метод сервиса по пополнению денежного счета игрока.
      *
-     * @param login  идентификатор игрока (логин)
-     * @param amount сумма выполняемой операции
+     * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
      */
     @Loggable
     @PostMapping("/players/depositing")
     public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
-                                                    @RequestParam BigDecimal amount) {
+                                                    @RequestBody AmountWrapper wrapper) {
+        BigDecimal amount = wrapper.getAmount();
         String login = authService.validateAccessToken(header);
         service.topUpAccount(login, amount);
         InfoMessage message = new InfoMessage();
@@ -134,12 +135,21 @@ public class Controller {
     /**
      * Метод вызывает метод сервиса по списанию денежных средств со счета игрока.
      *
-     * @param login  идентификатор игрока (логин)
-     * @param amount сумма выполняемой операции
+     * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
      */
     @Loggable
-    public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException {
+    @PostMapping("/players/withdrawal")
+    public ResponseEntity<InfoMessage> writeOffFunds(@RequestHeader("Authorization") String header,
+                                                     @RequestBody AmountWrapper wrapper) throws RuntimeException {
+        BigDecimal amount = wrapper.getAmount();
+        String login = authService.validateAccessToken(header);
         service.writeOffFunds(login, amount);
+        InfoMessage message = new InfoMessage();
+        message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(message);
     }
 
     /**
