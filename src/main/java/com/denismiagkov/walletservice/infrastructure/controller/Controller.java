@@ -85,9 +85,7 @@ public class Controller {
 
     @PostMapping("/players/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
-        String token = authService.getTokenFromHeader(header);
-        String login = authService.getLoginFromToken(token);
-        authService.validateAccessToken(token);
+        String login = authService.validateAccessToken(header);
         AccountDto accountDto = service.getCurrentBalance(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -97,13 +95,11 @@ public class Controller {
     /**
      * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока.
      *
-     * @param login идентификатор игрока (логин)
+     * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
      */
     @PostMapping("/players/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
-        String token = authService.getTokenFromHeader(header);
-        String login = authService.getLoginFromToken(token);
-        authService.validateAccessToken(token);
+        String login = authService.validateAccessToken(header);
         List<TransactionDto> transactionDtoList = service.getTransactionHistory(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -116,13 +112,12 @@ public class Controller {
      * @param login  идентификатор игрока (логин)
      * @param amount сумма выполняемой операции
      */
-    public boolean topUpAccount(String login, BigDecimal amount) {
-        try {
+    public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
+                                @RequestBody BigDecimal amount) {
+
+
             service.topUpAccount(login, amount);
-            return true;
-        } catch (RuntimeException e) {
-            return false;
-        }
+
     }
 
     /**

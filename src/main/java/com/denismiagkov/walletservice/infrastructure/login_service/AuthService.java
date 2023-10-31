@@ -38,8 +38,11 @@ public class AuthService {
         return new JwtResponse(null, null);
     }
 
-    public boolean validateAccessToken(String accessToken) {
-        return jwtProvider.validateAccessToken(accessToken);
+    public String validateAccessToken(String httpRequestHeader) throws RuntimeException{
+        String token = getTokenFromHeader(httpRequestHeader);
+        String login = getLoginFromToken(token);
+        jwtProvider.validateAccessToken(token);
+        return login;
     }
 
     public boolean validateRefreshToken(String refreshToken) {
