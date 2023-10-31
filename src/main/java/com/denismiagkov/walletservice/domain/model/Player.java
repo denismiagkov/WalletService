@@ -5,7 +5,6 @@ import java.util.Objects;
 /**
  * Класс описывает игрока
  */
-
 public class Player {
     /**
      * Уникальный идентификатор игрока

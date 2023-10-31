@@ -1,14 +1,19 @@
-package com.denismiagkov.walletservice.application.controller;
+package com.denismiagkov.walletservice.infrastructure.controller;
 
 import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
+import com.denismiagkov.walletservice.infrastructure.in.DataValidator;
+import com.denismiagkov.walletservice.infrastructure.in.exceptions.IncorrectNameException;
+import com.denismiagkov.walletservice.infrastructure.in.exceptions.InfoMessage;
+import com.denismiagkov.walletservice.init.WebInit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.math.BigDecimal;
@@ -18,44 +23,22 @@ import java.util.List;
  * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
  * и внутренними слоями приложения
  */
-@org.springframework.stereotype.Controller
+@RestController
+//@RequestMapping("/api")
 public class Controller {
     /**
      * Cервис приложения
      */
-    @Autowired
     private Service service;
 
     /**
      * Конструктор класса
      */
-  //  @Autowired
+    @Autowired
     public Controller(Service service) {
-        System.out.println("Controller created!");
         this.service = service;
+        WebInit.start();
     }
-
-
-    @RequestMapping("/")
-    public String startPage(){
-        return "start-view";
-    }
-
-
-    @RequestMapping("/registerForm")
-    public String getInfoForRegistration(Model model){
-        PlayerDto playerDto = new PlayerDto();
-        model.addAttribute("playerDto", playerDto);
-        return "register-form-view";
-    }
-
-    @RequestMapping("/loginForm")
-    public String getInfoForLogin(Model model){
-        EntryDto entryDto = new EntryDto();
-        model.addAttribute("entryDto", entryDto);
-        return "login-form-view";
-    }
-
 
     /**
      * Метод вызывает в сервисе метод регистрации нового игрока. В зависимости от полученного результата
@@ -64,20 +47,22 @@ public class Controller {
      * @param playerDto ДТО игрока
      * @return статус успеха регистрации
      */
-    @RequestMapping("/registration")
-    public String registerPlayer(@ModelAttribute("playerDto") PlayerDto playerDto) throws RuntimeException {
-        System.out.println(playerDto);
+    @PostMapping("/registration")
+    public ResponseEntity<PlayerDto> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
+        DataValidator.checkRegistrationForm(playerDto);
         service.registerPlayer(playerDto);
-        return "registration-view";
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(playerDto);
     }
+
 
     /**
      * Метод вызывает в сервисе метод аутентентификации пользователя.     *
      *
-     * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
+     * @param entryDto ДТО учетной записи игрока, включающий его логин и пароль
      */
-    @RequestMapping("/authentication")
+    @PostMapping("/authentication")
     public boolean authorizePlayer(@ModelAttribute("entryDto") EntryDto entryDto) throws RuntimeException {
         System.out.println(entryDto);
         return service.authorizePlayer(entryDto);
@@ -88,6 +73,8 @@ public class Controller {
      *
      * @param login идентификатор игрока (логин)
      */
+
+    @PostMapping("/balance")
     public AccountDto getCurrentBalance(String login) {
         return service.getCurrentBalance(login);
     }
@@ -97,6 +84,7 @@ public class Controller {
      *
      * @param login идентификатор игрока (логин)
      */
+    @PostMapping("/transactions")
     public List<TransactionDto> getTransactionsHistory(String login) {
         return service.getTransactionHistory(login);
     }

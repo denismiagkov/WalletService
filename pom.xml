@@ -31,6 +31,7 @@
         <postgresql.test.version>1.19.1</postgresql.test.version>
         <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
         <jakarta.servlet.jsp.jstl.version>3.0.0</jakarta.servlet.jsp.jstl.version>
+        <jakarta.validation>3.0.2</jakarta.validation>
         <jackson.databind.version>2.15.2</jackson.databind.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.jackson.version>0.11.5</jjwt.jackson.version>
@@ -79,7 +80,12 @@
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>${jakarta.servlet.jsp.jstl.version}</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
