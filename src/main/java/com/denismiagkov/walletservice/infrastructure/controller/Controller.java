@@ -1,27 +1,21 @@
 package com.denismiagkov.walletservice.infrastructure.controller;
 
 import com.denismiagkov.walletservice.application.dto.AccountDto;
-import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.aspects.annotations.Loggable;
 import com.denismiagkov.walletservice.infrastructure.in.DataValidator;
-import com.denismiagkov.walletservice.infrastructure.in.exceptions.IncorrectNameException;
 import com.denismiagkov.walletservice.infrastructure.in.exceptions.InfoMessage;
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;
 import com.denismiagkov.walletservice.init.WebInit;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -30,14 +24,19 @@ import java.util.List;
  * и внутренними слоями приложения
  */
 @RestController
-@Component
-//@RequestMapping("/api")
 public class Controller {
     /**
      * Cервис приложения
      */
     private Service service;
+    /**
+     * Сервис аутентификации
+     */
     private AuthService authService;
+    /**
+     * Информационное сообщение для пользователя о статусе исполнения запроса
+     */
+    private InfoMessage message;
 
     /**
      * Конструктор класса
@@ -46,48 +45,55 @@ public class Controller {
     public Controller(Service service) {
         this.service = service;
         this.authService = new AuthService();
+        this.message = new InfoMessage();
+    }
+
+    /**
+     * Init-метод создает подключение к базе данных и запускает Liquibase
+     */
+    @PostConstruct
+    public void init() {
         WebInit.start();
     }
 
     /**
-     * Метод вызывает в сервисе метод регистрации нового игрока. В зависимости от полученного результата
-     * возвращает в консоль булевое значение.
+     * Метод вызывает в сервисе метод регистрации нового игрока. Возвращает статус исполнения запроса
      *
-     * @param playerDto ДТО игрока
-     * @return статус успеха регистрации
+     * @param playerDto ДТО нового игрока
+     * @return статус исполнения запроса
      */
-    @Loggable
     @PostMapping("/registration")
-    public ResponseEntity<PlayerDto> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
+    public ResponseEntity<InfoMessage> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
         DataValidator.checkRegistrationForm(playerDto);
         service.registerPlayer(playerDto);
+        message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(playerDto);
+                .body(message);
     }
 
-
     /**
-     * Метод вызывает в сервисе метод аутентентификации пользователя.     *
+     * Метод реализует аутентентификацию пользователя и сообщает ему о результате исполнения запроса
      *
      * @param authRequest запрос на авторизацию игрока, включающий его логин и пароль
+     * @return статус исполнения запроса
      */
-    @Loggable
     @PostMapping("/authentication")
-    public ResponseEntity<JwtResponse> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
+    public ResponseEntity<InfoMessage> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
         JwtResponse authResponse = authService.login(authRequest);
+        message.setInfo("Аутентификация пользователя выполнена успешно");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(authResponse);
+                .body(message);
     }
 
-
     /**
-     * Метод передает в сервис запрос о текущем состоянии баланса игрока.
+     * Метод передает в сервис запрос о текущем состоянии баланса игрока и возвращает
+     * результат обработки запроса пользователю.
      *
      * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @return текущий баланс на счет игрока
      */
-    @Loggable
     @PostMapping("/players/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
         String login = authService.validateAccessToken(header);
@@ -98,11 +104,12 @@ public class Controller {
     }
 
     /**
-     * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока.
+     * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока
+     * и возвращает пользователю результат обработки запроса.
      *
      * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @return история транзакций на счете игрока
      */
-    @Loggable
     @PostMapping("/players/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
         String login = authService.validateAccessToken(header);
@@ -113,19 +120,19 @@ public class Controller {
     }
 
     /**
-     * Метод вызывает метод сервиса по пополнению денежного счета игрока.
+     * Метод вызывает в сервисе метод по пополнению денежного счета игрока
+     * и возвращает пользователю результат обработки запроса
      *
      * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
      * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
+     * @return статус исполнения запроса
      */
-    @Loggable
     @PostMapping("/players/depositing")
     public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
                                                     @RequestBody AmountWrapper wrapper) {
         BigDecimal amount = wrapper.getAmount();
         String login = authService.validateAccessToken(header);
         service.topUpAccount(login, amount);
-        InfoMessage message = new InfoMessage();
         message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -133,35 +140,22 @@ public class Controller {
     }
 
     /**
-     * Метод вызывает метод сервиса по списанию денежных средств со счета игрока.
+     * Метод вызывает в сервисе метод по списанию денежных средств со счета игрока
+     * и возвращает пользователю результат обработки запроса.
      *
      * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
      * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
+     * @return статус исполнения запроса
      */
-    @Loggable
     @PostMapping("/players/withdrawal")
     public ResponseEntity<InfoMessage> writeOffFunds(@RequestHeader("Authorization") String header,
                                                      @RequestBody AmountWrapper wrapper) throws RuntimeException {
         BigDecimal amount = wrapper.getAmount();
         String login = authService.validateAccessToken(header);
         service.writeOffFunds(login, amount);
-        InfoMessage message = new InfoMessage();
         message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(message);
     }
-
-    /**
-     * Метод вызывает в сервисе метод по фиксации в журнале аудита действия игрока по выходу из приложения.
-     *
-     * @param login    идентификатор игрока (логин)
-     * @param password идентифицирующий признак игрока (пароль)
-     */
-    @Loggable
-    public void logExit(String login, String password) {
-        service.logExit(login, password);
-    }
-
 }
-

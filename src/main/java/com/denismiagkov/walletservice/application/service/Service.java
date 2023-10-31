@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.*;
+import com.denismiagkov.walletservice.domain.model.*;
 import org.mapstruct.factory.Mappers;
 
 

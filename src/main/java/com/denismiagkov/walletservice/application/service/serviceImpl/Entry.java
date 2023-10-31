@@ -1,7 +1,5 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
-import com.denismiagkov.walletservice.domain.model.Player;
-
 import java.util.Objects;
 /**
  * Класс описывает уникальную комбинацию логин - пароль, используемую для аутентификаци игрока.

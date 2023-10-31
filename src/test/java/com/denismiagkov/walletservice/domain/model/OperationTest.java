@@ -1,14 +1,7 @@
 package com.denismiagkov.walletservice.domain.model;
 
 import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.domain.model.Operation;
-import com.denismiagkov.walletservice.domain.model.OperationStatus;
-import com.denismiagkov.walletservice.domain.model.OperationType;
-import com.denismiagkov.walletservice.domain.model.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Timestamp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
