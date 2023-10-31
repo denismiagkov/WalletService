@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.application.service.serviceImpl;
+package com.denismiagkov.walletservice.domain.model;
 
 import java.util.Objects;
 /**

@@ -3,6 +3,7 @@ package com.denismiagkov.walletservice.application.service.serviceImpl;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.LoginIsNotUniqueException;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.PlayerAlreadyExistsException;
+import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.PlayerService;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;

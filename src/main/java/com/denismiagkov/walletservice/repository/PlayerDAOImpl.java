@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;

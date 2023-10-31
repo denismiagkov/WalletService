@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.domain.service.TransactionService;
 import com.denismiagkov.walletservice.repository.TransactionDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,46 +18,44 @@ import java.sql.Timestamp;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    TransactionDAOImpl tdi;
-
+    /**
+     * ДАО транзакции
+     */
+    TransactionDAOImpl transactionDAO;
 
     /**
      * Констркутор класса
      */
+    @Autowired
     public TransactionServiceImpl() {
-        this.tdi = new TransactionDAOImpl();
+        this.transactionDAO = new TransactionDAOImpl();
     }
 
     /**
-     * Метод добавляет денежные средства на счет игрока (выполняет кредитную транзакцию), при условии,
-     * что вызывающей стороной предоставлен уникальный идентификатор транзакции. В случае успешной операции метод
-     * вносит ее идентификатор в перечень уникальных идентификаторов транзакций.
+     * Метод добавляет денежные средства на счет игрока (выполняет кредитную транзакцию)
      *
-     * @param accountId  идентификатор  счета, на котором выполняется транзакция
-     * @param amount   сумма выполняемой операции
-     * @throws NotUniqueTransactionIdException в случае, если предоставленный идентификатор транзакции не является
-     *                                         уникальным
+     * @param accountId идентификатор  счета, на котором выполняется транзакция
+     * @param amount    сумма выполняемой операции
      */
     @Override
     public void topUpAccount(int accountId, BigDecimal amount) throws RuntimeException {
         Transaction transaction = new Transaction(accountId, new Timestamp(System.currentTimeMillis()),
                 TransactionType.CREDIT, amount);
-        tdi.saveTransaction(transaction);
+        transactionDAO.saveTransaction(transaction);
     }
 
     /**
      * Метод списывает средства с денежного счета игрока (выполняет кредитную транзакцию), при условии,
-     * что на счете достаточно денежных средств и вызывающей стороной предоставлен уникальный идентификатор транзакции.
-     * В случае успешной операции метод вносит ее идентификатор в перечень уникальных идентификаторов транзакций.
+     * что на счете достаточно денежных средств.
      *
-     * @param accountId  идентификатор счета игрока, на котором выполняется транзакция
-     * @param amount   сумма выполняемой операции
+     * @param accountId идентификатор счета игрока, на котором выполняется транзакция
+     * @param amount    сумма выполняемой операции
      */
     @Override
     public void writeOffFunds(int accountId, BigDecimal amount) throws RuntimeException {
         Transaction transaction = new Transaction(accountId,
                 new Timestamp(System.currentTimeMillis()), TransactionType.DEBIT, amount);
-        tdi.saveTransaction(transaction);
+        transactionDAO.saveTransaction(transaction);
     }
 }
 

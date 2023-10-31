@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.application.service.serviciImpl;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
