@@ -83,7 +83,7 @@ public class Controller {
      * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
      */
 
-    @PostMapping("/balance")
+    @PostMapping("/players/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
         String token = authService.getTokenFromHeader(header);
         String login = authService.getLoginFromToken(token);
@@ -99,9 +99,15 @@ public class Controller {
      *
      * @param login идентификатор игрока (логин)
      */
-    @PostMapping("/transactions")
-    public List<TransactionDto> getTransactionsHistory(String login) {
-        return service.getTransactionHistory(login);
+    @PostMapping("/players/transactions")
+    public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
+        String token = authService.getTokenFromHeader(header);
+        String login = authService.getLoginFromToken(token);
+        authService.validateAccessToken(token);
+        List<TransactionDto> transactionDtoList = service.getTransactionHistory(login);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(transactionDtoList);
     }
 
     /**
