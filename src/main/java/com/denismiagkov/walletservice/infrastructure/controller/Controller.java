@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.Service;
+import com.denismiagkov.walletservice.aspects.annotations.Loggable;
 import com.denismiagkov.walletservice.infrastructure.in.DataValidator;
 import com.denismiagkov.walletservice.infrastructure.in.exceptions.IncorrectNameException;
 import com.denismiagkov.walletservice.infrastructure.in.exceptions.InfoMessage;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,6 +30,7 @@ import java.util.List;
  * и внутренними слоями приложения
  */
 @RestController
+@Component
 //@RequestMapping("/api")
 public class Controller {
     /**
@@ -53,6 +56,7 @@ public class Controller {
      * @param playerDto ДТО игрока
      * @return статус успеха регистрации
      */
+    @Loggable
     @PostMapping("/registration")
     public ResponseEntity<PlayerDto> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
         DataValidator.checkRegistrationForm(playerDto);
@@ -68,6 +72,7 @@ public class Controller {
      *
      * @param authRequest запрос на авторизацию игрока, включающий его логин и пароль
      */
+    @Loggable
     @PostMapping("/authentication")
     public ResponseEntity<JwtResponse> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
         JwtResponse authResponse = authService.login(authRequest);
@@ -82,7 +87,7 @@ public class Controller {
      *
      * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
      */
-
+    @Loggable
     @PostMapping("/players/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
         String login = authService.validateAccessToken(header);
@@ -97,6 +102,7 @@ public class Controller {
      *
      * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
      */
+    @Loggable
     @PostMapping("/players/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
         String login = authService.validateAccessToken(header);
@@ -112,12 +118,17 @@ public class Controller {
      * @param login  идентификатор игрока (логин)
      * @param amount сумма выполняемой операции
      */
+    @Loggable
+    @PostMapping("/players/depositing")
     public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
-                                @RequestBody BigDecimal amount) {
-
-
-            service.topUpAccount(login, amount);
-
+                                                    @RequestParam BigDecimal amount) {
+        String login = authService.validateAccessToken(header);
+        service.topUpAccount(login, amount);
+        InfoMessage message = new InfoMessage();
+        message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(message);
     }
 
     /**
@@ -126,6 +137,7 @@ public class Controller {
      * @param login  идентификатор игрока (логин)
      * @param amount сумма выполняемой операции
      */
+    @Loggable
     public void writeOffFunds(String login, BigDecimal amount) throws RuntimeException {
         service.writeOffFunds(login, amount);
     }
@@ -136,6 +148,7 @@ public class Controller {
      * @param login    идентификатор игрока (логин)
      * @param password идентифицирующий признак игрока (пароль)
      */
+    @Loggable
     public void logExit(String login, String password) {
         service.logExit(login, password);
     }
