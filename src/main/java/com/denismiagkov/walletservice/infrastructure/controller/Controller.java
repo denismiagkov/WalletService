@@ -76,15 +76,15 @@ public class Controller {
      * Метод реализует аутентентификацию пользователя и сообщает ему о результате исполнения запроса
      *
      * @param authRequest запрос на авторизацию игрока, включающий его логин и пароль
-     * @return статус исполнения запроса
+     * @return токен
      */
     @PostMapping("/authentication")
-    public ResponseEntity<InfoMessage> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
+    public ResponseEntity<JwtResponse> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
         JwtResponse authResponse = authService.login(authRequest);
         message.setInfo("Аутентификация пользователя выполнена успешно");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(message);
+                .body(authResponse);
     }
 
     /**
