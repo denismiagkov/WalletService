@@ -6,6 +6,7 @@ import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.AccountDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -26,15 +27,16 @@ public class AccountDAOImpl implements AccountDAO {
     /**
      * Конструктор класса
      */
+    @Autowired
     public AccountDAOImpl() {
         this.dbConnection = new DatabaseConnection();
     }
 
     /**
-     * Конструктор класса с параметром(для тестирования)
+     * Конструктор класса с параметром(для целей тестирования)
      *
      * @param dbConnection подключение к базе данных
-     * */
+     */
     public AccountDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -58,28 +60,6 @@ public class AccountDAOImpl implements AccountDAO {
             System.out.println(e.getMessage());
         }
     }
-
-    /**
-     * Метод возвращает сведения о текущем балансе на счете заданного игрока
-     *
-     * @param playerId id игрока
-     * @throws SQLException
-     */
-//    public BigDecimal getCurrentBalance(int playerId) {
-//        String queryCurrentBalance = "SELECT balance FROM wallet.accounts WHERE player_id = ?";
-//        try (Connection connection = dbConnection.getConnection();
-//             PreparedStatement prStatement = connection.prepareStatement(queryCurrentBalance)) {
-//            prStatement.setInt(1, playerId);
-//            ResultSet rs = prStatement.executeQuery();
-//            while (rs.next()) {
-//                BigDecimal balance = rs.getBigDecimal("balance");
-//                return balance;
-//            }
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return new BigDecimal(-1);
-//    }
 
     /**
      * Метод возвращает сведения о всех транзакциях, совершенных заданным игроком
@@ -177,6 +157,12 @@ public class AccountDAOImpl implements AccountDAO {
         return -1;
     }
 
+    /**
+     * Метод возвращает денежный счет (текущее состояние баланса) по id игрока
+     *
+     * @param playerId id игрока
+     * @return денежный счет (текущее состояние баланса)
+     */
     public Account getCurrentBalance(int playerId) {
         String queryGetAccountId = "SELECT * FROM wallet.accounts WHERE player_id = ?";
         System.out.println(playerId);
@@ -199,6 +185,4 @@ public class AccountDAOImpl implements AccountDAO {
         }
         return null;
     }
-
-
 }

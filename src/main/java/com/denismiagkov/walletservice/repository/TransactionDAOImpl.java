@@ -3,6 +3,7 @@ package com.denismiagkov.walletservice.repository;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.TransactionDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 
@@ -20,15 +21,16 @@ public class TransactionDAOImpl implements TransactionDAO {
     /**
      * Базовый конструктор класса
      */
+    @Autowired
     public TransactionDAOImpl() {
         this.dbConnection = new DatabaseConnection();
     }
 
     /**
-     * Конструктор класса с параметром(для тестирования)
+     * Конструктор класса с параметром(для целей тестирования)
      *
      * @param dbConnection подключение к базе данных
-     * */
+     */
     public TransactionDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -50,7 +52,6 @@ public class TransactionDAOImpl implements TransactionDAO {
             prStatement.setInt(4, transaction.getAccountId());
             prStatement.executeUpdate();
             transaction.setId(getTransactionId(transaction));
-            System.out.println(transaction.getId());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

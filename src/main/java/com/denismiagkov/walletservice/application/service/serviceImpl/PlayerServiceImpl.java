@@ -62,11 +62,7 @@ public class PlayerServiceImpl implements PlayerService {
      * @return булевое значение
      */
     private boolean isPlayerExist(Player player) {
-        if (playerDAO.getAllPlayers().contains(player)) {
-            return true;
-        } else {
-            return false;
-        }
+        return playerDAO.getAllPlayers().contains(player);
     }
 
     /**
@@ -76,11 +72,7 @@ public class PlayerServiceImpl implements PlayerService {
      * @return булевое значение
      */
     private boolean isLoginExist(String login) {
-        if (playerDAO.getAllEntries().containsKey(login)) {
-            return true;
-        } else {
-            return false;
-        }
+        return playerDAO.getAllEntries().containsKey(login);
     }
 
     /**
