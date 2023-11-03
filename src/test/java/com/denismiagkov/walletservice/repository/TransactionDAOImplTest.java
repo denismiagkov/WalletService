@@ -21,7 +21,7 @@ class TransactionDAOImplTest {
             postgres.getJdbcUrl(),
             postgres.getUsername(),
             postgres.getPassword(),
-            driver);
+            postgres.getDriverClassName());
     Connection connection;
 
     {

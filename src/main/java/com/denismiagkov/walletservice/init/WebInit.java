@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class WebInit {
 
-    LiquibaseApp liquibaseApp;
+    public static LiquibaseApp liquibaseApp;
 
     @Autowired
     public WebInit(LiquibaseApp liquibaseApp) {
@@ -13,7 +13,8 @@ public class WebInit {
         this.liquibaseApp = liquibaseApp;
     }
 
-    public void start() {
-        this.liquibaseApp.start();
+    public static void start() {
+
+        liquibaseApp.start();
     }
 }

@@ -38,6 +38,7 @@ public class Controller {
      */
     private InfoMessage message;
 
+
     /**
      * Конструктор класса
      */

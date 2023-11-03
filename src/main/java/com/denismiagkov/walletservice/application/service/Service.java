@@ -40,28 +40,15 @@ public class Service {
     private OperationServiceImpl operationService;
 
     /**
-     * Маппер счета
-     */
-    private AccountMapper accountMapper;
-    /**
-     * Маппер транзакций
-     */
-    TransactionMapper transactionMapper;
-
-    /**
      * Конструктор класса
      */
     @Autowired
     public Service(PlayerServiceImpl playerService, AccountServiceImpl accountService,
-                   TransactionServiceImpl transactionService, OperationServiceImpl operationService,
-                   AccountMapper accountMapper, TransactionMapper transactionMapper) {
+                   TransactionServiceImpl transactionService, OperationServiceImpl operationService) {
         this.playerService = playerService;
         this.accountService = accountService;
         this.transactionService = transactionService;
         this.operationService = operationService;
-
-        this.accountMapper = Mappers.getMapper(AccountMapper.class);
-        this.transactionMapper = Mappers.getMapper(TransactionMapper.class);
     }
 
     /**
@@ -96,7 +83,7 @@ public class Service {
             operationService.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
                     OperationStatus.SUCCESS);
             Player player = playerService.getPlayerByLogin(login);
-            AccountDto accountDto = accountMapper.toAccountDto(player, account);
+            AccountDto accountDto = AccountMapper.INSTANCE.toAccountDto(player, account);
             return accountDto;
         } catch (Exception e) {
             operationService.putOnLog(playerId, OperationType.BALANCE_LOOKUP, new Timestamp(System.currentTimeMillis()),
@@ -120,7 +107,7 @@ public class Service {
             List<Transaction> allTransactions = accountService.getTransactionHistory(playerId);
             operationService.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,
                     new Timestamp(System.currentTimeMillis()), OperationStatus.SUCCESS);
-            List<TransactionDto> transactionDtoList = transactionMapper.toTransactionDtoList(allTransactions);
+            List<TransactionDto> transactionDtoList = TransactionMapper.INSTANCE.toTransactionDtoList(allTransactions);
             return transactionDtoList;
         } catch (Exception e) {
             operationService.putOnLog(playerId, OperationType.TRANSACTION_HISTORY_LOOKUP,

@@ -18,6 +18,8 @@ public class LiquibaseApp {
 
     @Autowired
     public LiquibaseApp(DatabaseConnection dbConnection) {
+
+        System.out.println("ENTERED IN LIQUIBASE CONSTRUCTOR");
         this.dbConnection = dbConnection;
     }
 

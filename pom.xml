@@ -44,6 +44,8 @@
         <maven.war.plugin>3.2.3</maven.war.plugin>
         <aspectj.maven.plugin>1.14.0</aspectj.maven.plugin>
         <junit.jupiter.params.version>5.10.0</junit.jupiter.params.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
+
 
 
     </properties>
@@ -142,7 +144,7 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.20.1</version>
+            <version>${aspectjeawer.version}</version>
             <scope>runtime</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
@@ -196,6 +198,13 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <version>3.6.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

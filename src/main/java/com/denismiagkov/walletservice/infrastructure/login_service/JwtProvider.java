@@ -1,14 +1,12 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
 import com.denismiagkov.walletservice.init.AuthConfig;
-import com.denismiagkov.walletservice.init.PropertyFile;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.domain.model.Entry;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;

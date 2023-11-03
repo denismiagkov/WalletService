@@ -25,7 +25,8 @@ class OperationDAOImplTest {
     DatabaseConnection dbConnection = new DatabaseConnection(
             postgres.getJdbcUrl(),
             postgres.getUsername(),
-            postgres.getPassword(), driver);
+            postgres.getPassword(),
+            postgres.getDriverClassName());
     Connection connection;
 
     {
