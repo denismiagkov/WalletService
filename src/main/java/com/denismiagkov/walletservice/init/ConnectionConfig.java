@@ -23,6 +23,7 @@ public class ConnectionConfig {
         this.url = url;
         this.username = username;
         this.password = password;
+        this.driver = driver;
     }
 
     public String getUrl() {

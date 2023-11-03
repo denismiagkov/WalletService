@@ -65,6 +65,7 @@ public class Controller {
      */
     @PostMapping("/registration")
     public ResponseEntity<InfoMessage> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
+        System.out.println("ENTERED INTO CONTROLLER REGISTER PLAYER");
         DataValidator.checkRegistrationForm(playerDto);
         service.registerPlayer(playerDto);
         message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");

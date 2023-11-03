@@ -61,6 +61,7 @@ public class Service {
      * @see OperationServiceImpl#putOnLog(int, OperationType, Timestamp, OperationStatus)
      */
     public void registerPlayer(PlayerDto playerDto) throws RuntimeException {
+        System.out.println("ENTERED INTO SERVICE REGISTER");
         Player player = playerService.registerPlayer(playerDto);
         accountService.createAccount(player);
         operationService.putOnLog(player.getId(), OperationType.REGISTRATION, new Timestamp(System.currentTimeMillis()),

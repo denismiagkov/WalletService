@@ -42,6 +42,7 @@ public class PlayerServiceImpl implements PlayerService {
      */
     @Override
     public Player registerPlayer(PlayerDto playerDto) throws RuntimeException {
+        System.out.println("ENTERED INTO PSIMPL REGISTER");
         if (isPlayerExist(new Player(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail()))) {
             throw new PlayerAlreadyExistsException(playerDto.getName(), playerDto.getSurname(), playerDto.getEmail());
         } else if (isLoginExist(playerDto.getLogin())) {
