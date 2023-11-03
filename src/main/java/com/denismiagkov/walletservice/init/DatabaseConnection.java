@@ -17,7 +17,6 @@ public class DatabaseConnection {
 
     @Autowired
     public DatabaseConnection(ConnectionConfig connectionConfig) {
-        System.out.println("ENTERED IN DBCONNECTION CONSTRUCTOR");
         this.URL = connectionConfig.getUrl();
         this.USERNAME = connectionConfig.getUsername();
         this.PASSWORD = connectionConfig.getPassword();
@@ -39,22 +38,6 @@ public class DatabaseConnection {
             throw new RuntimeException(e);
         }
         return DriverManager.getConnection(this.URL, this.USERNAME, this.PASSWORD);
-    }
-
-    public String getURL() {
-        return URL;
-    }
-
-    public String getUSERNAME() {
-        return USERNAME;
-    }
-
-    public String getPASSWORD() {
-        return PASSWORD;
-    }
-
-    public String getDRIVER() {
-        return DRIVER;
     }
 }
 

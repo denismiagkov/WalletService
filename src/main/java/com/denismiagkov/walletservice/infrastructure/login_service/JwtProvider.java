@@ -26,9 +26,9 @@ public class JwtProvider {
 
     @Autowired
     public JwtProvider(Service service, AuthConfig authConfig) {
+        this.service = service;
         this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtAccessSecretKey()));
         this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtRefreshSecretKey()));
-        System.out.println("TOKEN: " + this.JWT_ACCESS_SECRET_KEY);
     }
 
     public String generateAccessToken(Entry entry) {

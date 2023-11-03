@@ -42,7 +42,6 @@ public class PlayerDAOImpl implements PlayerDAO {
      */
     @Override
     public Player savePlayer(Player player) {
-        System.out.println("ENTERED INTO SAVE PLAYER");
         String insertPlayer = "INSERT INTO wallet.players (name, surname, email) VALUES (?, ?, ?)";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(insertPlayer)) {
@@ -85,11 +84,6 @@ public class PlayerDAOImpl implements PlayerDAO {
      */
     @Override
     public Set<Player> getAllPlayers() {
-        System.out.println("DAO PLAYERS");
-        System.out.println(dbConnection.getURL());
-        System.out.println(dbConnection.getUSERNAME());
-        System.out.println(dbConnection.getPASSWORD());
-        System.out.println(dbConnection.getDRIVER());
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
             System.out.println("ENTERED INTO TRY");
