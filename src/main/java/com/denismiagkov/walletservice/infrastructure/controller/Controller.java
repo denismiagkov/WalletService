@@ -9,13 +9,11 @@ import com.denismiagkov.walletservice.infrastructure.in.exceptions.InfoMessage;
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;
-import com.denismiagkov.walletservice.init.WebInit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.util.List;
 

@@ -36,7 +36,7 @@ public class PlayerDAOImpl implements PlayerDAO {
     @Autowired
     public PlayerDAOImpl(DatabaseConnection dbConnection,
                          @Value("SELECT * FROM wallet.players ") String selectAllPlayers,
-                         @Value("SELECT * FROM wallet.entries ") String  selectAllEntries) {
+                         @Value("SELECT * FROM wallet.entries ") String selectAllEntries) {
 
         this.dbConnection = dbConnection;
         this.SELECT_ALL_FROM_PLAYERS = selectAllPlayers;

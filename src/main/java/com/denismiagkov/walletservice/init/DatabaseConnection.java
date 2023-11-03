@@ -21,7 +21,6 @@ public class DatabaseConnection {
         this.USERNAME = connectionConfig.getUsername();
         this.PASSWORD = connectionConfig.getPassword();
         this.DRIVER = connectionConfig.getDriver();
-        System.out.println("URL: " + this.URL);
     }
 
     public DatabaseConnection(String url, String username, String password, String driver) {

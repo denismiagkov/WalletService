@@ -9,6 +9,7 @@ import liquibase.resource.ClassLoaderResourceAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -18,14 +19,11 @@ public class LiquibaseApp {
 
     @Autowired
     public LiquibaseApp(DatabaseConnection dbConnection) {
-
-        System.out.println("ENTERED IN LIQUIBASE CONSTRUCTOR");
         this.dbConnection = dbConnection;
-        System.out.println("LIQUIBASE created");
     }
 
+    @PostConstruct
     public Liquibase start() {
-        System.out.println("ENTERED INTO START");
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration";
 
         try (Connection connection = this.dbConnection.getConnection();
