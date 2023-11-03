@@ -5,6 +5,7 @@ import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -23,6 +24,9 @@ public class PlayerDAOImpl implements PlayerDAO {
      * Соединение с базой данных
      */
     DatabaseConnection dbConnection;
+    private final String SELECT_ALL_FROM_PLAYERS;
+    private final String SELECT_ALL_FROM_ENTRIES;
+
 
     /**
      * Конструктор класса
@@ -30,8 +34,13 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @param dbConnection подключение к базе данных
      */
     @Autowired
-    public PlayerDAOImpl(DatabaseConnection dbConnection) {
+    public PlayerDAOImpl(DatabaseConnection dbConnection,
+                         @Value("SELECT * FROM wallet.players ") String selectAllPlayers,
+                         @Value("SELECT * FROM wallet.entries ") String  selectAllEntries) {
+
         this.dbConnection = dbConnection;
+        this.SELECT_ALL_FROM_PLAYERS = selectAllPlayers;
+        this.SELECT_ALL_FROM_ENTRIES = selectAllEntries;
     }
 
     /**
@@ -87,7 +96,7 @@ public class PlayerDAOImpl implements PlayerDAO {
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
             System.out.println("ENTERED INTO TRY");
-            ResultSet rs = statement.executeQuery("SELECT * FROM wallet.players");
+            ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_PLAYERS);
             Set<Player> allPlayers = new HashSet<>();
             while (rs.next()) {
                 String name = rs.getString("name");
@@ -114,7 +123,7 @@ public class PlayerDAOImpl implements PlayerDAO {
         System.out.println("DAO ENTRIES");
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM wallet.entries");
+            ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_ENTRIES);
             Map<String, String> allEntries = new HashMap<>();
             while (rs.next()) {
                 String login = rs.getString("login");
@@ -183,7 +192,7 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @return игрок
      */
     public Player getPlayerById(int id) {
-        String getPlayerId = "SELECT * FROM wallet.players WHERE id = ?";
+        String getPlayerId = SELECT_ALL_FROM_PLAYERS + "WHERE id = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
             prStatement.setInt(1, id);
@@ -210,7 +219,7 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @return игрок
      */
     public Player getPlayerByLogin(String login) {
-        String getPlayerId = "SELECT * FROM wallet.entries WHERE login = ?";
+        String getPlayerId = SELECT_ALL_FROM_ENTRIES + "WHERE login = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
             prStatement.setString(1, login);
@@ -235,7 +244,7 @@ public class PlayerDAOImpl implements PlayerDAO {
      */
 
     public Entry getEntryByLogin(String login) {
-        String getEntry = "SELECT * FROM wallet.entries WHERE login = ?";
+        String getEntry = SELECT_ALL_FROM_ENTRIES + "WHERE login = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getEntry)) {
             prStatement.setString(1, login);

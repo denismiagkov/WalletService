@@ -21,9 +21,11 @@ public class LiquibaseApp {
 
         System.out.println("ENTERED IN LIQUIBASE CONSTRUCTOR");
         this.dbConnection = dbConnection;
+        System.out.println("LIQUIBASE created");
     }
 
     public Liquibase start() {
+        System.out.println("ENTERED INTO START");
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration";
 
         try (Connection connection = this.dbConnection.getConnection();

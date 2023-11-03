@@ -13,9 +13,9 @@ public class MainWebAppInitializer implements WebApplicationInitializer {
     public void onStartup(ServletContext container) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.scan("com.denismiagkov.walletservice");
-//        container.addListener(new ContextLoaderListener(context));
-//        ServletRegistration.Dynamic dispatcher = container.addServlet("mvc", new DispatcherServlet(context));
-//        dispatcher.setLoadOnStartup(1);
-//        dispatcher.addMapping("/");
+        container.addListener(new ContextLoaderListener(context));
+        ServletRegistration.Dynamic dispatcher = container.addServlet("mvc", new DispatcherServlet(context));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
     }
 }

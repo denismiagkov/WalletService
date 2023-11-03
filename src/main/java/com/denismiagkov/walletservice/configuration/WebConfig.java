@@ -8,14 +8,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
-
-@EnableWebMvc
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
-                .indentOutput(true);
-        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
-    }
-}
+//
+//@EnableWebMvc
+//@Configuration
+//public class WebConfig implements WebMvcConfigurer {
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+//                .indentOutput(true);
+//        converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
+//    }
+//}
