@@ -30,8 +30,8 @@ public class AccountServiceImpl implements AccountService {
      * Конструктор класса
      */
     @Autowired
-    public AccountServiceImpl() {
-        this.accountDAO = new AccountDAOImpl();
+    public AccountServiceImpl(AccountDAOImpl accountDAO) {
+        this.accountDAO = accountDAO;
     }
 
 

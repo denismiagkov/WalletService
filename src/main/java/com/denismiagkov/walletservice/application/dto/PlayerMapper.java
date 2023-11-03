@@ -5,8 +5,10 @@ import com.denismiagkov.walletservice.domain.model.Player;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component
 public interface PlayerMapper {
     PlayerMapper INSTANCE = Mappers.getMapper(PlayerMapper.class);
 

@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
@@ -11,6 +12,7 @@ import java.sql.*;
  * Класс отвечает за доступ к данным о транзакциях, хранящимся в базе данных. Предоставляет методы для создания,
  * чтения, обновления и удаления данных.
  */
+@Repository
 public class TransactionDAOImpl implements TransactionDAO {
 
     /**
@@ -19,18 +21,11 @@ public class TransactionDAOImpl implements TransactionDAO {
     DatabaseConnection dbConnection;
 
     /**
-     * Базовый конструктор класса
-     */
-    @Autowired
-    public TransactionDAOImpl() {
-        this.dbConnection = new DatabaseConnection();
-    }
-
-    /**
-     * Конструктор класса с параметром(для целей тестирования)
+     * Конструктор класса
      *
      * @param dbConnection подключение к базе данных
      */
+    @Autowired
     public TransactionDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }

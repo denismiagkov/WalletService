@@ -52,11 +52,14 @@ public class Service {
      * Конструктор класса
      */
     @Autowired
-    public Service() {
-        this.playerService = new PlayerServiceImpl();
-        this.accountService = new AccountServiceImpl();
-        this.transactionService = new TransactionServiceImpl();
-        this.operationService = new OperationServiceImpl();
+    public Service(PlayerServiceImpl playerService, AccountServiceImpl accountService,
+                   TransactionServiceImpl transactionService, OperationServiceImpl operationService,
+                   AccountMapper accountMapper, TransactionMapper transactionMapper) {
+        this.playerService = playerService;
+        this.accountService = accountService;
+        this.transactionService = transactionService;
+        this.operationService = operationService;
+
         this.accountMapper = Mappers.getMapper(AccountMapper.class);
         this.transactionMapper = Mappers.getMapper(TransactionMapper.class);
     }

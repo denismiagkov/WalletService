@@ -19,12 +19,12 @@ class PlayerServiceImplTest {
     PlayerDAOImpl pdi;
 
     @BeforeEach
-    void setUp() {
-        psi = new PlayerServiceImpl();
+    void setUp(PlayerServiceImpl playerService, PlayerDAOImpl playerDAO) {
+        psi = playerService;
         this.allPlayers = new HashSet<>();
         this.allEntries = new HashMap<>();
         this.loginsPerPlayers = new HashMap<>();
-        this.pdi = new PlayerDAOImpl();
+        this.pdi = playerDAO;
 
     }
 

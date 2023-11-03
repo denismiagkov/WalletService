@@ -4,16 +4,19 @@ import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.domain.model.Entry;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class AuthService {
 
     private final Service service;
     private final JwtProvider jwtProvider;
 
-    public AuthService() {
-        this.service = new Service();
-        this.jwtProvider = new JwtProvider();
+    @Autowired
+    public AuthService(Service service, JwtProvider provider) {
+        this.service = service;
+        this.jwtProvider = provider;
     }
 
     public JwtResponse login(JwtRequest authRequest) {

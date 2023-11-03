@@ -29,8 +29,8 @@ public class OperationServiceImpl implements OperationService {
      * Конструктор класса
      */
     @Autowired
-    public OperationServiceImpl() {
-        this.operationDAO = new OperationDAOImpl();
+    public OperationServiceImpl(OperationDAOImpl operationDAO) {
+        this.operationDAO = operationDAO;
     }
 
     /**

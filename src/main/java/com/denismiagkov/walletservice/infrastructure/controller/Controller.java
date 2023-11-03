@@ -28,11 +28,11 @@ public class Controller {
     /**
      * Cервис приложения
      */
-    private Service service;
+    private final Service service;
     /**
      * Сервис аутентификации
      */
-    private AuthService authService;
+    private final AuthService authService;
     /**
      * Информационное сообщение для пользователя о статусе исполнения запроса
      */
@@ -42,19 +42,19 @@ public class Controller {
      * Конструктор класса
      */
     @Autowired
-    public Controller(Service service) {
+    public Controller(Service service, AuthService authService, InfoMessage infoMessage) {
         this.service = service;
-        this.authService = new AuthService();
-        this.message = new InfoMessage();
+        this.authService = authService;
+        this.message = infoMessage;
     }
 
     /**
      * Init-метод создает подключение к базе данных и запускает Liquibase
      */
-    @PostConstruct
-    public void init() {
-        WebInit.start();
-    }
+//    @PostConstruct
+//    public void init() {
+//        WebInit.start();
+//    }
 
     /**
      * Метод вызывает в сервисе метод регистрации нового игрока. Возвращает статус исполнения запроса

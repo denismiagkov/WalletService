@@ -1,11 +1,15 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
+import com.denismiagkov.walletservice.init.AuthConfig;
 import com.denismiagkov.walletservice.init.PropertyFile;
 import com.denismiagkov.walletservice.application.service.Service;
 import com.denismiagkov.walletservice.domain.model.Entry;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -14,18 +18,19 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+@Component
 public class JwtProvider {
 
-    private final SecretKey JWT_ACCESS_SECRET_KEY;
-    private final SecretKey JWT_REFRESH_SECRET_KEY;
+    private SecretKey JWT_ACCESS_SECRET_KEY;
+    private SecretKey JWT_REFRESH_SECRET_KEY;
     private Service service;
 
-    public JwtProvider() {
-        String valueOfJwtAccessSecretKey = PropertyFile.getProperties("JWT_ACCESS_SECRET_KEY");
-        String valueOfJwtRefreshSecretKey = PropertyFile.getProperties("JWT_REFRESH_SECRET_KEY");
-        this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(valueOfJwtAccessSecretKey));
-        this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(valueOfJwtRefreshSecretKey));
-        this.service = new Service();
+
+    @Autowired
+    public JwtProvider(Service service, AuthConfig authConfig) {
+        this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtAccessSecretKey()));
+        this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtRefreshSecretKey()));
+        System.out.println("TOKEN: " + this.JWT_ACCESS_SECRET_KEY);
     }
 
     public String generateAccessToken(Entry entry) {

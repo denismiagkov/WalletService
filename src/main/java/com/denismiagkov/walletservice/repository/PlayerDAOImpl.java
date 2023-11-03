@@ -25,18 +25,11 @@ public class PlayerDAOImpl implements PlayerDAO {
     DatabaseConnection dbConnection;
 
     /**
-     * Базовый конструктор класса
-     */
-    @Autowired
-    public PlayerDAOImpl() {
-        this.dbConnection = new DatabaseConnection();
-    }
-
-    /**
-     * Конструктор класса с параметром(для целей тестирования)
+     * Конструктор класса
      *
      * @param dbConnection подключение к базе данных
      */
+    @Autowired
     public PlayerDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }

@@ -27,8 +27,8 @@ public class TransactionServiceImpl implements TransactionService {
      * Констркутор класса
      */
     @Autowired
-    public TransactionServiceImpl() {
-        this.transactionDAO = new TransactionDAOImpl();
+    public TransactionServiceImpl(TransactionDAOImpl transactionDAO) {
+        this.transactionDAO = transactionDAO;
     }
 
     /**

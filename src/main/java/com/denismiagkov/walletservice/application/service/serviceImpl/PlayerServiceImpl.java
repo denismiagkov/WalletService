@@ -25,8 +25,8 @@ public class PlayerServiceImpl implements PlayerService {
      * Конструктор класса
      */
     @Autowired
-    public PlayerServiceImpl() {
-        this.playerDAO = new PlayerDAOImpl();
+    public PlayerServiceImpl(PlayerDAOImpl playerDAO) {
+        this.playerDAO = playerDAO;
     }
 
     /**

@@ -3,10 +3,12 @@ package com.denismiagkov.walletservice.application.dto;
 import com.denismiagkov.walletservice.domain.model.Operation;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Mapper
+@Component
 public interface OperationMapper {
     OperationMapper INSTANCE = Mappers.getMapper(OperationMapper.class);
 
