@@ -1,18 +1,22 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
-import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.application.service.MainService;
+import com.denismiagkov.walletservice.domain.model.Entry;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AuthService {
 
-    private final Service service;
+    private final MainService service;
     private final JwtProvider jwtProvider;
 
-    public AuthService() {
-        this.service = new Service();
-        this.jwtProvider = new JwtProvider();
+    @Autowired
+    public AuthService(MainService service, JwtProvider provider) {
+        this.service = service;
+        this.jwtProvider = provider;
     }
 
     public JwtResponse login(JwtRequest authRequest) {
@@ -37,8 +41,11 @@ public class AuthService {
         return new JwtResponse(null, null);
     }
 
-    public boolean validateAccessToken(String accessToken) {
-        return jwtProvider.validateAccessToken(accessToken);
+    public String validateAccessToken(String httpRequestHeader) throws RuntimeException{
+        String token = getTokenFromHeader(httpRequestHeader);
+        String login = getLoginFromToken(token);
+        jwtProvider.validateAccessToken(token);
+        return login;
     }
 
     public boolean validateRefreshToken(String refreshToken) {
@@ -51,6 +58,10 @@ public class AuthService {
             return token.substring(7);
         }
         return null;
+    }
+
+    public String getTokenFromHeader(String header) {
+        return header.substring(7);
     }
 
     public String getLoginFromToken(String token) {

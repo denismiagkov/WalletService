@@ -20,7 +20,8 @@ class TransactionDAOImplTest {
     DatabaseConnection dbConnection = new DatabaseConnection(
             postgres.getJdbcUrl(),
             postgres.getUsername(),
-            postgres.getPassword());
+            postgres.getPassword(),
+            postgres.getDriverClassName());
     Connection connection;
 
     {

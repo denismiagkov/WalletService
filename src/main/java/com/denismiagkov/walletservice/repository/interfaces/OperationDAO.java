@@ -1,13 +1,9 @@
 package com.denismiagkov.walletservice.repository.interfaces;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
 import com.denismiagkov.walletservice.domain.model.Operation;
-import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.repository.OperationDAOImpl;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Интерфейс объявляет методы, реализуемые репозиторием действия игрока в приложении

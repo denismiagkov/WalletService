@@ -1,15 +1,14 @@
 package com.denismiagkov.walletservice.application.dto;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
-import java.util.Set;
+import org.springframework.stereotype.Component;
 
 @Mapper
+@Component
 public interface PlayerMapper {
     PlayerMapper INSTANCE = Mappers.getMapper(PlayerMapper.class);
 

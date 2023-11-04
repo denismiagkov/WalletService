@@ -1,9 +1,12 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.Entry;
+import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.*;
@@ -13,27 +16,31 @@ import java.util.*;
  * Класс отвечает за доступ к данным об игроках, хранящимся в базе данных. Предоставляет методы для создания,
  * чтения, обновления и удаления данных.
  */
+
+@Repository
 public class PlayerDAOImpl implements PlayerDAO {
 
     /**
      * Соединение с базой данных
      */
     DatabaseConnection dbConnection;
+    private final String SELECT_ALL_FROM_PLAYERS;
+    private final String SELECT_ALL_FROM_ENTRIES;
+
 
     /**
-     * Базовый конструктор класса
-     */
-    public PlayerDAOImpl() {
-        this.dbConnection = new DatabaseConnection();
-    }
-
-    /**
-     * Конструктор класса с параметром(для тестирования)
+     * Конструктор класса
      *
      * @param dbConnection подключение к базе данных
      */
-    public PlayerDAOImpl(DatabaseConnection dbConnection) {
+    @Autowired
+    public PlayerDAOImpl(DatabaseConnection dbConnection,
+                         @Value("SELECT * FROM wallet.players ") String selectAllPlayers,
+                         @Value("SELECT * FROM wallet.entries ") String selectAllEntries) {
+
         this.dbConnection = dbConnection;
+        this.SELECT_ALL_FROM_PLAYERS = selectAllPlayers;
+        this.SELECT_ALL_FROM_ENTRIES = selectAllEntries;
     }
 
     /**
@@ -88,7 +95,8 @@ public class PlayerDAOImpl implements PlayerDAO {
     public Set<Player> getAllPlayers() {
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM wallet.players");
+            System.out.println("ENTERED INTO TRY");
+            ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_PLAYERS);
             Set<Player> allPlayers = new HashSet<>();
             while (rs.next()) {
                 String name = rs.getString("name");
@@ -96,7 +104,9 @@ public class PlayerDAOImpl implements PlayerDAO {
                 String email = rs.getString("email");
                 allPlayers.add(new Player(name, surname, email));
             }
+            System.out.println(allPlayers);
             return allPlayers;
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -110,9 +120,10 @@ public class PlayerDAOImpl implements PlayerDAO {
      */
     @Override
     public Map<String, String> getAllEntries() {
+        System.out.println("DAO ENTRIES");
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet rs = statement.executeQuery("SELECT * FROM wallet.entries");
+            ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_ENTRIES);
             Map<String, String> allEntries = new HashMap<>();
             while (rs.next()) {
                 String login = rs.getString("login");
@@ -174,14 +185,14 @@ public class PlayerDAOImpl implements PlayerDAO {
         return playerId;
     }
 
-    public static void main(String[] args) {
-        PlayerDAOImpl playerDAO = new PlayerDAOImpl();
-        int id = playerDAO.getPlayerId("ann");
-        System.out.println(id);
-    }
-
+    /**
+     * Метод возвращает игрока по его id
+     *
+     * @param id id игрока
+     * @return игрок
+     */
     public Player getPlayerById(int id) {
-        String getPlayerId = "SELECT * FROM wallet.players WHERE id = ?";
+        String getPlayerId = SELECT_ALL_FROM_PLAYERS + "WHERE id = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
             prStatement.setInt(1, id);
@@ -201,8 +212,14 @@ public class PlayerDAOImpl implements PlayerDAO {
     }
 
 
+    /**
+     * Метод возвращает игрока по его логину
+     *
+     * @param login логин игрока
+     * @return игрок
+     */
     public Player getPlayerByLogin(String login) {
-        String getPlayerId = "SELECT * FROM wallet.entries WHERE login = ?";
+        String getPlayerId = SELECT_ALL_FROM_ENTRIES + "WHERE login = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getPlayerId)) {
             prStatement.setString(1, login);
@@ -219,8 +236,15 @@ public class PlayerDAOImpl implements PlayerDAO {
         return null;
     }
 
+    /**
+     * Метод возвращает комбинацию логин - пароль по логмну игрока
+     *
+     * @param login логин игрока
+     * @return комбинация логин-пароль
+     */
+
     public Entry getEntryByLogin(String login) {
-        String getEntry = "SELECT * FROM wallet.entries WHERE login = ?";
+        String getEntry = SELECT_ALL_FROM_ENTRIES + "WHERE login = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(getEntry)) {
             prStatement.setString(1, login);

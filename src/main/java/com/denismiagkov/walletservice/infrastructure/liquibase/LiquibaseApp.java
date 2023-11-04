@@ -6,17 +6,23 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+@Component
 public class LiquibaseApp {
     DatabaseConnection dbConnection;
 
+    @Autowired
     public LiquibaseApp(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
+    @PostConstruct
     public Liquibase start() {
         String queryCreateMigrationSchema = "CREATE SCHEMA IF NOT EXISTS migration";
 

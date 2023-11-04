@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.application.controller;
 //
-//import com.denismiagkov.walletservice.application.controller.Controller;
+//import Controller;
 //import com.denismiagkov.walletservice.application.service.Service;
 //import com.denismiagkov.walletservice.application.service.serviceImpl.exception.NotUniqueTransactionIdException;
 //import com.denismiagkov.walletservice.domain.model.OperationType;

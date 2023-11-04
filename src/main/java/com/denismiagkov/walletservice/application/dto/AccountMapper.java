@@ -5,11 +5,13 @@ import com.denismiagkov.walletservice.domain.model.Player;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 
 @Mapper
+@Component
 public interface AccountMapper {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
     @Mapping(source = "player.firstName", target = "name")

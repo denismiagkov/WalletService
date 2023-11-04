@@ -1,31 +1,38 @@
 package com.denismiagkov.walletservice.init;
 
-import com.denismiagkov.walletservice.init.PropertyFile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Component
 public class DatabaseConnection {
     private final String URL;
     private final String USERNAME;
     private final String PASSWORD;
+    private final String DRIVER;
 
-    public DatabaseConnection() {
-        this.URL = PropertyFile.getProperties("URL");
-        this.USERNAME = PropertyFile.getProperties("USER_NAME");
-        this.PASSWORD = PropertyFile.getProperties("USER_PASSWORD");
+
+    @Autowired
+    public DatabaseConnection(ConnectionConfig connectionConfig) {
+        this.URL = connectionConfig.getUrl();
+        this.USERNAME = connectionConfig.getUsername();
+        this.PASSWORD = connectionConfig.getPassword();
+        this.DRIVER = connectionConfig.getDriver();
     }
 
-    public DatabaseConnection(String url, String username, String password) {
+    public DatabaseConnection(String url, String username, String password, String driver) {
         this.URL = url;
         this.USERNAME = username;
         this.PASSWORD = password;
+        this.DRIVER = driver;
     }
 
     public Connection getConnection() throws SQLException {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(this.DRIVER);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -5,6 +5,8 @@ import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
 import com.denismiagkov.walletservice.init.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.OperationDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.*;
  * Класс отвечает за доступ к данным о действиях игроков в приложении, хранящимся в базе данных. Предоставляет методы
  * для создания, чтения, обновления и удаления данных.
  */
+@Repository
 public class OperationDAOImpl implements OperationDAO {
 
     /**
@@ -22,16 +25,10 @@ public class OperationDAOImpl implements OperationDAO {
 
     /**
      * Конструктор класса
-     */
-    public OperationDAOImpl() {
-        this.dbConnection = new DatabaseConnection();
-    }
-
-    /**
-     * Конструктор класса с параметром(для тестирования)
      *
      * @param dbConnection подключение к базе данных
-     * */
+     */
+    @Autowired
     public OperationDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -62,7 +59,7 @@ public class OperationDAOImpl implements OperationDAO {
      * Метод вохвращает сведения о действиях, совершенных всеми игроками в приложении
      *
      * @return List<String>
-     * */
+     */
     @Override
     public List<Operation> getLog() {
         try (Connection connection = dbConnection.getConnection();
@@ -93,7 +90,7 @@ public class OperationDAOImpl implements OperationDAO {
      *
      * @param operation действие, совершенное игроком
      * @return int id действия
-     * */
+     */
     public int getOperationId(Operation operation) {
         String getOperationId = "SELECT id FROM wallet.operations WHERE operation_type = ? AND perform_time = ? " +
                 "AND operation_status = ? AND player_id = ?";
@@ -113,26 +110,4 @@ public class OperationDAOImpl implements OperationDAO {
         }
         return -1;
     }
-
-    public Operation getOperation(int operationId) {
-        String getOperation = "SELECT * FROM wallet.operations WHERE id = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement prStatement = connection.prepareStatement(getOperation)) {
-            prStatement.setInt(1, operationId);
-            ResultSet rs = prStatement.executeQuery();
-            while (rs.next()) {
-                OperationType type = OperationType.valueOf(rs.getString("operation_type"));
-                Timestamp time = rs.getTimestamp("perform_time");
-                OperationStatus status = OperationStatus.valueOf(rs.getString("operation_status"));
-                int playerId = rs.getInt("player_id");
-                Operation operation = new Operation(type, time, status, playerId);
-                operation.setId(operationId);
-                return operation;
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
 }

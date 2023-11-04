@@ -1,7 +1,5 @@
 package com.denismiagkov.walletservice.domain.service;
 
-import com.denismiagkov.walletservice.domain.model.Account;
-
 import java.math.BigDecimal;
 
 /**

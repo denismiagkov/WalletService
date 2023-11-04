@@ -3,12 +3,12 @@ package com.denismiagkov.walletservice.application.service.serviceImpl;
 import com.denismiagkov.walletservice.domain.model.Operation;
 import com.denismiagkov.walletservice.domain.model.OperationStatus;
 import com.denismiagkov.walletservice.domain.model.OperationType;
-import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.OperationService;
 import com.denismiagkov.walletservice.repository.OperationDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,44 +17,34 @@ import java.util.List;
  * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных
  * операций, соответствующих бизнес-логике.
  */
+@Service
 public class OperationServiceImpl implements OperationService {
 
-    OperationDAOImpl odi;
-
-
-
     /**
-     * Перечень всех отслеживаемых действий, совершенных игроками
+     * ДАО операции (действия игрока в приложении)
      */
-    private List<Operation> log;
+    OperationDAOImpl operationDAO;
 
     /**
      * Конструктор класса
-     * */
-    public OperationServiceImpl() {
-        this.odi = new OperationDAOImpl();
-    }
-
-    /**
-     * Метод возвращает историю действий игрока
-     * */
-    public List<Operation> getLog() {
-        return log;
+     */
+    @Autowired
+    public OperationServiceImpl(OperationDAOImpl operationDAO) {
+        this.operationDAO = operationDAO;
     }
 
     /**
      * Метод записывает в журнал атрибуты действия, совершенного игроком.
      *
      * @param playerId идентификатор игрока, совершившего действие
-     * @param type   вид совершенного действия (из перечня {@link OperationType}
-     * @param time   время совершения действия
-     * @param status успех/неуспех совершенного действия
+     * @param type     вид совершенного действия (из перечня {@link OperationType}
+     * @param time     время совершения действия
+     * @param status   успех/неуспех совершенного действия
      */
     @Override
     public void putOnLog(int playerId, OperationType type, Timestamp time, OperationStatus status) {
         Operation operation = new Operation(type, time, status, playerId);
-
-        odi.saveOperation(operation);
+        operationDAO.saveOperation(operation);
     }
 
     /**
@@ -64,7 +54,6 @@ public class OperationServiceImpl implements OperationService {
      */
     @Override
     public List<Operation> viewLog() {
-
-        return odi.getLog();
+        return operationDAO.getLog();
     }
 }

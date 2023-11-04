@@ -1,12 +1,9 @@
 package com.denismiagkov.walletservice.domain.model;
 
-import com.denismiagkov.walletservice.domain.model.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,16 +1,5 @@
 package com.denismiagkov.walletservice.application.service.serviciImpl;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
-import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
-import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.domain.model.Transaction;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 //
 //class AccountServiceImplTest {
 //
