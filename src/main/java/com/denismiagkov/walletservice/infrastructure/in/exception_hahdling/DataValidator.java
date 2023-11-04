@@ -1,7 +1,7 @@
-package com.denismiagkov.walletservice.infrastructure.in;
+package com.denismiagkov.walletservice.infrastructure.in.exception_hahdling;
 
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
-import com.denismiagkov.walletservice.infrastructure.in.exceptions.*;
+import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.exceptions.*;
 
 public class DataValidator {
 

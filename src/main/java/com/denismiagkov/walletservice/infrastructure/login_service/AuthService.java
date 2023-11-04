@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
-import com.denismiagkov.walletservice.application.service.Service;
+import com.denismiagkov.walletservice.application.service.MainService;
 import com.denismiagkov.walletservice.domain.model.Entry;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthService {
 
-    private final Service service;
+    private final MainService service;
     private final JwtProvider jwtProvider;
 
     @Autowired
-    public AuthService(Service service, JwtProvider provider) {
+    public AuthService(MainService service, JwtProvider provider) {
         this.service = service;
         this.jwtProvider = provider;
     }

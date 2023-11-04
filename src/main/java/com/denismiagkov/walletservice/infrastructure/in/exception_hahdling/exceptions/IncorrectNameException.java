@@ -1,4 +1,4 @@
-package com.denismiagkov.walletservice.infrastructure.in.exceptions;
+package com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.exceptions;
 
 public class IncorrectNameException extends RuntimeException{
     public IncorrectNameException() {

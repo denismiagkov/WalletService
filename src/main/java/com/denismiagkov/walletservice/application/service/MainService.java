@@ -4,8 +4,12 @@ import com.denismiagkov.walletservice.application.dto.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.*;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.*;
-import org.mapstruct.factory.Mappers;
+import com.denismiagkov.walletservice.domain.service.AccountService;
+import com.denismiagkov.walletservice.domain.service.OperationService;
+import com.denismiagkov.walletservice.domain.service.PlayerService;
+import com.denismiagkov.walletservice.domain.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
@@ -17,34 +21,34 @@ import java.util.List;
  * для модификации модели данных и предоставления конечных данных пользовательскому интерфейсу.
  */
 
-@org.springframework.stereotype.Service
-public class Service {
+@Service
+public class MainService {
     /**
      * Низкоуровневый сервис игрока
      */
-    private PlayerServiceImpl playerService;
+    private final PlayerService playerService;
 
     /**
      * Низкоуровневый сервис счета игрока
      */
-    private AccountServiceImpl accountService;
+    private final AccountService accountService;
 
     /**
      * Низкоуровневый сервис транзакции
      */
-    private TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
 
     /**
      * Низкоуровневый сервис действия игрока
      */
-    private OperationServiceImpl operationService;
+    private final OperationService operationService;
 
     /**
      * Конструктор класса
      */
     @Autowired
-    public Service(PlayerServiceImpl playerService, AccountServiceImpl accountService,
-                   TransactionServiceImpl transactionService, OperationServiceImpl operationService) {
+    public MainService(PlayerServiceImpl playerService, AccountServiceImpl accountService,
+                       TransactionServiceImpl transactionService, OperationServiceImpl operationService) {
         this.playerService = playerService;
         this.accountService = accountService;
         this.transactionService = transactionService;

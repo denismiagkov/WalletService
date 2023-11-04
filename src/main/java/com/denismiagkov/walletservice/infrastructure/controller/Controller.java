@@ -3,9 +3,9 @@ package com.denismiagkov.walletservice.infrastructure.controller;
 import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
-import com.denismiagkov.walletservice.application.service.Service;
-import com.denismiagkov.walletservice.infrastructure.in.DataValidator;
-import com.denismiagkov.walletservice.infrastructure.in.exceptions.InfoMessage;
+import com.denismiagkov.walletservice.application.service.MainService;
+import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.DataValidator;
+import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.exceptions.InfoMessage;
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;
@@ -26,7 +26,7 @@ public class Controller {
     /**
      * Cервис приложения
      */
-    private final Service service;
+    private final MainService mainService;
     /**
      * Сервис аутентификации
      */
@@ -41,10 +41,10 @@ public class Controller {
      * Конструктор класса
      */
     @Autowired
-    public Controller(Service service, AuthService authService, InfoMessage infoMessage) {
-        this.service = service;
+    public Controller(MainService mainService, AuthService authService) {
+        this.mainService = mainService;
         this.authService = authService;
-        this.message = infoMessage;
+        this.message = new InfoMessage();
     }
 
     /**
@@ -64,8 +64,12 @@ public class Controller {
     @PostMapping("/registration")
     public ResponseEntity<InfoMessage> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
         DataValidator.checkRegistrationForm(playerDto);
-        service.registerPlayer(playerDto);
-        message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
+        try {
+            mainService.registerPlayer(playerDto);
+            message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
+        } catch (Exception ex) {
+            message.setInfo(ex.getMessage());
+        }
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(message);
@@ -96,7 +100,7 @@ public class Controller {
     @PostMapping("/players/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
         String login = authService.validateAccessToken(header);
-        AccountDto accountDto = service.getCurrentBalance(login);
+        AccountDto accountDto = mainService.getCurrentBalance(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(accountDto);
@@ -112,7 +116,7 @@ public class Controller {
     @PostMapping("/players/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
         String login = authService.validateAccessToken(header);
-        List<TransactionDto> transactionDtoList = service.getTransactionHistory(login);
+        List<TransactionDto> transactionDtoList = mainService.getTransactionHistory(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(transactionDtoList);
@@ -131,7 +135,7 @@ public class Controller {
                                                     @RequestBody AmountWrapper wrapper) {
         BigDecimal amount = wrapper.getAmount();
         String login = authService.validateAccessToken(header);
-        service.topUpAccount(login, amount);
+        mainService.topUpAccount(login, amount);
         message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -151,8 +155,12 @@ public class Controller {
                                                      @RequestBody AmountWrapper wrapper) throws RuntimeException {
         BigDecimal amount = wrapper.getAmount();
         String login = authService.validateAccessToken(header);
-        service.writeOffFunds(login, amount);
-        message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
+        try {
+            mainService.writeOffFunds(login, amount);
+            message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
+        } catch (Exception ex) {
+            message.setInfo(ex.getMessage());
+        }
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(message);

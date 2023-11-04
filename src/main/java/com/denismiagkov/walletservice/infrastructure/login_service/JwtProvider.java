@@ -1,7 +1,7 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
 import com.denismiagkov.walletservice.init.AuthConfig;
-import com.denismiagkov.walletservice.application.service.Service;
+import com.denismiagkov.walletservice.application.service.MainService;
 import com.denismiagkov.walletservice.domain.model.Entry;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -21,11 +21,11 @@ public class JwtProvider {
 
     private SecretKey JWT_ACCESS_SECRET_KEY;
     private SecretKey JWT_REFRESH_SECRET_KEY;
-    private Service service;
+    private MainService service;
 
 
     @Autowired
-    public JwtProvider(Service service, AuthConfig authConfig) {
+    public JwtProvider(MainService service, AuthConfig authConfig) {
         this.service = service;
         this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtAccessSecretKey()));
         this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtRefreshSecretKey()));
