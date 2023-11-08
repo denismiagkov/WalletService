@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.application.dto;
 
-import com.denismiagkov.walletservice.domain.model.Operation;
+import com.denismiagkov.auditstarter.operation.Operation;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;

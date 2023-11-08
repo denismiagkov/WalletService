@@ -12,29 +12,25 @@ public class Transaction {
     /**
      * Уникальный идентификатор транзакции
      */
-    int id;
+    private int id;
     /**
      * Номер счета, на котором выполняется транзакция
      */
-    int accountId;
+    private int accountId;
     /**
      * Дата и время выполнения транзакции
      */
-    Timestamp time;
+    private Timestamp time;
     /**
      * Тип транзакции - дебетовая или кредитная
      *
      * @see TransactionType
      */
-    TransactionType type;
+    private TransactionType type;
     /**
      * Сумма транзакции
      */
-    BigDecimal amount;
-
-
-    public Transaction() {
-    }
+    private BigDecimal amount;
 
     /**
      * Конструктор класса
@@ -52,10 +48,6 @@ public class Transaction {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -64,33 +56,18 @@ public class Transaction {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
-    }
-
     public Timestamp getTime() {
         return time;
-    }
-
-    public void setTime(Timestamp time) {
-        this.time = time;
     }
 
     public TransactionType getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
 
 
     /**

@@ -31,12 +31,29 @@ public interface AccountDAO {
      *
      * @see AccountDAOImpl#getTransactionHistory(int)
      */
-    public List<Transaction> getTransactionHistory(int playerId);
+    List<Transaction> getTransactionHistory(int playerId);
 
     /**
-     * Метод сохраняет в базе данных состояние счета после совершенной транзакции
+     * Метод рассчитывает баланс на счете игрока в случае его пополнения
      *
-     * @see AccountDAOImpl#changeBalance(int, BigDecimal)
+     * @param playerId id игрока
+     * @param amount   сумма пополнения счета
      */
-    void changeBalance(int playerId, BigDecimal balance);
+    void increaseBalance(int playerId, BigDecimal amount);
+
+    /**
+     * Метод рассчитывает баланс на счете игрока в случае списания средств
+     *
+     * @param playerId id игрока
+     * @param amount   сумма пополнения счета
+     */
+    void decreaseBalance(int playerId, BigDecimal amount);
+
+    /**
+     * Метод возвращает id счета игрока.
+     *
+     * @param playerId id игрока
+     * @return boolean
+     */
+    int getAccountId(int playerId);
 }

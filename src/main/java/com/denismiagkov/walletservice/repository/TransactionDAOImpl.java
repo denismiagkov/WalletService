@@ -1,12 +1,15 @@
 package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Transaction;
-import com.denismiagkov.walletservice.init.DatabaseConnection;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.TransactionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Класс отвечает за доступ к данным о транзакциях, хранящимся в базе данных. Предоставляет методы для создания,
@@ -57,7 +60,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      *
      * @return int id транзакции
      */
-    public int getTransactionId(Transaction transaction) {
+    private int getTransactionId(Transaction transaction) {
         String queryTransactionId = "SELECT id FROM wallet.transactions WHERE commit_time = ? AND item_type = ? " +
                 "AND amount = ? AND account = ?";
         try (Connection connection = dbConnection.getConnection();

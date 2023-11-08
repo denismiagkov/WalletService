@@ -10,20 +10,20 @@ public class Account {
     /**
      * Уникальный идентификатор счета
      */
-    int id;
+    private int id;
     /**
      * Номер счета
      */
-    String number;
+    private String number;
     /**
      * Баланс счета
      */
-    BigDecimal balance;
+    private BigDecimal balance;
 
     /**
      * Идентификатор игрока - владельца счета
      */
-    int playerId;
+    private int playerId;
 
     public Account(int playerId) {
         this.playerId = playerId;
@@ -35,13 +35,6 @@ public class Account {
     public Account(String number) {
         this.number = number;
         this.balance = new BigDecimal(0);
-    }
-
-    public Account(int id, String number, BigDecimal balance, int playerId) {
-        this.id = id;
-        this.number = number;
-        this.balance = balance;
-        this.playerId = playerId;
     }
 
     /**
@@ -105,7 +98,7 @@ public class Account {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return number == account.number;
+        return number.equals(account.number);
     }
 
     /**

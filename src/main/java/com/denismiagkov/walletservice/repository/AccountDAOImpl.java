@@ -4,10 +4,9 @@ import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
-import com.denismiagkov.walletservice.init.DatabaseConnection;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -161,7 +160,6 @@ public class AccountDAOImpl implements AccountDAO {
      */
     public Account getCurrentBalance(int playerId) {
         String queryGetAccountId = "SELECT * FROM wallet.accounts WHERE player_id = ?";
-        System.out.println(playerId);
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement prStatement = connection.prepareStatement(queryGetAccountId)) {
             prStatement.setInt(1, playerId);

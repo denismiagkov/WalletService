@@ -1,22 +1,23 @@
 package com.denismiagkov.walletservice.repository;
 
-import com.denismiagkov.walletservice.domain.model.Operation;
-import com.denismiagkov.walletservice.domain.model.OperationStatus;
-import com.denismiagkov.walletservice.domain.model.OperationType;
-import com.denismiagkov.walletservice.init.DatabaseConnection;
-import com.denismiagkov.walletservice.repository.interfaces.OperationDAO;
+import com.denismiagkov.auditstarter.operation.Operation;
+import com.denismiagkov.auditstarter.operation.OperationStatus;
+import com.denismiagkov.auditstarter.operation.OperationType;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
+import com.denismiagkov.auditstarter.auditdao.AuditDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Класс отвечает за доступ к данным о действиях игроков в приложении, хранящимся в базе данных. Предоставляет методы
  * для создания, чтения, обновления и удаления данных.
  */
 @Repository
-public class OperationDAOImpl implements OperationDAO {
+public class OperationDAOImpl implements AuditDAO {
 
     /**
      * Соединение с базой данных
@@ -91,7 +92,7 @@ public class OperationDAOImpl implements OperationDAO {
      * @param operation действие, совершенное игроком
      * @return int id действия
      */
-    public int getOperationId(Operation operation) {
+    private int getOperationId(Operation operation) {
         String getOperationId = "SELECT id FROM wallet.operations WHERE operation_type = ? AND perform_time = ? " +
                 "AND operation_status = ? AND player_id = ?";
         try (Connection connection = dbConnection.getConnection();

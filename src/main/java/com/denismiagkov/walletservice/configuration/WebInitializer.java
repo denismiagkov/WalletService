@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.configuration;
-import jakarta.servlet.ServletException;
 
+import com.denismiagkov.walletservice.WalletServiceApplication;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -12,7 +12,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{Config.class};
+        return new Class[]{WalletServiceApplication.class};
     }
 
     @Override

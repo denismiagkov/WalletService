@@ -1,18 +1,22 @@
 package com.denismiagkov.walletservice.application.service;
 
+import com.denismiagkov.auditstarter.auditservice.AuditService;
+import com.denismiagkov.auditstarter.operation.OperationStatus;
+import com.denismiagkov.auditstarter.operation.OperationType;
 import com.denismiagkov.walletservice.application.dto.*;
-import com.denismiagkov.walletservice.application.service.serviceImpl.*;
+import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.OperationServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.PlayerServiceImpl;
+import com.denismiagkov.walletservice.application.service.serviceImpl.TransactionServiceImpl;
 import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.domain.model.*;
 import com.denismiagkov.walletservice.domain.service.AccountService;
-import com.denismiagkov.walletservice.domain.service.OperationService;
 import com.denismiagkov.walletservice.domain.service.PlayerService;
 import com.denismiagkov.walletservice.domain.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -41,7 +45,7 @@ public class MainService {
     /**
      * Низкоуровневый сервис действия игрока
      */
-    private final OperationService operationService;
+    private final AuditService operationService;
 
     /**
      * Конструктор класса

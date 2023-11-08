@@ -1,6 +1,5 @@
 package com.denismiagkov.walletservice.domain.service;
 
-import com.denismiagkov.walletservice.application.dto.EntryDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
@@ -23,7 +22,7 @@ public interface PlayerService {
      * @param login логин игрока
      * @return int id игрока
      */
-    public int getPlayerId(String login);
+    int getPlayerId(String login);
 
     /**
      * Метод возвращает игрока по его логину
@@ -31,7 +30,7 @@ public interface PlayerService {
      * @param login логин игрока
      * @return игрок
      */
-    public Player getPlayerByLogin(String login);
+    Player getPlayerByLogin(String login);
 
     /**
      * Метод возвращает комбинацию логин-пароль по логину игрока
@@ -39,6 +38,6 @@ public interface PlayerService {
      * @param login логин игрока
      * @return комбинация логин-пароль
      */
-    public Entry getEntryByLogin(String login);
+    Entry getEntryByLogin(String login);
 
 }

@@ -2,14 +2,16 @@ package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
-import com.denismiagkov.walletservice.init.DatabaseConnection;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -24,8 +26,8 @@ public class PlayerDAOImpl implements PlayerDAO {
      * Соединение с базой данных
      */
     DatabaseConnection dbConnection;
-    private final String SELECT_ALL_FROM_PLAYERS;
-    private final String SELECT_ALL_FROM_ENTRIES;
+    private final String SELECT_ALL_FROM_PLAYERS = "SELECT * FROM wallet.players ";
+    private final String SELECT_ALL_FROM_ENTRIES = "SELECT * FROM wallet.entries ";
 
 
     /**
@@ -34,13 +36,8 @@ public class PlayerDAOImpl implements PlayerDAO {
      * @param dbConnection подключение к базе данных
      */
     @Autowired
-    public PlayerDAOImpl(DatabaseConnection dbConnection,
-                         @Value("SELECT * FROM wallet.players ") String selectAllPlayers,
-                         @Value("SELECT * FROM wallet.entries ") String selectAllEntries) {
-
+    public PlayerDAOImpl(DatabaseConnection dbConnection) {
         this.dbConnection = dbConnection;
-        this.SELECT_ALL_FROM_PLAYERS = selectAllPlayers;
-        this.SELECT_ALL_FROM_ENTRIES = selectAllEntries;
     }
 
     /**
@@ -95,7 +92,6 @@ public class PlayerDAOImpl implements PlayerDAO {
     public Set<Player> getAllPlayers() {
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            System.out.println("ENTERED INTO TRY");
             ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_PLAYERS);
             Set<Player> allPlayers = new HashSet<>();
             while (rs.next()) {
@@ -104,9 +100,7 @@ public class PlayerDAOImpl implements PlayerDAO {
                 String email = rs.getString("email");
                 allPlayers.add(new Player(name, surname, email));
             }
-            System.out.println(allPlayers);
             return allPlayers;
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -120,7 +114,6 @@ public class PlayerDAOImpl implements PlayerDAO {
      */
     @Override
     public Map<String, String> getAllEntries() {
-        System.out.println("DAO ENTRIES");
         try (Connection connection = dbConnection.getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet rs = statement.executeQuery(SELECT_ALL_FROM_ENTRIES);

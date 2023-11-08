@@ -34,7 +34,7 @@ public interface AccountService {
      * @param playerId id игрока
      * @param amount   денежная сумма
      */
-    public void increaseBalance(int playerId, BigDecimal amount);
+    void increaseBalance(int playerId, BigDecimal amount);
 
     /**
      * Метод корректирует баланс на счете игрока после списания средств
@@ -42,7 +42,7 @@ public interface AccountService {
      * @param playerId id игрока
      * @param amount   денежная сумма
      */
-    public void decreaseBalance(int playerId, BigDecimal amount);
+    void decreaseBalance(int playerId, BigDecimal amount);
 
     /**
      * Метод рассчитывает, достаточно ли денежных средств на счете игрока для их списания.
@@ -53,7 +53,7 @@ public interface AccountService {
      * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
      *                                          совершения транзакции
      */
-    public boolean areFundsEnough(int playerId, BigDecimal amount);
+    boolean areFundsEnough(int playerId, BigDecimal amount);
 
     /**
      * Метод возвращает id денежного счета по id игрока
@@ -61,6 +61,5 @@ public interface AccountService {
      * @param playerId id игрока
      * @return id счета
      */
-    public int getAccountId(int playerId);
-
+    int getAccountId(int playerId);
 }
