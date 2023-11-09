@@ -23,6 +23,7 @@
         <mapstruct.processor.version>1.5.5.Final</mapstruct.processor.version>
         <logging.starter.version>0.0.1-SNAPSHOT</logging.starter.version>
         <audit.starter.version>0.0.1-SNAPSHOT</audit.starter.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
     <dependencies>
@@ -102,6 +103,14 @@
             <artifactId>audit-spring-boot-starter</artifactId>
             <version>${audit.starter.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -122,6 +131,17 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.processor.version}</version>
                         </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding -->
+                        <dependency>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </dependency>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
