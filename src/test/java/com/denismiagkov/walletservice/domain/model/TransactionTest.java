@@ -1,6 +1,6 @@
 package com.denismiagkov.walletservice.domain.model;
 
-import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
+//import com.denismiagkov.walletservice.application.service.serviceImpl.AccountServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
