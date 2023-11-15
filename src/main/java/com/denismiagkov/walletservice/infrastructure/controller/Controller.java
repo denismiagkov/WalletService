@@ -4,11 +4,8 @@ import com.denismiagkov.walletservice.application.dto.AccountDto;
 import com.denismiagkov.walletservice.application.dto.PlayerDto;
 import com.denismiagkov.walletservice.application.dto.TransactionDto;
 import com.denismiagkov.walletservice.application.service.MainService;
-import com.denismiagkov.walletservice.application.service.serviceImpl.exceptions.NotEnoughFundsOnAccountException;
 import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.DataValidator;
-import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.exceptions.IncorrectInputNumberException;
 import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.exceptions.InfoMessage;
-import com.denismiagkov.walletservice.infrastructure.login_service.AuthException;
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;
@@ -16,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -66,17 +62,10 @@ public class Controller {
     @PostMapping("/registration")
     @Operation(summary = "Регистрация игрока", description = "Позволяет зарегистрировать нового игрока")
     public ResponseEntity<InfoMessage> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        try {
-            DataValidator.checkRegistrationForm(playerDto);
-            mainService.registerPlayer(playerDto);
-            message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
-            return new ResponseEntity<>(message, headers, HttpStatus.CREATED);
-        } catch (Exception ex) {
-            message.setInfo(ex.getMessage());
-            return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
-        }
+        DataValidator.checkRegistrationForm(playerDto);
+        mainService.registerPlayer(playerDto);
+        message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     /**
@@ -88,17 +77,11 @@ public class Controller {
     @PostMapping("/authentication")
     @Operation(summary = "Аутентификация игрока", description = "Позволяет игроку пройти процедуру аутентификации")
     public ResponseEntity<?> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        try {
-            JwtResponse authResponse = authService.login(authRequest);
-            message.setInfo("Аутентификация пользователя выполнена успешно");
-            return new ResponseEntity<>(authResponse, headers, HttpStatus.OK);
-        } catch (AuthException ex) {
-            message.setInfo(ex.getMessage());
-            return new ResponseEntity<>(message, headers, HttpStatus.UNAUTHORIZED);
-        }
+        JwtResponse authResponse = authService.login(authRequest);
+        message.setInfo("Аутентификация пользователя выполнена успешно");
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
+
 
     /**
      * Метод передает в сервис запрос о текущем состоянии баланса игрока и возвращает
@@ -149,21 +132,11 @@ public class Controller {
     @Operation(summary = "Пополнение счета", description = "Позволяет пополнить счет игрока")
     public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
                                                     @RequestBody AmountWrapper wrapper) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        try {
-            BigDecimal amount = wrapper.getAmount();
-            String login = authService.validateAccessToken(header);
-            mainService.topUpAccount(login, amount);
-            message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
-            return new ResponseEntity<>(message, headers, HttpStatus.OK);
-        } catch (IncorrectInputNumberException ex) {
-            message.setInfo(ex.getMessage());
-            return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
-        } catch (Exception ex) {
-            message.setInfo(ex.getMessage());
-            return new ResponseEntity<>(message, headers, HttpStatus.UNAUTHORIZED);
-        }
+        BigDecimal amount = wrapper.getAmount();
+        String login = authService.validateAccessToken(header);
+        mainService.topUpAccount(login, amount);
+        message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     /**
@@ -179,20 +152,10 @@ public class Controller {
     @Operation(summary = "Списание со счета", description = "Позволяет списать денежные средства со счета игрока")
     public ResponseEntity<InfoMessage> writeOffFunds(@RequestHeader("Authorization") String header,
                                                      @RequestBody AmountWrapper wrapper) throws RuntimeException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        try {
-            BigDecimal amount = wrapper.getAmount();
-            String login = authService.validateAccessToken(header);
-            mainService.writeOffFunds(login, amount);
-            message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
-            return new ResponseEntity<>(message, headers, HttpStatus.OK);
-        } catch (IncorrectInputNumberException | NotEnoughFundsOnAccountException ex) {
-            message.setInfo(ex.getMessage());
-            return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
-        } catch (Exception ex) {
-            message.setInfo(ex.getMessage());
-            return new ResponseEntity<>(message, headers, HttpStatus.UNAUTHORIZED);
-        }
+        BigDecimal amount = wrapper.getAmount();
+        String login = authService.validateAccessToken(header);
+        mainService.writeOffFunds(login, amount);
+        message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

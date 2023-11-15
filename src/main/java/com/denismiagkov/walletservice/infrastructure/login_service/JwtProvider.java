@@ -63,16 +63,11 @@ public class JwtProvider {
     }
 
     private boolean validateToken(String token, Key secret) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
+        Jwts.parserBuilder()
+                .setSigningKey(secret)
+                .build()
+                .parseClaimsJws(token);
+        return true;
     }
 
     public Claims getAccessClaims(String token) {
