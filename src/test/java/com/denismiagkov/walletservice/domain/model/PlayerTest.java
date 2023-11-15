@@ -1,10 +1,12 @@
 package com.denismiagkov.walletservice.domain.model;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
@@ -19,7 +21,8 @@ Player player;
     @Test
     void id_after_setId() {
         player.setId(2);
-        assertEquals(2, player.getId());
+       // assertEquals(2, player.getId());
+        assertThat(player.getId()).isEqualTo(2);
     }
 
     @Test

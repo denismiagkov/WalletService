@@ -9,7 +9,6 @@ public class LoggingAutoConfiguration {
 
     @Bean
     public LoggingAspect loggingAspectStarter() {
-        LoggingAspect loggingAspectStarter = new LoggingAspect();
-        return loggingAspectStarter;
+        return new LoggingAspect();
     }
 }

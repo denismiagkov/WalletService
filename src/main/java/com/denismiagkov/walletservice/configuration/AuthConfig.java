@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Configuration
-//@PropertySource("classpath:application.properties")
 public class AuthConfig {
     private final String valueOfJwtAccessSecretKey;
     private final String valueOfJwtRefreshSecretKey;

@@ -6,7 +6,6 @@ import com.denismiagkov.walletservice.domain.model.Account;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.service.AccountService;
-import com.denismiagkov.walletservice.repository.AccountDAOImpl;
 import com.denismiagkov.walletservice.repository.interfaces.AccountDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -79,7 +79,7 @@ public class Operation {
         return "Operation{" +
                 "type='" + type + '\'' +
                 ", time=" + time +
-                ", player=" + playerId + " " + //player.getLastName() + '\'' +
+                ", player=" + playerId + " " +
                 ", status=" + status +
                 '}' + "\n";
     }

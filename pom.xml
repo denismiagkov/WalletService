@@ -24,6 +24,7 @@
         <logging.starter.version>0.0.1-SNAPSHOT</logging.starter.version>
         <audit.starter.version>0.0.1-SNAPSHOT</audit.starter.version>
         <lombok.version>1.18.30</lombok.version>
+<!--        <assertj.core.version>3.24.2</assertj.core.version>-->
     </properties>
 
     <dependencies>
@@ -110,6 +111,14 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.assertj/assertj-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.assertj</groupId>-->
+<!--            <artifactId>assertj-core</artifactId>-->
+<!--            <version>${assertj.core.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
 
     </dependencies>
 
