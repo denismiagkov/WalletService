@@ -11,15 +11,19 @@ import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -100,6 +104,7 @@ class ControllerTest {
         assertThrows(PlayerAlreadyExistsException.class, () -> controller.registerPlayer(playerDto));
     }
 
+
     @Test
     void getTransactionsHistory_ReturnsValidResponseDto() {
         when(authService.validateAccessToken("header")).thenReturn("login1");
@@ -118,6 +123,7 @@ class ControllerTest {
                 () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode()),
                 () -> assertEquals(transactions, responseEntity.getBody())
         );
+
     }
 
     @Test

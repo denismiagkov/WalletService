@@ -2,6 +2,6 @@ package com.denismiagkov.walletservice.application.service.serviceImpl.exception
 
 public class LoginIsNotUniqueException extends RuntimeException{
     public LoginIsNotUniqueException(String login) {
-        super("Логин '" + login + "' не уникален! Пожалуйста, выберите другой логин.");
+        super("Логин '" + login + "' не является уникальным");
     }
 }

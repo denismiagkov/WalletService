@@ -1,7 +1,9 @@
 package com.denismiagkov.walletservice.aspects;
 
 import com.denismiagkov.loggingstarter.aspects.LoggingAspect;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -26,9 +28,18 @@ public class LoggingAspectService {
     private void controller_logging() {
     }
 
+    @Pointcut("execution(" +
+            "* com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.handlers.GlobalExceptionHandler.*(..))")
+    private void exception_handler_logging() {
+    }
+
     @Around("controller_logging()")
     private Object logging(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         return this.loggingAspect.logging(proceedingJoinPoint);
     }
 
+    @After("exception_handler_logging()")
+    private void loggingException(JoinPoint joinPoint) throws Throwable {
+        this.loggingAspect.loggingException(joinPoint);
+    }
 }
