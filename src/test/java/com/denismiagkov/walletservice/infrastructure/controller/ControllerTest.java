@@ -104,7 +104,6 @@ class ControllerTest {
         assertThrows(PlayerAlreadyExistsException.class, () -> controller.registerPlayer(playerDto));
     }
 
-
     @Test
     void getTransactionsHistory_ReturnsValidResponseDto() {
         when(authService.validateAccessToken("header")).thenReturn("login1");

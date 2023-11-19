@@ -82,19 +82,17 @@ public class Controller {
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
-
     /**
      * Метод передает в сервис запрос о текущем состоянии баланса игрока и возвращает
      * результат обработки запроса пользователю.
      *
-     * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @return текущий баланс на счет игрока
      */
     @PostMapping("/players/balance")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Просмотр баланса", description = "Позволяет узнать текущий баланс на счете игрока")
-    public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
-        String login = authService.validateAccessToken(header);
+    public ResponseEntity<AccountDto> getCurrentBalance(@SessionAttribute("Login") String login) {
         AccountDto accountDto = mainService.getCurrentBalance(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -105,14 +103,13 @@ public class Controller {
      * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока
      * и возвращает пользователю результат обработки запроса.
      *
-     * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @return история транзакций на счете игрока
      */
     @PostMapping("/players/transactions")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "История транзакций", description = "Позволяет просмотреть историю транзакций на счете игрока")
-    public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
-        String login = authService.validateAccessToken(header);
+    public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@SessionAttribute("Login") String login) {
         List<TransactionDto> transactionDtoList = mainService.getTransactionHistory(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -123,17 +120,16 @@ public class Controller {
      * Метод вызывает в сервисе метод по пополнению денежного счета игрока
      * и возвращает пользователю результат обработки запроса
      *
-     * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login   Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
      * @return статус исполнения запроса
      */
     @PostMapping("/players/depositing")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Пополнение счета", description = "Позволяет пополнить счет игрока")
-    public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
+    public ResponseEntity<InfoMessage> topUpAccount(@SessionAttribute("Login") String login,
                                                     @RequestBody AmountWrapper wrapper) {
         BigDecimal amount = wrapper.getAmount();
-        String login = authService.validateAccessToken(header);
         mainService.topUpAccount(login, amount);
         message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
         return new ResponseEntity<>(message, HttpStatus.OK);
@@ -143,17 +139,16 @@ public class Controller {
      * Метод вызывает в сервисе метод по списанию денежных средств со счета игрока
      * и возвращает пользователю результат обработки запроса.
      *
-     * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login   Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
      * @return статус исполнения запроса
      */
     @PostMapping("/players/withdrawal")
     @SecurityRequirement(name = "JWT")
     @Operation(summary = "Списание со счета", description = "Позволяет списать денежные средства со счета игрока")
-    public ResponseEntity<InfoMessage> writeOffFunds(@RequestHeader("Authorization") String header,
+    public ResponseEntity<InfoMessage> writeOffFunds(@SessionAttribute("Login") String login,
                                                      @RequestBody AmountWrapper wrapper) throws RuntimeException {
         BigDecimal amount = wrapper.getAmount();
-        String login = authService.validateAccessToken(header);
         mainService.writeOffFunds(login, amount);
         message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
         return new ResponseEntity<>(message, HttpStatus.OK);
