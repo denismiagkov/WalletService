@@ -104,6 +104,62 @@ class ControllerTest {
         assertThrows(PlayerAlreadyExistsException.class, () -> controller.registerPlayer(playerDto));
     }
 
+   /* @Test
+    void authorizePlayer() {
+        //given
+        JwtRequest request = new JwtRequest();
+        request.setLogin("login1");
+        request.setPassword("password1");
+        JwtResponse response = new JwtResponse("123", "456");
+        Mockito.when(this.controller.authorizePlayer(request)).thenReturn(response);
+        );
+        //when
+        var responseEntity = this.controller.registerPlayer(playerDto);
+        //then
+        assertAll(
+                () -> assertNotNull(responseEntity),
+                () -> assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode()),
+                () -> assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType())
+        );
+    }
+
+    @Test
+    void getCurrentBalance_ReturnsValidResponseDto() {
+        Player player = new Player("Ivan", "Petrov", "123@mail.ru");
+        Account account = new Account(1);
+        account.setNumber("12345");
+        account.setBalance(BigDecimal.valueOf(5000));
+        AccountMapper mapper = Mappers.getMapper(AccountMapper.class);
+        AccountDto accountDto = mapper.INSTANCE.toAccountDto(player, account);
+        when(mainService.getCurrentBalance("dummy")).thenReturn(accountDto);
+        var responseEntity = this.controller.getCurrentBalance("dummy");
+        assertAll(
+                () -> assertNotNull(responseEntity),
+                () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode()),
+                () -> assertEquals(MediaType.APPLICATION_JSON, responseEntity.getHeaders().getContentType()),
+                () -> assertEquals(accountDto, responseEntity.getBody())
+        );
+    }
+
+
+    @Test
+    void topUpAccount() {
+        //given
+        String header = "123";
+        AmountWrapper wrapper = new AmountWrapper();
+        when(this.authService.validateAccessToken(header)).thenReturn("login1");
+        when(wrapper.getAmount()).thenReturn(BigDecimal.valueOf(500));
+        mainService.topUpAccount("login1", BigDecimal.valueOf(500));
+
+        //when
+        var responseEntity = this.controller.registerPlayer(playerDto);
+        //then
+        assertAll(
+                () -> assertNotNull(responseEntity),
+                () -> assertEquals(HttpStatus.OK, responseEntity.getStatusCode()),
+                ()-> assertEquals()
+        );
+    }*/
     @Test
     void getTransactionsHistory_ReturnsValidResponseDto() {
         when(authService.validateAccessToken("header")).thenReturn("login1");

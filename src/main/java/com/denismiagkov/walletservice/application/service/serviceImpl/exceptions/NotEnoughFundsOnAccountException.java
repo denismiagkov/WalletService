@@ -2,6 +2,6 @@ package com.denismiagkov.walletservice.application.service.serviceImpl.exception
 
 public class NotEnoughFundsOnAccountException extends RuntimeException{
     public NotEnoughFundsOnAccountException() {
-        super("Не достаточно денежных средств на счете для совершения транзакции");
+        super("Недостаточно денежных средств на счете для совершения транзакции");
     }
 }

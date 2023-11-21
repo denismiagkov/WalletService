@@ -10,12 +10,12 @@ import java.sql.SQLException;
 
 /**
  * Класс подключения к базе данных
- * */
+ */
 @Component
 public class DatabaseConnection {
     /**
      * Конфигурационные данные для подключения к базе данных:
-     * */
+     */
     private final String URL;
     private final String USERNAME;
     private final String PASSWORD;
@@ -25,7 +25,7 @@ public class DatabaseConnection {
     /**
      * Базовый конструктор класса (значения для подключения принимаются из конфигурационного файла
      * через посредство класса {@link ConnectionConfig}
-     * */
+     */
     @Autowired
     public DatabaseConnection(ConnectionConfig connectionConfig) {
         this.URL = connectionConfig.getUrl();
@@ -37,7 +37,7 @@ public class DatabaseConnection {
     /**
      * Конструктор класса (значения для подключения задаются в параметрах конструктора) применятся
      * для выполнения тестирования
-     * */
+     */
     public DatabaseConnection(String url, String username, String password, String driver) {
         this.URL = url;
         this.USERNAME = username;
@@ -49,7 +49,7 @@ public class DatabaseConnection {
      * Метод создает соединение с базой данных
      *
      * @return Connection соединение с базой данных
-     * */
+     */
     public Connection getConnection() throws SQLException {
         try {
             Class.forName(this.DRIVER);

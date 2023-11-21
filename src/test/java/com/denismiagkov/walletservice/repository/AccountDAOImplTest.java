@@ -2,7 +2,7 @@ package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
-import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
+import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseInit;
 import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -39,7 +39,7 @@ class AccountDAOImplTest {
         }
     }
 
-    LiquibaseApp liquibaseApp = new LiquibaseApp(dbConnection);
+    LiquibaseInit liquibaseApp = new LiquibaseInit(dbConnection);
     AccountDAOImpl accountDAO;
 
     @BeforeAll
