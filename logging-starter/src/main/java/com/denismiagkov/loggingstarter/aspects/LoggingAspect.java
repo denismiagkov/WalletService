@@ -17,7 +17,7 @@ public class LoggingAspect {
     /**
      * Метод реализует замер и логирование времени выполнения метода
      */
-    public Object logging(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public Object logMethod(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         logger.info("Calling method " + proceedingJoinPoint.getSignature());
         long startTime = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
@@ -28,9 +28,16 @@ public class LoggingAspect {
     }
 
     /**
-     * Метод реализует логирование ошибок при выполнении методов
+     * Метод реализует логирование обработки исключений ExceptionHandler
      */
-    public void loggingException(JoinPoint joinPoint) throws Throwable {
+    public void logExceptionHandling(JoinPoint joinPoint) {
         logger.error("Execution error: ", joinPoint.getArgs());
+    }
+
+    /**
+     * Метод реализует логирование выбрасываемых исключений
+     */
+    public void logExceptionThrowing(Exception e) {
+        logger.error("Execution error: " + e.getClass() + ": " + e.getMessage());
     }
 }
