@@ -7,25 +7,27 @@ import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.domain.service.PlayerService;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
+import com.denismiagkov.walletservice.repository.interfaces.PlayerDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Низкоуровневый сервис, реализующий методы, связанные с <strong>обработкой и манипуляцией данных об игроке</strong>.
  * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных операций,
  * соответствующих бизнес-логике.
  */
-@org.springframework.stereotype.Service
+@Service
 public class PlayerServiceImpl implements PlayerService {
     /**
      * ДАО игрока
      */
-    PlayerDAOImpl playerDAO;
+    PlayerDAO playerDAO;
 
     /**
      * Конструктор класса
      */
     @Autowired
-    public PlayerServiceImpl(PlayerDAOImpl playerDAO) {
+    public PlayerServiceImpl(PlayerDAO playerDAO) {
         this.playerDAO = playerDAO;
     }
 
@@ -61,7 +63,7 @@ public class PlayerServiceImpl implements PlayerService {
      * @param player игрок
      * @return булевое значение
      */
-    private boolean isPlayerExist(Player player) {
+    public boolean isPlayerExist(Player player) {
         return playerDAO.getAllPlayers().contains(player);
     }
 
@@ -71,7 +73,7 @@ public class PlayerServiceImpl implements PlayerService {
      * @param login логин игрока
      * @return булевое значение
      */
-    private boolean isLoginExist(String login) {
+    public boolean isLoginExist(String login) {
         return playerDAO.getAllEntries().containsKey(login);
     }
 

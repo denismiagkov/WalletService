@@ -1,9 +1,13 @@
-datasource:
-  url: jdbc:postgresql://localhost:5431/wallet
-  username: wallet
-  password: 123
-  jdbc_driver: org.postgresql.Driver
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5431/wallet
+    username: wallet
+    password: 123
+    driver: org.postgresql.Driver
+  liquibase:
+    default-schema: wallet
+    liquibase-schema: migration
 
 authentication:
-  jwt_access_secret_key: Nb3YCWOp7kghAjoQkiNze2PTiLjQPQYdegcPM9oC77UkpUyJIuobhbeWRN+OI8PjXyGrITKxJWhYvrBlgH4JFA==
-  jwt_refresh_secret_key: tSlh5T96KurUBOsKV0Ja/AIVGKpakIvDpejeRBxukbL9xJrQ1XoCodsoQhH6gmWiUevBe/Gw1FRiHn9HzExyCQ==
+  valueOfJwtAccessSecretKey: Nb3YCWOp7kghAjoQkiNze2PTiLjQPQYdegcPM9oC77UkpUyJIuobhbeWRN+OI8PjXyGrITKxJWhYvrBlgH4JFA==
+  valueOfJwtRefreshSecretKey: tSlh5T96KurUBOsKV0Ja/AIVGKpakIvDpejeRBxukbL9xJrQ1XoCodsoQhH6gmWiUevBe/Gw1FRiHn9HzExyCQ==

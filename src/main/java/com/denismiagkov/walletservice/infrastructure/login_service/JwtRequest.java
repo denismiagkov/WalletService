@@ -1,5 +1,8 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Запрос на получение токена")
 public class JwtRequest {
     private String login;
     private String password;

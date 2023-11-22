@@ -20,13 +20,17 @@ public class AuthService {
     }
 
     public JwtResponse login(JwtRequest authRequest) {
-        Entry entry = service.getEntryByLogin(authRequest.getLogin());
-        if (entry.getPassword().equals(authRequest.getPassword())) {
-            String accessToken = jwtProvider.generateAccessToken(entry);
-            String refreshToken = jwtProvider.generateRefreshToken(entry);
-            return new JwtResponse(accessToken, refreshToken);
-        } else {
-            throw new AuthException("Неправильный пароль");
+        try {
+            Entry entry = service.getEntryByLogin(authRequest.getLogin());
+            if (entry.getPassword().equals(authRequest.getPassword())) {
+                String accessToken = jwtProvider.generateAccessToken(entry);
+                String refreshToken = jwtProvider.generateRefreshToken(entry);
+                return new JwtResponse(accessToken, refreshToken);
+            } else {
+                throw new AuthException();
+            }
+        } catch (RuntimeException e) {
+            throw new AuthException();
         }
     }
 
@@ -41,7 +45,7 @@ public class AuthService {
         return new JwtResponse(null, null);
     }
 
-    public String validateAccessToken(String httpRequestHeader) throws RuntimeException{
+    public String validateAccessToken(String httpRequestHeader) throws RuntimeException {
         String token = getTokenFromHeader(httpRequestHeader);
         String login = getLoginFromToken(token);
         jwtProvider.validateAccessToken(token);

@@ -1,7 +1,7 @@
 package com.denismiagkov.walletservice.application.dto;
 
-import com.denismiagkov.walletservice.domain.model.OperationStatus;
-import com.denismiagkov.walletservice.domain.model.OperationType;
+import com.denismiagkov.auditstarter.operation.OperationStatus;
+import com.denismiagkov.auditstarter.operation.OperationType;
 
 import java.sql.Timestamp;
 

@@ -5,5 +5,5 @@ package com.denismiagkov.walletservice.domain.model;
  * - кредитная
  * */
 public enum TransactionType {
-    DEBIT, CREDIT;
+    DEBIT, CREDIT
 }

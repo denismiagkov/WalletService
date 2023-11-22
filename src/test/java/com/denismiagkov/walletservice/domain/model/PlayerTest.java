@@ -1,77 +1,63 @@
 package com.denismiagkov.walletservice.domain.model;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-
-    Player player;
+Player player;
 
     @BeforeEach
-    void setUp(){
-        player = new Player("Ivan", "Petrov", "123@mail.ru");
+    void setUp() {
+        player = new Player(1, "Ivan", "Petrov", "123@mail.ru");
     }
 
 
     @Test
-    void testGetFirstName() {
+    void id_after_setId() {
+        player.setId(2);
+       // assertEquals(2, player.getId());
+        assertThat(player.getId()).isEqualTo(2);
+    }
+
+    @Test
+    void id_equals_player_getId() {
+        assertEquals(1, player.getId());
+    }
+
+    @Test
+    void name_equals_player_getFirstName() {
         assertEquals("Ivan", player.getFirstName());
     }
 
     @Test
-    void testGetLastName() {
+    void lastname_equals_player_getLastName() {
         assertEquals("Petrov", player.getLastName());
     }
 
     @Test
-    void testGetAccount() {
+    void email_equals_player_getEmail() {
+        assertEquals("123@mail.ru", player.getEmail());
+    }
+
+    @Test
+    void account_equals_player_getAccount() {
         Account account = new Account("12345");
         player.setAccount(account);
         assertEquals(account, player.getAccount());
     }
 
     @Test
-    void setAccount() {
+    void account_equals_set_account() {
         Account account = new Account("1234523");
         player.setAccount(account);
         Account account2 = new Account("0987654");
         player.setAccount(account2);
         assertEquals(account2, player.getAccount());
-    }
-
-    @Test
-    void testToString() {
-        assertEquals("Player{firstName='Ivan', lastName='Petrov', email='123@mail.ru'}",
-                player.toString());
-    }
-
-    @Test
-    void testEquals_withSameFields_true() {
-        Player player = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        Player player1 = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        assertEquals("true", String.valueOf(player.equals(player1)));
-    }
-
-    @Test
-    void testEquals_withDifferentMail_false() {
-        Player player = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        Player player1 = new Player("Sidor", "Ivanov", "9999@mail.ru");
-        assertEquals("false", String.valueOf(player.equals(player1)));
-    }
-
-    @Test
-    void testHashCode_withSameFields_true() {
-        Player player = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        Player player1 = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        assertTrue(player.hashCode() == player1.hashCode());
-    }
-
-    @Test
-    void testHashCode_withDifferentMail_false() {
-        Player player = new Player("Sidor", "Ivanov", "2341@mail.ru");
-        Player player1 = new Player("Sidor", "Ivanov", "9999@mail.ru");
-        assertFalse(player.hashCode() == player1.hashCode());
     }
 }

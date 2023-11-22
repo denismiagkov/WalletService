@@ -1,9 +1,10 @@
 package com.denismiagkov.walletservice.application.service.serviceImpl;
 
-import com.denismiagkov.walletservice.domain.model.Operation;
-import com.denismiagkov.walletservice.domain.model.OperationStatus;
-import com.denismiagkov.walletservice.domain.model.OperationType;
-import com.denismiagkov.walletservice.domain.service.OperationService;
+import com.denismiagkov.auditstarter.auditservice.AuditService;
+import com.denismiagkov.auditstarter.auditservice.AuditServiceImpl;
+import com.denismiagkov.auditstarter.operation.Operation;
+import com.denismiagkov.auditstarter.operation.OperationStatus;
+import com.denismiagkov.auditstarter.operation.OperationType;
 import com.denismiagkov.walletservice.repository.OperationDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,15 @@ import java.util.List;
  * операций, соответствующих бизнес-логике.
  */
 @Service
-public class OperationServiceImpl implements OperationService {
+public class OperationServiceImpl implements AuditService {
+
+    AuditService auditService;
 
     /**
      * ДАО операции (действия игрока в приложении)
      */
     OperationDAOImpl operationDAO;
+
 
     /**
      * Конструктор класса
@@ -31,6 +35,7 @@ public class OperationServiceImpl implements OperationService {
     @Autowired
     public OperationServiceImpl(OperationDAOImpl operationDAO) {
         this.operationDAO = operationDAO;
+        this.auditService = new AuditServiceImpl(this.operationDAO);
     }
 
     /**
@@ -44,7 +49,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public void putOnLog(int playerId, OperationType type, Timestamp time, OperationStatus status) {
         Operation operation = new Operation(type, time, status, playerId);
-        operationDAO.saveOperation(operation);
+        auditService.putOnLog(playerId, type, time, status);
     }
 
     /**
@@ -54,6 +59,6 @@ public class OperationServiceImpl implements OperationService {
      */
     @Override
     public List<Operation> viewLog() {
-        return operationDAO.getLog();
+        return auditService.viewLog();
     }
 }

@@ -4,6 +4,7 @@ import com.denismiagkov.walletservice.domain.model.Entry;
 import com.denismiagkov.walletservice.domain.model.Player;
 import com.denismiagkov.walletservice.repository.PlayerDAOImpl;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,4 +39,30 @@ public interface PlayerDAO {
      * @see PlayerDAOImpl#getAllEntries()
      */
     Map<String, String> getAllEntries();
+
+    /**
+     * Метод возвращает id заданного игрока по его логину и паролю
+     *
+     * @param login логин игрока
+     * @throws SQLException
+     */
+
+    public int getPlayerId(String login);
+
+    /**
+     * Метод возвращает игрока по его логину
+     *
+     * @param login логин игрока
+     * @return игрок
+     */
+    public Player getPlayerByLogin(String login);
+
+    /**
+     * Метод возвращает комбинацию логин - пароль по логмну игрока
+     *
+     * @param login логин игрока
+     * @return комбинация логин-пароль
+     */
+
+    public Entry getEntryByLogin(String login);
 }

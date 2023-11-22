@@ -1,8 +1,8 @@
 package com.denismiagkov.walletservice.infrastructure.login_service;
 
-import com.denismiagkov.walletservice.init.AuthConfig;
 import com.denismiagkov.walletservice.application.service.MainService;
 import com.denismiagkov.walletservice.domain.model.Entry;
+import com.denismiagkov.walletservice.configuration.AuthConfig;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -19,14 +19,14 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private SecretKey JWT_ACCESS_SECRET_KEY;
-    private SecretKey JWT_REFRESH_SECRET_KEY;
-    private MainService service;
+    private final SecretKey JWT_ACCESS_SECRET_KEY;
+    private final SecretKey JWT_REFRESH_SECRET_KEY;
+    private final MainService mainService;
 
 
     @Autowired
     public JwtProvider(MainService service, AuthConfig authConfig) {
-        this.service = service;
+        this.mainService = service;
         this.JWT_ACCESS_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtAccessSecretKey()));
         this.JWT_REFRESH_SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(authConfig.getValueOfJwtRefreshSecretKey()));
     }
@@ -38,7 +38,7 @@ public class JwtProvider {
         return Jwts.builder()
                 .setSubject(entry.getLogin())
                 .setExpiration(accessExpiration)
-                .claim("userId", service.getPlayerByLogin(entry.getLogin()).getId())
+                .claim("userId", mainService.getPlayerByLogin(entry.getLogin()).getId())
                 .signWith(JWT_ACCESS_SECRET_KEY)
                 .compact();
     }
@@ -63,16 +63,11 @@ public class JwtProvider {
     }
 
     private boolean validateToken(String token, Key secret) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException e) {
-            System.out.println(e.getMessage());
-        }
-        return false;
+        Jwts.parserBuilder()
+                .setSigningKey(secret)
+                .build()
+                .parseClaimsJws(token);
+        return true;
     }
 
     public Claims getAccessClaims(String token) {

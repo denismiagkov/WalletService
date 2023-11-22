@@ -1,19 +1,18 @@
 package com.denismiagkov.walletservice.application.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Сущность игрока")
 public class PlayerDto {
-    @Pattern(regexp = "[a-zA-Zа-яА-Я]+", message = "The field may contain only letters!")
+    @Schema(description = "Имя")
     public String name;
-    @Pattern(regexp = "[a-zA-Zа-яА-Я]+", message = "The field may contain only letters!")
+    @Schema(description = "Фамилия")
     public String surname;
-    @Pattern(regexp = "\\w+@\\w+\\.(com|ru)", message = "Invalid email!")
+    @Schema(description = "Электронная почта")
     public String email;
-    @NotBlank (message = "The field mightn't be empty")
+    @Schema(description = "Логин")
     public String login;
-    @Size(min = 6, message = "Name must be minimum 2 symbols!")
+    @Schema(description = "Пароль")
     public String password;
 
     public PlayerDto() {

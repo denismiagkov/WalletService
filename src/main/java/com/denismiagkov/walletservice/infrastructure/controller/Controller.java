@@ -9,7 +9,11 @@ import com.denismiagkov.walletservice.infrastructure.in.exception_hahdling.excep
 import com.denismiagkov.walletservice.infrastructure.login_service.AuthService;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtRequest;
 import com.denismiagkov.walletservice.infrastructure.login_service.JwtResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +26,11 @@ import java.util.List;
  * и внутренними слоями приложения
  */
 @RestController
+@RequestMapping("/api")
+@Tag(name = "REST-контроллер")
 public class Controller {
     /**
-     * Cервис приложения
+     * Сервис приложения
      */
     private final MainService mainService;
     /**
@@ -48,31 +54,18 @@ public class Controller {
     }
 
     /**
-     * Init-метод создает подключение к базе данных и запускает Liquibase
-     */
-//    @PostConstruct
-//    public void init() {
-//        WebInit.start();
-//    }
-
-    /**
      * Метод вызывает в сервисе метод регистрации нового игрока. Возвращает статус исполнения запроса
      *
      * @param playerDto ДТО нового игрока
      * @return статус исполнения запроса
      */
     @PostMapping("/registration")
+    @Operation(summary = "Регистрация игрока", description = "Позволяет зарегистрировать нового игрока")
     public ResponseEntity<InfoMessage> registerPlayer(@RequestBody PlayerDto playerDto) throws RuntimeException {
         DataValidator.checkRegistrationForm(playerDto);
-        try {
-            mainService.registerPlayer(playerDto);
-            message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
-        } catch (Exception ex) {
-            message.setInfo(ex.getMessage());
-        }
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(message);
+        mainService.registerPlayer(playerDto);
+        message.setInfo("Игрок " + playerDto.getName() + " " + playerDto.getSurname() + " зарегистрирован");
+        return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     /**
@@ -82,24 +75,24 @@ public class Controller {
      * @return токен
      */
     @PostMapping("/authentication")
-    public ResponseEntity<JwtResponse> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
+    @Operation(summary = "Аутентификация игрока", description = "Позволяет игроку пройти процедуру аутентификации")
+    public ResponseEntity<?> authorizePlayer(@RequestBody JwtRequest authRequest) throws RuntimeException {
         JwtResponse authResponse = authService.login(authRequest);
         message.setInfo("Аутентификация пользователя выполнена успешно");
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(authResponse);
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
     /**
      * Метод передает в сервис запрос о текущем состоянии баланса игрока и возвращает
      * результат обработки запроса пользователю.
      *
-     * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @return текущий баланс на счет игрока
      */
     @PostMapping("/players/balance")
-    public ResponseEntity<AccountDto> getCurrentBalance(@RequestHeader("Authorization") String header) {
-        String login = authService.validateAccessToken(header);
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Просмотр баланса", description = "Позволяет узнать текущий баланс на счете игрока")
+    public ResponseEntity<AccountDto> getCurrentBalance(@SessionAttribute("Login") String login) {
         AccountDto accountDto = mainService.getCurrentBalance(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,12 +103,13 @@ public class Controller {
      * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока
      * и возвращает пользователю результат обработки запроса.
      *
-     * @param header Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @return история транзакций на счете игрока
      */
     @PostMapping("/players/transactions")
-    public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@RequestHeader("Authorization") String header) {
-        String login = authService.validateAccessToken(header);
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "История транзакций", description = "Позволяет просмотреть историю транзакций на счете игрока")
+    public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@SessionAttribute("Login") String login) {
         List<TransactionDto> transactionDtoList = mainService.getTransactionHistory(login);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -126,43 +120,37 @@ public class Controller {
      * Метод вызывает в сервисе метод по пополнению денежного счета игрока
      * и возвращает пользователю результат обработки запроса
      *
-     * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login   Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
      * @return статус исполнения запроса
      */
     @PostMapping("/players/depositing")
-    public ResponseEntity<InfoMessage> topUpAccount(@RequestHeader("Authorization") String header,
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Пополнение счета", description = "Позволяет пополнить счет игрока")
+    public ResponseEntity<InfoMessage> topUpAccount(@SessionAttribute("Login") String login,
                                                     @RequestBody AmountWrapper wrapper) {
         BigDecimal amount = wrapper.getAmount();
-        String login = authService.validateAccessToken(header);
         mainService.topUpAccount(login, amount);
         message.setInfo("Ваш баланс пополнен на сумму " + amount + " " + " денежных единиц");
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(message);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     /**
      * Метод вызывает в сервисе метод по списанию денежных средств со счета игрока
      * и возвращает пользователю результат обработки запроса.
      *
-     * @param header  Header "Authorization" HttpServletRequest, содержащий токен игрока
+     * @param login   Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @param wrapper класс-обертка для получения значения типа BigDecimal из http-запроса
      * @return статус исполнения запроса
      */
     @PostMapping("/players/withdrawal")
-    public ResponseEntity<InfoMessage> writeOffFunds(@RequestHeader("Authorization") String header,
+    @SecurityRequirement(name = "JWT")
+    @Operation(summary = "Списание со счета", description = "Позволяет списать денежные средства со счета игрока")
+    public ResponseEntity<InfoMessage> writeOffFunds(@SessionAttribute("Login") String login,
                                                      @RequestBody AmountWrapper wrapper) throws RuntimeException {
         BigDecimal amount = wrapper.getAmount();
-        String login = authService.validateAccessToken(header);
-        try {
-            mainService.writeOffFunds(login, amount);
-            message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
-        } catch (Exception ex) {
-            message.setInfo(ex.getMessage());
-        }
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(message);
+        mainService.writeOffFunds(login, amount);
+        message.setInfo("С вашего счета списана сумма " + amount + " " + " денежных единиц");
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

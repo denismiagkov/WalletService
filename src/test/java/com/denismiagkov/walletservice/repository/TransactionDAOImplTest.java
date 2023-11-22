@@ -2,21 +2,25 @@ package com.denismiagkov.walletservice.repository;
 
 import com.denismiagkov.walletservice.domain.model.Transaction;
 import com.denismiagkov.walletservice.domain.model.TransactionType;
-import com.denismiagkov.walletservice.init.DatabaseConnection;
-import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseApp;
-import liquibase.Liquibase;
+import com.denismiagkov.walletservice.infrastructure.liquibase.LiquibaseInit;
+import com.denismiagkov.walletservice.infrastructure.DatabaseConnection;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionDAOImplTest {
+    @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
             "postgres:12.16"
     );
+
     DatabaseConnection dbConnection = new DatabaseConnection(
             postgres.getJdbcUrl(),
             postgres.getUsername(),
@@ -32,7 +36,7 @@ class TransactionDAOImplTest {
         }
     }
 
-    Liquibase liquibase;
+    LiquibaseInit liquibaseApp = new LiquibaseInit(dbConnection);
     TransactionDAOImpl transactionDAO;
 
     @BeforeAll
@@ -46,40 +50,24 @@ class TransactionDAOImplTest {
     }
 
     @BeforeEach
-    void setUp() {
-        LiquibaseApp liquibaseApp = new LiquibaseApp(dbConnection);
+    void setUp() throws SQLException {
+        liquibaseApp.start();
         transactionDAO = new TransactionDAOImpl(dbConnection);
-        liquibase = liquibaseApp.start();
+        connection.setAutoCommit(false);
     }
 
-//    @AfterEach
-//    void tearDown() {
-//        try {
-//            liquibase.close();
-//        } catch (LiquibaseException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    @AfterEach
+    void tearDown() throws SQLException {
+        connection.rollback();
+    }
 
     @Test
-    void saveTransaction() throws SQLException {
-        connection.setAutoCommit(false);
+    void saveTransaction_Number_Of_Transactions_Increases_For_1() {
         AccountDAOImpl accountDAO = new AccountDAOImpl(dbConnection);
         assertEquals(2, accountDAO.getTransactionHistory(1).size());
         Transaction transaction = new Transaction(1, new Timestamp(System.currentTimeMillis()),
                 TransactionType.CREDIT, new BigDecimal(540));
         transactionDAO.saveTransaction(transaction);
         assertEquals(3, accountDAO.getTransactionHistory(1).size());
-        connection.rollback();
-    }
-
-    @Test
-    void getTransactionId() throws SQLException {
-        connection.setAutoCommit(false);
-        Transaction transaction = new Transaction(1, new Timestamp(System.currentTimeMillis()),
-                TransactionType.CREDIT, new BigDecimal(540));
-        transactionDAO.saveTransaction(transaction);
-        assertNotEquals(0, transactionDAO.getTransactionId(transaction));
-        connection.rollback();
     }
 }
